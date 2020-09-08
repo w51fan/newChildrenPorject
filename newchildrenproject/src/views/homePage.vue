@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name:'loginPage',
+  name:'homePage',
   data(){
     return{}
   }

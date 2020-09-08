@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name:'loginPage',
+  name:'learningParkPage',
   data(){
     return{}
   }
@@ -16,3 +16,4 @@ export default {
 <style lang="less">
   
 </style>
+
