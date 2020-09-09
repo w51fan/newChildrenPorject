@@ -91,12 +91,13 @@
 </template>
 
 <script>
-import { getChildrenHomeList } from "@/api/home";
-import assistantBottomNav from "./assistantBottomNav";
+import { getChildrenHomeList } from '@/api/home';
+import assistantBottomNav from './assistantBottomNav';
+
 export default {
-  name: "childrenHomePage",
+  name: 'childrenHomePage',
   components: {
-    assistantBottomNav
+    assistantBottomNav,
   },
   data() {
     return {
@@ -105,8 +106,8 @@ export default {
 
       // User: "",
       childrenHomeList: [],
-      selectedNav: "childrenHomePage",
-      showOverlay: false
+      selectedNav: 'childrenHomePage',
+      showOverlay: false,
     };
   },
   computed: {
@@ -115,70 +116,70 @@ export default {
     },
     User() {
       return this.$store.state.common.User;
-    }
+    },
   },
   mounted() {
     if (this.$route.query.User && this.$route.query.UserTpye) {
-      this.$store.commit("common/getUserTpye", this.$route.query.UserTpye);
-      this.$store.commit("common/SET_UserTpye", this.$route.query.UserTpye);
-      this.$store.commit("common/getUser", this.$route.query.User);
+      this.$store.commit('common/getUserTpye', this.$route.query.UserTpye);
+      this.$store.commit('common/SET_UserTpye', this.$route.query.UserTpye);
+      this.$store.commit('common/getUser', this.$route.query.User);
     }
     if (!this.Token) {
       this.$store.commit(
-        "common/getToken",
-        window.localStorage.getItem("Token")
+        'common/getToken',
+        window.localStorage.getItem('Token'),
       );
     }
     // this.User = this.$store.state.common.User
     // this.token = this.$store.state.common.token
     this.showOverlay = true;
     getChildrenHomeList(this.Token)
-      .then(result => {
-        console.log("getChildrenHomeList", result);
+      .then((result) => {
+        console.log('getChildrenHomeList', result);
         this.childrenHomeList = result.data.childrenHomeList;
         this.$refs.assistantBottomNav.init();
         if (this.childrenHomeList.length > 0) {
           this.$store.commit(
-            "common/getCityId",
-            this.childrenHomeList[0].CityId
+            'common/getCityId',
+            this.childrenHomeList[0].CityId,
           );
           this.$store.commit(
-            "common/SET_cityId",
-            this.childrenHomeList[0].CityId
+            'common/SET_cityId',
+            this.childrenHomeList[0].CityId,
           );
           // this.$store.commit("common/getTownId", this.childrenHomeList[0].TownId);
           // this.$store.commit("common/getVillageId", this.childrenHomeList[0].VillageId);
         } else {
-          this.$store.commit("common/getCityId", 2018);
-          this.$store.commit("common/getCityId", 2018);
-          this.$store.commit("common/SET_cityId", 2018);
+          this.$store.commit('common/getCityId', 2018);
+          this.$store.commit('common/getCityId', 2018);
+          this.$store.commit('common/SET_cityId', 2018);
         }
         this.showOverlay = false;
       })
-      .catch(err => {
-        console.log("err", err);
+      .catch((err) => {
+        console.log('err', err);
         this.showOverlay = false;
       });
   },
   methods: {
     goChildrenHomeDetail(childrenHome) {
-      this.$store.commit("common/getVillageId", childrenHome.VillageId);
+      this.$store.commit('common/getVillageId', childrenHome.VillageId);
       this.$router.push({
-        name: "assistantChildrenHomeDetail",
+        name: 'assistantChildrenHomeDetail',
         query: {
-          currentPath: "childrenHomePage"
-        }
+          currentPath: 'childrenHomePage',
+        },
       });
     },
     goSetting() {
       this.$router.push({
-        name: "accountSetting",
+        name: 'accountSetting',
         query: {
-          currentPath: "childrenHomePage"
-        }
+          currentPath: 'childrenHomePage',
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -271,6 +272,3 @@ export default {
   }
 }
 </style>
-
-
-

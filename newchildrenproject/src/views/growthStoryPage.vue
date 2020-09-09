@@ -79,31 +79,32 @@
 </template>
 
 <script>
-import bottomNav from "./bottomNav";
-import assistantBottomNav from "./assistantBottomNav";
-import { getArticleList } from "@/api/home";
+import { getArticleList } from '@/api/home';
+import bottomNav from './bottomNav';
+import assistantBottomNav from './assistantBottomNav';
+
 export default {
-  name: "growthStoryPage",
+  name: 'growthStoryPage',
   components: {
     bottomNav,
-    assistantBottomNav
+    assistantBottomNav,
   },
   data() {
     return {
-      selected: "1",
-      selectedNav: "growthStoryPage",
+      selected: '1',
+      selectedNav: 'growthStoryPage',
       articlelist: [],
       isAssistant: false,
       showOverlay: false,
       showList: true,
-      articleContent: "",
-      articleTitle: "",
+      articleContent: '',
+      articleTitle: '',
       loading: false,
       finished: false,
       refreshing: false,
       pageNumber: 1,
       pageSize: 10,
-      total: ""
+      total: '',
     };
   },
   watch: {
@@ -114,34 +115,34 @@ export default {
       this.finished = false;
       this.refreshing = false;
       getArticleList(this.cityId, val + 1, this.pageNumber, this.pageSize)
-        .then(res => {
-          console.log("getArticleList1", res);
+        .then((res) => {
+          console.log('getArticleList1', res);
           this.articlelist = res.data.articlelist;
           this.total = res.data.total;
           this.showOverlay = false;
         })
-        .catch(err => {
-          console.log("getTotalCount", err);
+        .catch((err) => {
+          console.log('getTotalCount', err);
           this.showOverlay = false;
         });
-    }
+    },
   },
   computed: {
     cityId() {
       return this.$store.state.common.cityId;
-    }
+    },
   },
   mounted() {
     this.showOverlay = true;
     this.isAssistant = this.$route.query.isAssistant;
     if (!this.cityId) {
       this.$store.commit(
-        "common/getCityId",
-        window.localStorage.getItem("cityId")-0
+        'common/getCityId',
+        window.localStorage.getItem('cityId') - 0,
       );
       // this.cityId = window.localStorage.getItem("cityId");
     }
-    console.log("this.cityId", this.cityId);
+    console.log('this.cityId', this.cityId);
     // getArticleList(this.cityId, 1, this.pageNumber, this.pageSize)
     //   .then(res => {
     //     console.log("getArticleList", res);
@@ -156,34 +157,34 @@ export default {
   },
   methods: {
     getDate(date) {
-      let activityDate = new Date(date);
-      let year = activityDate.getFullYear();
-      let month = activityDate.getMonth() + 1;
-      let day = activityDate.getDate();
+      const activityDate = new Date(date);
+      const year = activityDate.getFullYear();
+      const month = activityDate.getMonth() + 1;
+      const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
     },
     viewDetail(row) {
       this.$router.push({
-        name: "articleDetail",
+        name: 'articleDetail',
         query: {
           id: row.Id,
-          currentPath: "growthStoryPage"
-        }
+          currentPath: 'growthStoryPage',
+        },
       });
     },
     getArticleList(cityId, type, pageNumber, pageSize) {
       getArticleList(cityId, type, pageNumber, pageSize)
-        .then(res => {
-          console.log("getArticleList", res);
-          res.data.articlelist.forEach(item => {
+        .then((res) => {
+          console.log('getArticleList', res);
+          res.data.articlelist.forEach((item) => {
             this.articlelist.push(item);
           });
           this.loading = false;
           this.showOverlay = false;
           if (!(this.articlelist.length < this.total)) this.finished = true;
         })
-        .catch(err => {
-          console.log("getArticleList", err);
+        .catch((err) => {
+          console.log('getArticleList', err);
           this.showOverlay = false;
         });
     },
@@ -197,7 +198,7 @@ export default {
           this.cityId,
           this.selected + 1,
           this.pageNumber++ + 1,
-          this.pageSize
+          this.pageSize,
         );
       } else {
         // this.finished = true;
@@ -207,13 +208,13 @@ export default {
     onRefresh() {
       // 清空列表数据
       this.finished = false;
-      console.log("22");
+      console.log('22');
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
       this.onLoad();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -242,4 +243,3 @@ export default {
   }
 }
 </style>
-
