@@ -1,18 +1,219 @@
 <template>
-  <div>
-
+  <div class="homePage">
+    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+      <template #title>
+        <div class="navTitle">全家学儿童关爱</div>
+      </template>
+    </van-nav-bar>
+    <div class="swipe">
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="#E73A32">
+        <van-swipe-item v-for="(img,index) in imgList" :key="index">
+          <img :src="img" class="swipeImg" />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
+    <div class="navHeader">
+      <img
+        :src="src"
+        class="img"
+        alt
+        v-for="(src,index) in navHeaderList"
+        :key="index"
+        @click="go(index)"
+      />
+    </div>
+    <div style="width:100%;height:10px;background:#EBECEC;"></div>
+    <div style="text-align: left;padding:20px;font-size: 16px;font-weight: 600;">
+      <div>儿童关爱数据统计</div>
+    </div>
+    <div class="statisticsData">
+      <div>
+        <div style="color:rgba(210, 30, 25, 1);font-size: 18px;font-weight: 600;">2387</div>
+        <div style="color: rgba(102, 102, 102, 1);">邵阳儿童之家（个）</div>
+      </div>
+      <div style="width: 1px;height: 25px;background: rgba(218, 218, 218, 0.8);margin-top: 10px;"></div>
+      <div>
+        <div style="color:rgba(107, 192, 60, 1);font-size: 18px;font-weight: 600;">32394</div>
+        <div style="color: rgba(102, 102, 102, 1);">开展关爱活动（次）</div>
+      </div>
+    </div>
+    <div style="text-align: left;padding: 10px 20px 0;font-size: 14px;font-weight: 600;display:flex;justify-content: space-between;">
+      <div>各地区开展关爱活动详情</div>
+      <div style="display: flex;">
+        <div style="width: 20px;height: 20px;background: rgba(252, 90, 33, 1);border-radius: 5px;margin-right: 5px;margin-top: 1px;"></div>
+        <div>关爱活动</div>
+      </div>
+    </div>
+    <div>
+      <div id="myChart" :style="{ height: '300px'}"></div>
+    </div>
+    <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
   </div>
 </template>
 
 <script>
+import bottomNavPage from './bottomNavPage.vue';
+
 export default {
   name: 'homePage',
+  components: {
+    bottomNavPage,
+  },
   data() {
-    return {};
+    return {
+      imgList: [
+        // eslint-disable-next-line global-require
+        require('../assets/img_banner01@2x.png'),
+        // eslint-disable-next-line global-require
+        require('../assets/img_banner01@2x.png'),
+        // eslint-disable-next-line global-require
+        require('../assets/img_banner01@2x.png'),
+        // eslint-disable-next-line global-require
+        require('../assets/img_banner01@2x.png'),
+      ],
+      navHeaderList: [
+        // eslint-disable-next-line global-require
+        require('../assets/icon_zhengfuzhudao@2x.png'),
+        // eslint-disable-next-line global-require
+        require('../assets/icon_ertongzhijia@2x.png'),
+        // eslint-disable-next-line global-require
+        require('../assets/icon_xuexileyuan_shouye@2x.png'),
+      ],
+      xAxisList: [
+        '双清区',
+        '大祥区',
+        '北塔区',
+        '邵阳县',
+        '洞口县',
+        '绥宁县',
+        '城步苗族自治县',
+        '新宁县',
+      ],
+      yAxisList: [],
+      seriesList: [1260, 200, 1570, 8670, 570, 1150, 1350, 969],
+      maxNum: 10000,
+      selectedNav: 'homePge',
+    };
+  },
+  computed: {
+    echartOption() {
+      return {
+        // title: {
+        //   text: '各地区开展关爱活动详情',
+        // },
+        legend: {
+          show: true,
+          icon: 'stack',
+          itemWidth: 10,
+          itemHeight: 10,
+          textStyle: {
+            color: '#1bb4f6',
+          },
+          data: ['关爱活动'],
+        },
+        grid: {
+          left: '16%',
+          bottom: '45%',
+          top: 20,
+        },
+        xAxis: {
+          type: 'category',
+          data: this.xAxisList,
+          axisLabel: {
+            color: '#999',
+            textStyle: {
+              fontSize: 12,
+            },
+            interval: 0,
+            rotate: 40,
+          },
+        },
+        yAxis: {
+          type: 'value',
+          min: 0,
+          max: this.maxNum,
+        },
+        series: [
+          {
+            data: this.seriesList,
+            type: 'bar',
+            barWidth: '10px',
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      // color: 'rgba(253, 119, 47, 1)', // 0% 处的颜色
+                      color: 'rgba(251, 66, 21, 1)',
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(253, 119, 47, 1)',
+                      // color: 'rgba(251, 66, 21, 1)', // 100% 处的颜色
+                    },
+                  ],
+                  false,
+                ),
+                barBorderRadius: [30, 30, 0, 0],
+              },
+            },
+            label: {
+              show: true,
+              fontSize: 10,
+              fontWeight: 'bold',
+              position: 'top',
+              color: 'black',
+              formatter: (params) => `${params.value}次`,
+            },
+          },
+        ],
+      };
+    },
+  },
+  mounted() {
+    const myChart = this.$echarts.init(document.getElementById('myChart'));
+    myChart.setOption(this.echartOption);
+  },
+  methods: {
+    onClickLeft() {},
+    go(index) {
+      console.log(index);
+    },
   },
 };
 </script>
 
 <style lang="less">
-
+.homePage {
+  .swipe {
+    width: 100%;
+    height: 150px;
+  }
+  .swipeImg {
+    width: 100%;
+    height: 150px;
+  }
+  .navHeader {
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    .img {
+      width: 60px;
+      height: 60px;
+      padding: 20px 38px;
+    }
+  }
+  .statisticsData {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    margin: 0 20px;
+  }
+}
 </style>

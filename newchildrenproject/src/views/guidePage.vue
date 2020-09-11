@@ -93,11 +93,16 @@ export default {
     width: 240px;
     padding: 20px;
     background: url("../assets/btn_jinrupingtai@2x.png") no-repeat center;
+    // background: rgba(197, 53, 42);
     color: white;
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 35px;
+    &:hover {
+      background: rgba(197, 53, 42, 0.5);
+    }
   }
+
   .introduceContent {
     text-align: left;
     padding: 20px;
