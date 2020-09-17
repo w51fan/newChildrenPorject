@@ -13,14 +13,10 @@
       </van-swipe>
     </div>
     <div class="navHeader">
-      <img
-        :src="src"
-        class="img"
-        alt
-        v-for="(src,index) in navHeaderList"
-        :key="index"
-        @click="go(index)"
-      />
+      <div v-for="(src,index) in navHeaderList" :key="index" @click="go(index)">
+        <img :src="src.img" class="img" alt />
+        <div style="font-size:14px;font-weight:600;padding-bottom:10px;">{{src.name}}</div>
+      </div>
     </div>
     <div style="width:100%;height:10px;background:#EBECEC;"></div>
     <div style="text-align: left;padding:20px;font-size: 16px;font-weight: 600;">
@@ -37,10 +33,14 @@
         <div style="color: rgba(102, 102, 102, 1);">开展关爱活动（次）</div>
       </div>
     </div>
-    <div style="text-align: left;padding: 10px 20px 0;font-size: 14px;font-weight: 600;display:flex;justify-content: space-between;">
+    <div
+      style="text-align: left;padding: 10px 20px 0;font-size: 14px;font-weight: 600;display:flex;justify-content: space-between;"
+    >
       <div>各地区开展关爱活动详情</div>
       <div style="display: flex;">
-        <div style="width: 20px;height: 20px;background: rgba(252, 90, 33, 1);border-radius: 5px;margin-right: 5px;margin-top: 1px;"></div>
+        <div
+          style="width: 20px;height: 20px;background: rgba(252, 90, 33, 1);border-radius: 5px;margin-right: 5px;margin-top: 1px;"
+        ></div>
         <div>关爱活动</div>
       </div>
     </div>
@@ -72,12 +72,21 @@ export default {
         require('../assets/img_banner01@2x.png'),
       ],
       navHeaderList: [
-        // eslint-disable-next-line global-require
-        require('../assets/icon_zhengfuzhudao@2x.png'),
-        // eslint-disable-next-line global-require
-        require('../assets/icon_ertongzhijia@2x.png'),
-        // eslint-disable-next-line global-require
-        require('../assets/icon_xuexileyuan_shouye@2x.png'),
+        {
+          // eslint-disable-next-line global-require
+          img: require('../assets/icon_zhengfuzhudao@2x.png'),
+          name: '政府主导',
+        },
+        {
+          // eslint-disable-next-line global-require
+          img: require('../assets/icon_ertongzhijia@2x.png'),
+          name: '儿童之家',
+        },
+        {
+          // eslint-disable-next-line global-require
+          img: require('../assets/icon_xuexileyuan_shouye@2x.png'),
+          name: '学习乐园',
+        },
       ],
       xAxisList: [
         '双清区',
@@ -92,7 +101,7 @@ export default {
       yAxisList: [],
       seriesList: [1260, 200, 1570, 8670, 570, 1150, 1350, 969],
       maxNum: 10000,
-      selectedNav: 'homePge',
+      selectedNav: 'homePage',
     };
   },
   computed: {
@@ -190,6 +199,10 @@ export default {
 
 <style lang="less">
 .homePage {
+  .navTitle {
+    font-size: 18px;
+    font-weight: 600;
+  }
   .swipe {
     width: 100%;
     height: 150px;
@@ -205,7 +218,7 @@ export default {
     .img {
       width: 60px;
       height: 60px;
-      padding: 20px 38px;
+      padding: 10px 38px 0;
     }
   }
   .statisticsData {

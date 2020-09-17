@@ -18,14 +18,14 @@ export default {
   props: ['selectedNav'],
   data() {
     return {
-      active: 'childrenHomePage',
+      active: 'homePage',
       navList: [],
     };
   },
   computed: {
-    // UserTpye() {
-    //   return this.$store.state.common.UserTpye;
-    // },
+    currentPage() {
+      return this.$store.state.common.currentPage;
+    },
   },
   mounted() {
     this.init();
@@ -33,14 +33,14 @@ export default {
   watch: {
     // eslint-disable-next-line no-unused-vars
     active(val) {
-      this.$emit('update:selectedNav', this.selectedNav);
-      // this.$router.push({
-      //   name: this.active,
-      //   query: {
-      //     isAssistant: true,
-      //   },
-      // });
-      return this.selectedNav;
+      this.$emit('update:selectedNav', val);
+      this.$store.commit('common/getCurrentPage', val);
+      if (this.currentPage !== this.selectedNav) {
+        this.$router.push({
+          name: val,
+        });
+      }
+      return val;
     },
   },
   methods: {
@@ -50,16 +50,16 @@ export default {
         {
           navName: '首页',
           icon: 'wap-home',
-          path: 'homePge',
+          path: 'homePage',
         },
         {
           navName: '成长故事',
           icon: 'column',
-          path: 'growthStory',
+          path: 'growthStoryPage',
         },
         {
           navName: '用户中心',
-          icon: 'https://b.yzcdn.cn/vant/icon-demo-1126.png',
+          icon: 'user-circle-o',
           path: 'userCenterPage',
         },
       ];

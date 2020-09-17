@@ -25,6 +25,16 @@ const routes = [
     name: 'homePage',
     component: () => import(/* webpackChunkName: "about" */ '../views/homePage.vue'),
   },
+  {
+    path: '/userCenterPage',
+    name: 'userCenterPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/userCenterPage.vue'),
+  },
+  {
+    path: '/growthStoryPage',
+    name: 'growthStoryPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/growthStoryPage.vue'),
+  },
 ];
 
 const router = new VueRouter({

@@ -68,6 +68,7 @@ export default {
   methods: {
     onClickLeft() {},
     go() {
+      this.$store.commit('common/getCurrentPage', 'homePage');
       this.$router.push({
         name: 'homePage',
       });
