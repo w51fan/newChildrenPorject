@@ -192,6 +192,26 @@ export default {
     onClickLeft() {},
     go(index) {
       console.log(index);
+      switch (index) {
+        case 0:
+          this.$router.push({
+            name: 'childrenHomePage',
+          });
+          break;
+        case 1:
+          this.$router.push({
+            name: 'childrenHomePageIndex',
+          });
+          break;
+        case 2:
+          this.$router.push({
+            name: 'childrenHomePage',
+          });
+          break;
+
+        default:
+          break;
+      }
     },
   },
 };

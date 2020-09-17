@@ -35,6 +35,15 @@ const routes = [
     name: 'growthStoryPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/growthStoryPage.vue'),
   },
+  {
+    path: '/childrenHomePage',
+    name: 'childrenHomePage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/childrenHomePage.vue'),
+  }, {
+    path: '/childrenHomePageIndex',
+    name: 'childrenHomePageIndex',
+    component: () => import(/* webpackChunkName: "about" */ '../views/childrenHomePageIndex.vue'),
+  },
 ];
 
 const router = new VueRouter({
