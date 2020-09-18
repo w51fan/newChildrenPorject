@@ -1,5 +1,5 @@
 <template>
-  <div class="assistantEnnterPage">
+  <div class="guidePage">
     <div class="headBar">
       <img src="../assets/img_bg_yindaoye@2x.png" alt />
       <div class="headBarCity">
@@ -8,12 +8,12 @@
       </div>
       <div class="headBarInteview">
         <div style="color:#022954;font-size:18px;padding: 20px 0 0;display: flex;">
-          <div style=" display: flex;padding-left: 20px;">
+          <div style=" display: flex;padding-left: 20px;flex:3;">
             <div class="line"></div>
             <div class="round"></div>
           </div>
-          <div style="font-size: 20px;font-weight: 600;width: 100%;">系统介绍</div>
-          <div style="display: flex;padding-right: 20px;">
+          <div style="font-size: 20px;font-weight: 600;width: 100%;flex:3;">系统介绍</div>
+          <div style="display: flex;padding-right: 20px;flex:3;">
             <div class="round"></div>
             <div class="line"></div>
           </div>
@@ -50,9 +50,9 @@ export default {
 </script>
 
 <style lang="less">
-.assistantEnnterPage {
+.guidePage {
   .headBar {
-    height: 88vh;
+    height: 165vw;
     img {
       width: 100%;
     }
@@ -67,7 +67,7 @@ export default {
     .headBarInteview {
       background: #fff;
       border-radius: 14px;
-      top: 32vh;
+      top: 56vw;
       position: absolute;
       margin: 15px;
       box-shadow: 0 10px 15px 0 rgba(216, 216, 216, 0.5);
@@ -79,7 +79,7 @@ export default {
         margin-top: 6px;
       }
       .line {
-        width: 108px;
+        width: 100%;
         height: 3px;
         background: #efefef;
         margin-top: 10px;

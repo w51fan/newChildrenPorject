@@ -5,55 +5,64 @@
         <div class="navTitle">儿童之家</div>
       </template>
     </van-nav-bar>
-    <div class="gap gapone"></div>
-    <div class="flex">
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.ChildrenCount}}</span>
-          <span class="gray">名</span>
+    <div class="headBar">
+      <img class="headerImg" src="../assets/img_bg_ertongzhijia@2x.png" alt />
+      <div class="headBarInteview">
+        <div class="warp">
+          <div class="titleText">儿童关爱统计数据</div>
+          <div class="flex">
+            <div class="item">
+              <div>
+                <span class="guanaiertongColor">{{totalCount.ChildrenCount}}</span>
+                <span class="gray">名</span>
+              </div>
+              <div class="name">关爱儿童</div>
+            </div>
+            <div class="item">
+              <div>
+                <span class="guanaihuodongColor">{{totalCount.ActivityCount}}</span>
+                <span class="gray">场</span>
+              </div>
+              <div class="name">关爱活动</div>
+            </div>
+            <div class="item">
+              <div>
+                <span class="jiatinngjiaoyuColor">{{totalCount.CourseCount}}</span>
+                <span class="gray">小时</span>
+              </div>
+              <div class="name">家庭教育小视频</div>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="item">
+              <div>
+                <span class="ertongzhijiaColor">{{totalCount.ChildrenHomeCount}}</span>
+                <span class="gray">个</span>
+              </div>
+              <div class="name">儿童之家</div>
+            </div>
+            <div class="item">
+              <div>
+                <span class="ertongzhurenColor">{{totalCount.UserCount}}</span>
+                <span class="gray">个</span>
+              </div>
+              <div class="name">儿童主任</div>
+            </div>
+            <div class="item">
+              <div>
+                <span class="shegongzhanColor">{{totalCount.SocialStationCount}}</span>
+                <span class="gray">个</span>
+              </div>
+              <div class="name">社工站</div>
+            </div>
+          </div>
         </div>
-        <div>关爱儿童</div>
-      </div>
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.ActivityCount}}</span>
-          <span class="gray">场</span>
-        </div>
-        <div>关爱活动</div>
-      </div>
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.CourseCount}}</span>
-          <span class="gray">小时</span>
-        </div>
-        <div>家庭教育视频</div>
       </div>
     </div>
-    <div class="gap gapone"></div>
-    <div class="flex">
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.ChildrenHomeCount}}</span>
-          <span class="gray">个</span>
-        </div>
-        <div>儿童之家</div>
-      </div>
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.UserCount}}</span>
-          <span class="gray">个</span>
-        </div>
-        <div>儿童主任</div>
-      </div>
-      <div class="item">
-        <div>
-          <span class="green">{{totalCount.SocialStationCount}}</span>
-          <span class="gray">个</span>
-        </div>
-        <div>社工站</div>
-      </div>
-    </div>
-    <div class="gap gapten"></div>
+
+    <!-- <div class="gap gapone"></div>
+
+    <div class="gap gapten"></div>-->
     <van-tabs class="careIndexTabs" v-model="activeTab">
       <van-tab title="活动统计">
         <div class="gap gaptwo"></div>
@@ -196,7 +205,7 @@
         </van-cell>
       </van-tab>
     </van-tabs>
-    <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
+    <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%;">
         <van-loading type="spinner" />
@@ -206,7 +215,7 @@
 </template>
 
 <script>
-import bottomNavPage from './bottomNavPage.vue';
+// import bottomNavPage from './bottomNavPage.vue';
 
 // import {
 //   getTotalCount,
@@ -217,13 +226,21 @@ import bottomNavPage from './bottomNavPage.vue';
 export default {
   name: 'childrenHomePageIndex',
   components: {
-    bottomNavPage,
+    // bottomNavPage,
   },
   data() {
     return {
       selected: '1',
       selectedNav: 'careIndex',
-      totalCount: '',
+      // totalCount: '',
+      totalCount: {
+        ChildrenCount: 10099,
+        ActivityCount: 100555,
+        CourseCount: 100000,
+        ChildrenHomeCount: 10066,
+        UserCount: 1089890,
+        SocialStationCount: 1008989,
+      },
       activeTab: 0,
       areaList: [],
       activeArea: 0,
@@ -443,6 +460,32 @@ export default {
   .space-between {
     justify-content: space-between;
   }
+  .headBar {
+    height: 250px;
+    position: relative;
+    background: rgba(232, 232, 232, 0.5);
+    .headerImg {
+      width: 100%;
+    }
+    .headBarInteview {
+      width: 93vw;
+      background: #fff;
+      border-radius: 14px;
+      top: 80px;
+      position: absolute;
+      margin: 15px;
+      box-shadow: 0 10px 15px 0 rgba(216, 216, 216, 0.5);
+      .warp {
+        margin: 15px;
+        .titleText{
+          font-weight: 600;
+          font-size: 16px;
+          text-align: left;
+        }
+      }
+    }
+  }
+
   .gap {
     width: 100%;
     height: 8px;
@@ -457,16 +500,45 @@ export default {
   .gapten {
     height: 15px;
   }
+  .guanaiertongColor {
+    color: rgba(20, 148, 255, 1);
+    font-size: 16px;
+  }
+  .guanaihuodongColor {
+    color: rgba(255, 165, 50, 1);
+    font-size: 16px;
+  }
+  .jiatinngjiaoyuColor{
+    color: rgba(211, 39, 34, 1);
+    font-size: 16px;
+  }
+  .ertongzhijiaColor{
+    color: rgba(32, 209, 121, 1);
+    font-size: 16px;
+  }
+  .ertongzhurenColor{
+    color: rgba(255, 129, 64, 1);
+    font-size: 16px;
+  }
+  .shegongzhanColor{
+    color: rgba(156, 19, 14, 1);
+    font-size: 16px;
+  }
   .green {
     color: #0cce0c;
     font-size: 28px;
   }
   .gray {
-    color: #c1c1c1;
+    color: rgba(102, 102, 102, 1);
     font-size: 12px;
   }
   .item {
-    padding: 20px;
+    padding: 10px 0 0;
+    flex:3;
+  }
+  .name {
+    font-size: 14px;
+    color: rgba(102, 102, 102, 1);
   }
   .careIndexTabs {
     /deep/.van-tabs__line {

@@ -111,7 +111,7 @@ export default {
       navHeaderList: [
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_wodehuodong_yonghuzhongxin@2x.png'),
+          img: require('../assets/icon_ertongzhijia.png'),
           name: '儿童之家',
         },
         {

@@ -1,39 +1,52 @@
 <template>
   <div class="childrenHomePage">
-    <div class="childrenHomePageHead">
-      <div class="flex space-between">
-        <div class="head flex">
-          <div>
-            <div v-if="User.ProfilePhoto!==''">
-              <img
-                :src="User.ProfilePhoto"
-                alt
-                style="width: 50px;height: 50px;border-radius: 50%;"
-              />
-            </div>
-            <div v-else>
-              <img src="../assets/nohead.png" alt />
-            </div>
-          </div>
-          <div>
-            <div class="name">{{User.Name}}</div>
-            <div
-              class="status will"
-              style="width: 60px;margin: 0 16px;"
-            >{{User.Type===4?'村级管理员':User.Type===7?'志愿者':User.Type===3?'镇级管理员':User.Type===2?'县级管理员':User.Type===1?'市级管理员':User.Type===6?'助理':User.Type===11?'家长':User.Type===12?'社区工作服务管理员':User.Type===14?'校儿童主任':User.Type===15?'校儿童督导员':'村级讲师'}}</div>
-          </div>
+    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+      <template #title>
+        <div class="navTitle">儿童之家</div>
+      </template>
+    </van-nav-bar>
+    <div class="headBar">
+      <img class="headerImg" src="../assets/img_bg_ertongzhijia@2x.png" alt />
+      <div class="headBarInteview">
+        <div class="flex tipsTiitle">
+          <img src="../assets/icon_ertongzhijia.png" class="img" alt />
+          <div class="name">金桥村儿童之家</div>
         </div>
-
-        <div @click="goSetting">
-          <van-cell value="账号设置" is-link style="margin-top: 10px;" />
+        <div
+          class="position"
+        >位置：{{childrenHome.ProvinceName.Name}} >{{childrenHome.CityeName.Name}} >{{childrenHome.AreaName.Name}} >{{childrenHome.TownName.Name}} >{{childrenHome.VillageName.Name}}</div>
+        <div class="flex space-between tableHeader">
+          <div class="item">人数</div>
+          <div class="item">活动次数</div>
+          <div class="item" style="margin-right: 15px;">评分</div>
         </div>
+        <van-cell class="childrenMaster">
+          <!-- 使用 title 插槽来自定义标题 -->
+          <template #title>
+            <div class="flex space-between tableContent">
+              <div class="custom-title">{{childrenHome.ChildrenCount}}人</div>
+              <div>{{childrenHome.ActivityCount}}次</div>
+              <div>
+                <ul class="cleanfloat flex">
+                  <li
+                    v-for="(n,index) in 5"
+                    :key="index"
+                    :class="[index+1>starNum?'grayStar':'star']"
+                  >★</li>
+                </ul>
+              </div>
+            </div>
+          </template>
+        </van-cell>
       </div>
+    </div>
+    <div class="myChildrenHome">
+      <div>儿童之家成员</div>
     </div>
     <div class="gap gapfive"></div>
     <div class="myChildrenHome">
-      <div>我的儿童之家</div>
+      <div>儿童之家活动</div>
     </div>
-    <div class="gap gapfive"></div>
     <div class="childrenHomeList">
       <div>
         <div
@@ -81,7 +94,7 @@
         </div>
       </div>
     </div>
-    <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
+    <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%;">
         <van-loading type="spinner" />
@@ -92,12 +105,12 @@
 
 <script>
 // import { getChildrenHomeList } from '@/api/home';
-import bottomNavPage from './bottomNavPage.vue';
+// import bottomNavPage from './bottomNavPage.vue';
 
 export default {
   name: 'childrenHomePage',
   components: {
-    bottomNavPage,
+    // bottomNavPage,
   },
   data() {
     return {
@@ -108,6 +121,25 @@ export default {
       childrenHomeList: [],
       selectedNav: 'childrenHomePage',
       showOverlay: false,
+      childrenHome: {
+        ProvinceName: {
+          Name: '湖南省',
+        },
+        CityeName: {
+          Name: '邵阳市',
+        },
+        AreaName: {
+          Name: '大祥区',
+        },
+        TownName: {
+          Name: '板桥乡',
+        },
+        VillageName: {
+          Name: '金桥村',
+        },
+        ChildrenCount: 11,
+        ActivityCount: 11,
+      },
     };
   },
   computed: {
@@ -132,7 +164,7 @@ export default {
     // }
     // this.User = this.$store.state.common.User
     // this.token = this.$store.state.common.token
-    this.showOverlay = true;
+    // this.showOverlay = true;
     // getChildrenHomeList(this.Token)
     //   .then((result) => {
     //     console.log('getChildrenHomeList', result);
@@ -186,6 +218,53 @@ export default {
 <style lang="less">
 .childrenHomePage {
   margin-bottom: 60px;
+  .navTitle {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .headBar {
+    height: 290px;
+    position: relative;
+    background: rgba(232, 232, 232, 0.5);
+    .headerImg {
+      width: 100%;
+    }
+    .headBarInteview {
+      width: 93vw;
+      background: #fff;
+      border-radius: 6px;
+      top: 80px;
+      position: absolute;
+      margin: 15px;
+      box-shadow: 0 10px 15px 0 rgba(216, 216, 216, 0.5);
+      .tipsTiitle {
+        padding: 20px;
+        .img {
+          width: 24px;
+          padding-right: 20px;
+        }
+        .name {
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+      .tableHeader {
+        padding: 20px 20px 10px;
+        .item {
+          // flex: 3;
+          text-align: center;
+        }
+      }
+      .warp {
+        margin: 15px;
+        .titleText {
+          font-weight: 600;
+          font-size: 16px;
+          text-align: left;
+        }
+      }
+    }
+  }
   .childrenHomePageHead {
     padding: 20px;
     .head {
@@ -221,6 +300,8 @@ export default {
         .van-cell__title {
           padding: 0 5px;
         }
+        .tableContent {
+        }
       }
     }
   }
@@ -232,7 +313,7 @@ export default {
     justify-content: space-between;
   }
   .star {
-    color: #fbb32f;
+    color: rgba(255, 60, 53, 1);
   }
   .grayStar {
     color: #e0e0e0;
