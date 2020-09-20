@@ -7,7 +7,7 @@
     </van-nav-bar>
     <div class="headerInfo">
       <div class="flex">
-        <img class="headerImg" :src="headimg" alt />
+        <img class="usercenterHeaderImg" :src="headimg" alt />
         <div class="info">
           <div class="flex space-between">
             <div class="role flex">
@@ -17,7 +17,7 @@
             <van-icon class="settingIcon" name="setting-o" />
           </div>
           <div class="flex">
-            <div class="infoTtem">
+            <div class="infoTtem" @click="go(0)">
               <div>
                 10
                 <span style="font-size: 10px;">个</span>
@@ -25,7 +25,7 @@
               <div>我的成员</div>
             </div>
             <div class="gapbar"></div>
-            <div class="infoTtem">
+            <div class="infoTtem" @click="go(2)">
               <div>
                 20
                 <span style="font-size: 10px;">场</span>
@@ -33,7 +33,7 @@
               <div>我的活动</div>
             </div>
             <div class="gapbar"></div>
-            <div class="infoTtem">
+            <div class="infoTtem" @click="go(1)">
               <div>
                 100
                 <span style="font-size: 10px;">分</span>
@@ -75,7 +75,7 @@
     <div class="tenBar"></div>
     <div class="useInfo flex space-between">
       <div class="flex">
-        <img :src="usrInfoIcon" alt />
+        <img :src="usrInfoIcon" class="img" alt />
         <div class="text">用户信息</div>
       </div>
       <van-icon name="arrow" />
@@ -84,7 +84,7 @@
     <div class="elseNav" v-for="(list,index) in settingList" :key="index">
       <div class="flex space-between">
         <div class="flex">
-          <img :src="list.img" alt />
+          <img :src="list.img" class="img" alt />
           <div class="text">{{list.name}}</div>
         </div>
         <van-icon name="arrow" />
@@ -96,64 +96,89 @@
 </template>
 
 <script>
-import bottomNavPage from './bottomNavPage.vue';
+import bottomNavPage from "./bottomNavPage.vue";
 
 export default {
-  name: 'userCenterPage',
+  name: "userCenterPage",
   components: {
-    bottomNavPage,
+    bottomNavPage
   },
   data() {
     return {
-      selectedNav: 'userCenterPage',
+      selectedNav: "userCenterPage",
       // eslint-disable-next-line global-require
-      headimg: require('../assets/icon_touxiang_yonghuzhongxin@2x.png'),
+      headimg: require("../assets/icon_touxiang_yonghuzhongxin@2x.png"),
       navHeaderList: [
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_ertongzhijia.png'),
-          name: '儿童之家',
+          img: require("../assets/icon_ertongzhijia.png"),
+          name: "儿童之家"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_wodejifen_yonghuzhongxin@2x.png'),
-          name: '我的积分',
+          img: require("../assets/icon_wodejifen_yonghuzhongxin@2x.png"),
+          name: "我的积分"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_wodehuodong_yonghuzhongxin@2x.png'),
-          name: '我的活动',
+          img: require("../assets/icon_wodehuodong_yonghuzhongxin@2x.png"),
+          name: "我的活动"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_yonghufankui_yonghuzhongxin@2x.png'),
-          name: '用户反馈',
-        },
+          img: require("../assets/icon_yonghufankui_yonghuzhongxin@2x.png"),
+          name: "用户反馈"
+        }
       ],
       // eslint-disable-next-line global-require
-      usrInfoIcon: require('../assets/icon_yonghuxinxi_yonghuzhongxin@2x.png'),
+      usrInfoIcon: require("../assets/icon_yonghuxinxi_yonghuzhongxin@2x.png"),
       settingList: [
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_bangzhuzhongxin_yonghuzhongxin@2x.png'),
-          name: '帮助中心',
+          img: require("../assets/icon_bangzhuzhongxin_yonghuzhongxin@2x.png"),
+          name: "帮助中心"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_banbenshengji_yonghuzhongxin@2x.png'),
-          name: '版本升级',
+          img: require("../assets/icon_banbenshengji_yonghuzhongxin@2x.png"),
+          name: "版本升级"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_tuichudenglu_yonghuzhongxin@2x.png'),
-          name: '退出登录',
-        },
-      ],
+          img: require("../assets/icon_tuichudenglu_yonghuzhongxin@2x.png"),
+          name: "退出登录"
+        }
+      ]
     };
   },
   methods: {
-    onClickLeft() {},
-  },
+    onClickLeft() {
+      this.$router.push({
+        name: "homePage"
+      }); 
+    },
+    go(index) {
+      console.log(index);
+      switch (index) {
+        case 0:
+          break;
+        case 1:
+          this.$router.push({
+            name: "myIntegralPage"
+          });
+          break;
+        case 2:
+          break;
+        case 3:
+          this.$router.push({
+            name: "userFeedbackPage"
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }
 };
 </script>
 
@@ -172,7 +197,7 @@ export default {
   .headerInfo {
     padding: 20px 20px 0;
     background-image: linear-gradient(#ffb7b3, #f24b42, #ef4843);
-    .headerImg {
+    .usercenterHeaderImg {
       width: 74px;
       height: 74px;
     }
@@ -231,7 +256,7 @@ export default {
   }
   .iconNav {
     padding: 20px;
-    img {
+    .img {
       width: 24px;
       height: 24px;
     }
@@ -247,7 +272,7 @@ export default {
   }
   .useInfo {
     padding: 20px;
-    img {
+    .img {
       width: 18px;
       height: 18px;
     }
@@ -259,7 +284,7 @@ export default {
   .elseNav {
     padding: 10px 20px;
     border-bottom: 1px solid #efefef;
-    img {
+    .img {
       width: 18px;
       height: 18px;
     }

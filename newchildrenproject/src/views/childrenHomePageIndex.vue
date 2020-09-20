@@ -224,14 +224,14 @@
 //   getTopSocialStationList
 // } from "@/api/home";
 export default {
-  name: 'childrenHomePageIndex',
+  name: "childrenHomePageIndex",
   components: {
     // bottomNavPage,
   },
   data() {
     return {
-      selected: '1',
-      selectedNav: 'careIndex',
+      selected: "1",
+      selectedNav: "careIndex",
       // totalCount: '',
       totalCount: {
         ChildrenCount: 10099,
@@ -239,24 +239,24 @@ export default {
         CourseCount: 100000,
         ChildrenHomeCount: 10066,
         UserCount: 1089890,
-        SocialStationCount: 1008989,
+        SocialStationCount: 1008989
       },
       activeTab: 0,
       areaList: [],
       activeArea: 0,
-      activeNames: '',
-      activeNames2: '',
-      activeNames3: '',
+      activeNames: "",
+      activeNames2: "",
+      activeNames3: "",
       areaItems: [],
       childrenItems: [],
       childerenHomeList: [],
       topChildrenHomeList: [],
       topSocialStationList: [],
       showOverlay: false,
-      showCurrentDown: '',
-      showSecondCurrentDown: '',
-      showChild: '',
-      showSecondChild: '',
+      showCurrentDown: "",
+      showSecondCurrentDown: "",
+      showChild: "",
+      showSecondChild: ""
     };
   },
   mounted() {
@@ -266,12 +266,12 @@ export default {
     }
     if (!this.cityId) {
       this.$store.commit(
-        'common/getCityId',
-        window.localStorage.getItem('cityId') - 0,
+        "common/getCityId",
+        window.localStorage.getItem("cityId") - 0
       );
       // this.cityId = window.localStorage.getItem("cityId");
     }
-    console.log('this.cityId', this.cityId);
+    console.log("this.cityId", this.cityId);
     // getTotalCount(this.cityId)
     //   .then((res) => {
     //     // console.log("getTotalCount", res);
@@ -351,14 +351,14 @@ export default {
   computed: {
     cityId() {
       return this.$store.state.common.cityId;
-    },
+    }
   },
   watch: {
     activeTab(val) {
-      this.showCurrentDown = '';
-      this.showSecondCurrentDown = '';
-      this.showChild = '';
-      this.showSecondChild = '';
+      this.showCurrentDown = "";
+      this.showSecondCurrentDown = "";
+      this.showChild = "";
+      this.showSecondChild = "";
       if (val === 2) {
         this.showOverlay = true;
         // getTopChildrenHomeList(this.cityId)
@@ -384,47 +384,52 @@ export default {
         //     this.showOverlay = false;
         //   });
       }
-    },
+    }
   },
   methods: {
+    onClickLeft() {
+      this.$router.push({
+        name: "homePage"
+      });
+    },
     goDetail(childrenHome) {
-      this.$store.commit('common/getVillageId', childrenHome.VillageId);
+      this.$store.commit("common/getVillageId", childrenHome.VillageId);
       if (this.$route.query.currentPath) {
         this.$store.commit(
-          'common/getPreCurrentPath',
-          this.$route.query.currentPath,
+          "common/getPreCurrentPath",
+          this.$route.query.currentPath
         );
       }
 
       this.$router.push({
-        name: 'childrenHomeDetail',
+        name: "childrenHomeDetail",
         query: {
-          currentPath: 'careIndex',
-        },
+          currentPath: "careIndex"
+        }
       });
     },
     goSocialStation(SocialStation) {
-      console.log('SocialStation', SocialStation);
-      this.$store.commit('common/getSocialStationId', SocialStation.Id);
+      console.log("SocialStation", SocialStation);
+      this.$store.commit("common/getSocialStationId", SocialStation.Id);
       if (this.$route.query.currentPath) {
         this.$store.commit(
-          'common/getPreCurrentPath',
-          this.$route.query.currentPath,
+          "common/getPreCurrentPath",
+          this.$route.query.currentPath
         );
       }
 
       this.$router.push({
-        name: 'socialWorkstationDetail',
+        name: "socialWorkstationDetail",
         query: {
-          currentPath: 'careIndex',
-          isAssistant: false,
-        },
+          currentPath: "careIndex",
+          isAssistant: false
+        }
       });
     },
     collapseDown(data, index) {
       if (this.showCurrentDown === index) {
-        this.showCurrentDown = '';
-        this.showChild = '';
+        this.showCurrentDown = "";
+        this.showChild = "";
       } else {
         this.showCurrentDown = index;
         this.showChild = index;
@@ -434,16 +439,16 @@ export default {
     },
     collapseSecondDown(data, index) {
       if (this.showSecondCurrentDown === index) {
-        this.showSecondCurrentDown = '';
-        this.showSecondChild = '';
+        this.showSecondCurrentDown = "";
+        this.showSecondChild = "";
       } else {
         this.showSecondCurrentDown = index;
         this.showSecondChild = index;
       }
 
       console.log(data);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -477,7 +482,7 @@ export default {
       box-shadow: 0 10px 15px 0 rgba(216, 216, 216, 0.5);
       .warp {
         margin: 15px;
-        .titleText{
+        .titleText {
           font-weight: 600;
           font-size: 16px;
           text-align: left;
@@ -508,19 +513,19 @@ export default {
     color: rgba(255, 165, 50, 1);
     font-size: 16px;
   }
-  .jiatinngjiaoyuColor{
+  .jiatinngjiaoyuColor {
     color: rgba(211, 39, 34, 1);
     font-size: 16px;
   }
-  .ertongzhijiaColor{
+  .ertongzhijiaColor {
     color: rgba(32, 209, 121, 1);
     font-size: 16px;
   }
-  .ertongzhurenColor{
+  .ertongzhurenColor {
     color: rgba(255, 129, 64, 1);
     font-size: 16px;
   }
-  .shegongzhanColor{
+  .shegongzhanColor {
     color: rgba(156, 19, 14, 1);
     font-size: 16px;
   }
@@ -534,7 +539,7 @@ export default {
   }
   .item {
     padding: 10px 0 0;
-    flex:3;
+    flex: 3;
   }
   .name {
     font-size: 14px;

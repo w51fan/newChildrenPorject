@@ -43,7 +43,37 @@ const routes = [
     path: '/childrenHomePageIndex',
     name: 'childrenHomePageIndex',
     component: () => import(/* webpackChunkName: "about" */ '../views/childrenHomePageIndex.vue'),
+  }, {
+    path: '/myIntegralPage',
+    name: 'myIntegralPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/myIntegralPage.vue'),
   },
+  {
+    path: '/userFeedbackPage',
+    name: 'userFeedbackPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/userFeedbackPage.vue'),
+  },
+  {
+    path: '/governmentLedPage',
+    name: 'governmentLedPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/governmentLedPage.vue'),
+  },
+  {
+    path: '/volunteersListPage',
+    name: 'volunteersListPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/volunteersListPage.vue'),
+  },
+  {
+    path: '/volunteerDetailPage',
+    name: 'volunteerDetailPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/volunteerDetailPage.vue'),
+  },
+  {
+    path: '/learningParkPage',
+    name: 'learningParkPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/learningParkPage.vue'),
+  },
+
 ];
 
 const router = new VueRouter({

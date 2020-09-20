@@ -46,9 +46,9 @@
           <div style="width:8px;height:100%;background: #fff;"></div>
         </div>
       </div>
-      <div class="item flex space-between xuexileyuanBgColor">
+      <div class="item flex space-between xuexileyuanBgColor" @click="go(4)">
         <div class="warp">
-          <div class="text xuexileyuanColor" style="color:rgba(237, 1, 1, 1);">学习乐园</div>
+          <div class="text xuexileyuanColor" style="color:rgba(237, 1, 1, 1);">优秀志愿者</div>
           <div class="quchakan xuexileyuanColorchakan">去查看></div>
         </div>
         <img
@@ -112,28 +112,28 @@
 <script>
 // import { getArticleList } from '@/api/home';
 // import bottomNav from './bottomNav';
-import bottomNavPage from './bottomNavPage.vue';
+import bottomNavPage from "./bottomNavPage.vue";
 
 export default {
-  name: 'growthStoryPage',
+  name: "growthStoryPage",
   components: {
-    bottomNavPage,
+    bottomNavPage
   },
   data() {
     return {
-      selected: '1',
-      selectedNav: 'growthStoryPage',
+      selected: "1",
+      selectedNav: "growthStoryPage",
       articlelist: [],
       showOverlay: false,
       showList: true,
-      articleContent: '',
-      articleTitle: '',
+      articleContent: "",
+      articleTitle: "",
       loading: false,
       finished: false,
       refreshing: false,
       pageNumber: 1,
       pageSize: 10,
-      total: '',
+      total: "",
       // areaItems: [],
       areaItems: [
         {
@@ -141,46 +141,46 @@ export default {
           children: [
             {
               ActivityCount: 0,
-              text: '横木社区',
+              text: "横木社区"
             },
             {
               ActivityCount: 1,
               children: [
                 {
                   ActivityCount: 0,
-                  text: '东塔社区',
+                  text: "东塔社区"
                 },
                 {
                   ActivityCount: 0,
-                  text: '百寿亭社区',
+                  text: "百寿亭社区"
                 },
                 {
                   ActivityCount: 0,
-                  text: '建设路社区',
+                  text: "建设路社区"
                 },
                 {
                   ActivityCount: 0,
-                  text: '麻子洼社区',
+                  text: "麻子洼社区"
                 },
                 {
                   ActivityCount: 1,
-                  text: '三眼井社区   ',
+                  text: "三眼井社区   "
                 },
                 {
                   ActivityCount: 0,
-                  text: '砂子坡社区',
-                },
+                  text: "砂子坡社区"
+                }
               ],
-              text: '汽车站街道  ',
-            },
+              text: "汽车站街道  "
+            }
           ],
-          text: '双清区',
-        },
+          text: "双清区"
+        }
       ],
-      showCurrentDown: '',
-      showSecondCurrentDown: '',
-      showChild: '',
-      showSecondChild: '',
+      showCurrentDown: "",
+      showSecondCurrentDown: "",
+      showChild: "",
+      showSecondChild: ""
     };
   },
   watch: {
@@ -202,23 +202,23 @@ export default {
       //     console.log('getTotalCount', err);
       //     this.showOverlay = false;
       //   });
-    },
+    }
   },
   computed: {
     cityId() {
       return this.$store.state.common.cityId;
-    },
+    }
   },
   mounted() {
     // this.showOverlay = true;
     if (!this.cityId) {
       this.$store.commit(
-        'common/getCityId',
-        window.localStorage.getItem('cityId') - 0,
+        "common/getCityId",
+        window.localStorage.getItem("cityId") - 0
       );
       // this.cityId = window.localStorage.getItem("cityId");
     }
-    console.log('this.cityId', this.cityId);
+    console.log("this.cityId", this.cityId);
     // getArticleList(this.cityId, 1, this.pageNumber, this.pageSize)
     //   .then(res => {
     //     console.log("getArticleList", res);
@@ -232,6 +232,11 @@ export default {
     //   });
   },
   methods: {
+    onClickLeft() {
+      this.$router.push({
+        name: "homePage"
+      });
+    },
     getDate(date) {
       const activityDate = new Date(date);
       const year = activityDate.getFullYear();
@@ -241,11 +246,11 @@ export default {
     },
     viewDetail(row) {
       this.$router.push({
-        name: 'articleDetail',
+        name: "articleDetail",
         query: {
           id: row.Id,
-          currentPath: 'growthStoryPage',
-        },
+          currentPath: "growthStoryPage"
+        }
       });
     },
     // eslint-disable-next-line no-unused-vars
@@ -285,7 +290,7 @@ export default {
     onRefresh() {
       // 清空列表数据
       this.finished = false;
-      console.log('22');
+      console.log("22");
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
@@ -293,8 +298,8 @@ export default {
     },
     collapseDown(data, index) {
       if (this.showCurrentDown === index) {
-        this.showCurrentDown = '';
-        this.showChild = '';
+        this.showCurrentDown = "";
+        this.showChild = "";
       } else {
         this.showCurrentDown = index;
         this.showChild = index;
@@ -304,8 +309,8 @@ export default {
     },
     collapseSecondDown(data, index) {
       if (this.showSecondCurrentDown === index) {
-        this.showSecondCurrentDown = '';
-        this.showSecondChild = '';
+        this.showSecondCurrentDown = "";
+        this.showSecondChild = "";
       } else {
         this.showSecondCurrentDown = index;
         this.showSecondChild = index;
@@ -313,7 +318,27 @@ export default {
 
       console.log(data);
     },
-  },
+    go(index) {
+      switch (index) {
+        case 1:
+          break;
+        case 2:
+          this.$router.push({
+            name: "myIntegralPage"
+          });
+          break;
+        case 3:
+          break;
+        case 4:
+          this.$router.push({
+            name: "volunteersListPage"
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }
 };
 </script>
 
@@ -357,6 +382,7 @@ export default {
     .item {
       flex: 1;
       width: 50%;
+      height: 70px;
       min-width: 50%;
       max-width: 50%;
       margin: 5px 0;

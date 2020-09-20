@@ -56,27 +56,31 @@
 
 <script>
 export default {
-  name: 'loginPage',
+  name: "loginPage",
   data() {
     return {
-      verifyCode: '',
-      phone: '',
+      verifyCode: "",
+      phone: "",
       loginType: 2,
-      password: '',
+      password: ""
     };
   },
   methods: {
-    onClickLeft() {},
-    go() {
-      this.$store.commit('common/getCurrentPage', 'homePage');
+    onClickLeft() {
       this.$router.push({
-        name: 'homePage',
+        name: "guidePage"
+      });
+    },
+    go() {
+      this.$store.commit("common/getCurrentPage", "homePage");
+      this.$router.push({
+        name: "homePage"
       });
     },
     switchLoginType() {
       this.loginType = this.loginType === 1 ? 2 : 1;
-    },
-  },
+    }
+  }
 };
 </script>
 

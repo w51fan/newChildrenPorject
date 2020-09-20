@@ -20,7 +20,7 @@
           <div class="item">活动次数</div>
           <div class="item" style="margin-right: 15px;">评分</div>
         </div>
-        <van-cell class="childrenMaster">
+        <van-cell class="childrenInfo">
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="flex space-between tableContent">
@@ -42,58 +42,32 @@
     </div>
     <div class="myChildrenHome">
       <div>儿童之家成员</div>
+      <div class="flex space-between tableHeader">
+        <div class="item" style="text-align: left;">儿童姓名</div>
+        <div class="item">监护人</div>
+        <div class="item" style="text-align: right;">编辑</div>
+      </div>
+      <van-cell class="childrenInfo">
+        <!-- 使用 title 插槽来自定义标题 -->
+        <template #title>
+          <div class="flex space-between tableContent">
+            <div class="flex item" style="flex:3;">
+              <img :src="childrenHome.childrenImg" style="width: 24px; height: 24px;margin-right: 10px;" alt />
+              <div>{{childrenHome.childrenName}}</div>
+            </div>
+            <div class="item"  style="flex:3;text-align: center;">{{childrenHome.parents}}</div>
+            <div class="item"  style="flex:3;text-align: right;">
+              <van-icon name="ellipsis" />
+            </div>
+          </div>
+        </template>
+      </van-cell>
     </div>
     <div class="gap gapfive"></div>
     <div class="myChildrenHome">
       <div>儿童之家活动</div>
     </div>
-    <div class="childrenHomeList">
-      <div>
-        <div
-          v-for="(childrenHome,index) in childrenHomeList"
-          :key="index"
-          class="childrenHomeItem"
-          @click="goChildrenHomeDetail(childrenHome)"
-        >
-          <div class="flex childrenHomeItemName">
-            <img src="../assets/smile.png" alt />
-            <div class="name">{{childrenHome.Name}}</div>
-          </div>
-          <div class="gap gapone"></div>
-          <div class="flex space-between" style="padding:20px 20px 10px;">
-            <div class="childrenMastertableHead">人数</div>
-            <div class="childrenMastertableHead">活动次数</div>
-            <div class="childrenMastertableHead">评分</div>
-          </div>
-          <van-cell class="childrenMaster">
-            <!-- 使用 title 插槽来自定义标题 -->
-            <template #title>
-              <div class="flex space-between">
-                <div class="custom-title">{{childrenHome.ChildrenCount}}人</div>
-                <div>{{childrenHome.ActivityCount}}次</div>
-                <div>
-                  <!-- <ul class="cleanfloat flex star">
-                    <li>★</li>
-                    <li>★</li>
-                    <li>★</li>
-                    <li>★</li>
-                    <li>★</li>
-                  </ul>-->
-                  <ul class="cleanfloat flex">
-                    <li
-                      v-for="(n,index) in 5"
-                      :key="index"
-                      :class="[index+1>childrenHome.Score/10?'grayStar':'star']"
-                    >★</li>
-                  </ul>
-                </div>
-              </div>
-            </template>
-          </van-cell>
-          <div class="gap gaptwo"></div>
-        </div>
-      </div>
-    </div>
+
     <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%;">
@@ -108,7 +82,7 @@
 // import bottomNavPage from './bottomNavPage.vue';
 
 export default {
-  name: 'childrenHomePage',
+  name: "childrenHomePage",
   components: {
     // bottomNavPage,
   },
@@ -119,27 +93,30 @@ export default {
 
       // User: "",
       childrenHomeList: [],
-      selectedNav: 'childrenHomePage',
+      selectedNav: "childrenHomePage",
       showOverlay: false,
       childrenHome: {
         ProvinceName: {
-          Name: '湖南省',
+          Name: "湖南省"
         },
         CityeName: {
-          Name: '邵阳市',
+          Name: "邵阳市"
         },
         AreaName: {
-          Name: '大祥区',
+          Name: "大祥区"
         },
         TownName: {
-          Name: '板桥乡',
+          Name: "板桥乡"
         },
         VillageName: {
-          Name: '金桥村',
+          Name: "金桥村"
         },
         ChildrenCount: 11,
         ActivityCount: 11,
-      },
+        childrenName: "李潇潇",
+        parents: "小姐姐",
+        childrenImg: require("../assets/img_ertong01@2x.png")
+      }
     };
   },
   computed: {
@@ -148,13 +125,13 @@ export default {
     },
     User() {
       return this.$store.state.common.User;
-    },
+    }
   },
   mounted() {
     if (this.$route.query.User && this.$route.query.UserTpye) {
-      this.$store.commit('common/getUserTpye', this.$route.query.UserTpye);
-      this.$store.commit('common/SET_UserTpye', this.$route.query.UserTpye);
-      this.$store.commit('common/getUser', this.$route.query.User);
+      this.$store.commit("common/getUserTpye", this.$route.query.UserTpye);
+      this.$store.commit("common/SET_UserTpye", this.$route.query.UserTpye);
+      this.$store.commit("common/getUser", this.$route.query.User);
     }
     // if (!this.Token) {
     //   this.$store.commit(
@@ -194,24 +171,25 @@ export default {
     //   });
   },
   methods: {
+    onClickLeft() {},
     goChildrenHomeDetail(childrenHome) {
-      this.$store.commit('common/getVillageId', childrenHome.VillageId);
+      this.$store.commit("common/getVillageId", childrenHome.VillageId);
       this.$router.push({
-        name: 'assistantChildrenHomeDetail',
+        name: "assistantChildrenHomeDetail",
         query: {
-          currentPath: 'childrenHomePage',
-        },
+          currentPath: "childrenHomePage"
+        }
       });
     },
     goSetting() {
       this.$router.push({
-        name: 'accountSetting',
+        name: "accountSetting",
         query: {
-          currentPath: 'childrenHomePage',
-        },
+          currentPath: "childrenHomePage"
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -223,7 +201,7 @@ export default {
     font-weight: 600;
   }
   .headBar {
-    height: 290px;
+    height: 310px;
     position: relative;
     background: rgba(232, 232, 232, 0.5);
     .headerImg {
@@ -241,6 +219,7 @@ export default {
         padding: 20px;
         .img {
           width: 24px;
+          height: 24px;
           padding-right: 20px;
         }
         .name {
@@ -253,6 +232,14 @@ export default {
         .item {
           // flex: 3;
           text-align: center;
+        }
+      }
+      .childrenInfo {
+        padding: 20px 20px 10px;
+        .tableContent {
+          .item{
+            flex: 3;
+          }
         }
       }
       .warp {
@@ -281,6 +268,15 @@ export default {
     text-align: left;
     padding: 20px;
     font-size: 18px;
+    .tableHeader {
+      padding: 20px 15px 10px;
+      color: #9b9b9b;
+      font-size: 14px;
+      .item {
+        flex: 3;
+        text-align: center;
+      }
+    }
   }
   .childrenHomeList {
     .childrenHomeItem {
@@ -299,8 +295,6 @@ export default {
       .childrenMaster {
         .van-cell__title {
           padding: 0 5px;
-        }
-        .tableContent {
         }
       }
     }

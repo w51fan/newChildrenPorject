@@ -14,7 +14,7 @@
     </div>
     <div class="navHeader">
       <div v-for="(src,index) in navHeaderList" :key="index" @click="go(index)">
-        <img :src="src.img" class="img" alt />
+        <img :src="src.img" class="navHeaderImg" alt />
         <div style="font-size:14px;font-weight:600;padding-bottom:10px;">{{src.name}}</div>
       </div>
     </div>
@@ -52,56 +52,56 @@
 </template>
 
 <script>
-import bottomNavPage from './bottomNavPage.vue';
+import bottomNavPage from "./bottomNavPage.vue";
 
 export default {
-  name: 'homePage',
+  name: "homePage",
   components: {
-    bottomNavPage,
+    bottomNavPage
   },
   data() {
     return {
       imgList: [
         // eslint-disable-next-line global-require
-        require('../assets/img_banner01@2x.png'),
+        require("../assets/img_banner01@2x.png"),
         // eslint-disable-next-line global-require
-        require('../assets/img_banner01@2x.png'),
+        require("../assets/img_banner01@2x.png"),
         // eslint-disable-next-line global-require
-        require('../assets/img_banner01@2x.png'),
+        require("../assets/img_banner01@2x.png"),
         // eslint-disable-next-line global-require
-        require('../assets/img_banner01@2x.png'),
+        require("../assets/img_banner01@2x.png")
       ],
       navHeaderList: [
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_zhengfuzhudao@2x.png'),
-          name: '政府主导',
+          img: require("../assets/icon_zhengfuzhudao@2x.png"),
+          name: "政府主导"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_ertongzhijia@2x.png'),
-          name: '儿童之家',
+          img: require("../assets/icon_ertongzhijia@2x.png"),
+          name: "儿童之家"
         },
         {
           // eslint-disable-next-line global-require
-          img: require('../assets/icon_xuexileyuan_shouye@2x.png'),
-          name: '学习乐园',
-        },
+          img: require("../assets/icon_xuexileyuan_shouye@2x.png"),
+          name: "学习乐园"
+        }
       ],
       xAxisList: [
-        '双清区',
-        '大祥区',
-        '北塔区',
-        '邵阳县',
-        '洞口县',
-        '绥宁县',
-        '城步苗族自治县',
-        '新宁县',
+        "双清区",
+        "大祥区",
+        "北塔区",
+        "邵阳县",
+        "洞口县",
+        "绥宁县",
+        "城步苗族自治县",
+        "新宁县"
       ],
       yAxisList: [],
       seriesList: [1260, 200, 1570, 8670, 570, 1150, 1350, 969],
       maxNum: 10000,
-      selectedNav: 'homePage',
+      selectedNav: "homePage"
     };
   },
   computed: {
@@ -112,41 +112,41 @@ export default {
         // },
         legend: {
           show: true,
-          icon: 'stack',
+          icon: "stack",
           itemWidth: 10,
           itemHeight: 10,
           textStyle: {
-            color: '#1bb4f6',
+            color: "#1bb4f6"
           },
-          data: ['关爱活动'],
+          data: ["关爱活动"]
         },
         grid: {
-          left: '16%',
-          bottom: '45%',
-          top: 20,
+          left: "16%",
+          bottom: "45%",
+          top: 20
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           data: this.xAxisList,
           axisLabel: {
-            color: '#999',
+            color: "#999",
             textStyle: {
-              fontSize: 12,
+              fontSize: 12
             },
             interval: 0,
-            rotate: 40,
-          },
+            rotate: 40
+          }
         },
         yAxis: {
-          type: 'value',
+          type: "value",
           min: 0,
-          max: this.maxNum,
+          max: this.maxNum
         },
         series: [
           {
             data: this.seriesList,
-            type: 'bar',
-            barWidth: '10px',
+            type: "bar",
+            barWidth: "10px",
             itemStyle: {
               normal: {
                 color: new this.$echarts.graphic.LinearGradient(
@@ -158,62 +158,66 @@ export default {
                     {
                       offset: 0,
                       // color: 'rgba(253, 119, 47, 1)', // 0% 处的颜色
-                      color: 'rgba(251, 66, 21, 1)',
+                      color: "rgba(251, 66, 21, 1)"
                     },
                     {
                       offset: 1,
-                      color: 'rgba(253, 119, 47, 1)',
+                      color: "rgba(253, 119, 47, 1)"
                       // color: 'rgba(251, 66, 21, 1)', // 100% 处的颜色
-                    },
+                    }
                   ],
-                  false,
+                  false
                 ),
-                barBorderRadius: [30, 30, 0, 0],
-              },
+                barBorderRadius: [30, 30, 0, 0]
+              }
             },
             label: {
               show: true,
               fontSize: 10,
-              fontWeight: 'bold',
-              position: 'top',
-              color: 'black',
-              formatter: (params) => `${params.value}次`,
-            },
-          },
-        ],
+              fontWeight: "bold",
+              position: "top",
+              color: "black",
+              formatter: params => `${params.value}次`
+            }
+          }
+        ]
       };
-    },
+    }
   },
   mounted() {
-    const myChart = this.$echarts.init(document.getElementById('myChart'));
+    const myChart = this.$echarts.init(document.getElementById("myChart"));
     myChart.setOption(this.echartOption);
   },
   methods: {
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.push({
+        name: "loginPage"
+      });
+    },
     go(index) {
       console.log(index);
       switch (index) {
         case 0:
           this.$router.push({
-            name: 'childrenHomePage',
+            name: "governmentLedPage"
           });
           break;
         case 1:
           this.$router.push({
-            name: 'childrenHomePageIndex',
+            name: "childrenHomePageIndex"
           });
           break;
         case 2:
           this.$router.push({
-            name: 'childrenHomePage',
+            name: "learningParkPage"
           });
           break;
 
         default:
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -235,7 +239,7 @@ export default {
     display: flex;
     justify-content: space-around;
     border-radius: 10px;
-    .img {
+    .navHeaderImg {
       width: 60px;
       height: 60px;
       padding: 10px 38px 0;
