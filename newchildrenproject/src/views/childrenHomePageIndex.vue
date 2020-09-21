@@ -217,21 +217,22 @@
 <script>
 // import bottomNavPage from './bottomNavPage.vue';
 
-// import {
-//   getTotalCount,
-//   getTreeCount,
-//   getTopChildrenHomeList,
-//   getTopSocialStationList
-// } from "@/api/home";
+import {
+  getTotalCount,
+  getTreeCount,
+  getTopChildrenHomeList,
+  getTopSocialStationList,
+} from '@/api/home';
+
 export default {
-  name: "childrenHomePageIndex",
+  name: 'childrenHomePageIndex',
   components: {
     // bottomNavPage,
   },
   data() {
     return {
-      selected: "1",
-      selectedNav: "careIndex",
+      selected: '1',
+      selectedNav: 'careIndex',
       // totalCount: '',
       totalCount: {
         ChildrenCount: 10099,
@@ -239,197 +240,198 @@ export default {
         CourseCount: 100000,
         ChildrenHomeCount: 10066,
         UserCount: 1089890,
-        SocialStationCount: 1008989
+        SocialStationCount: 1008989,
       },
       activeTab: 0,
       areaList: [],
       activeArea: 0,
-      activeNames: "",
-      activeNames2: "",
-      activeNames3: "",
+      activeNames: '',
+      activeNames2: '',
+      activeNames3: '',
       areaItems: [],
       childrenItems: [],
       childerenHomeList: [],
       topChildrenHomeList: [],
       topSocialStationList: [],
       showOverlay: false,
-      showCurrentDown: "",
-      showSecondCurrentDown: "",
-      showChild: "",
-      showSecondChild: ""
+      showCurrentDown: '',
+      showSecondCurrentDown: '',
+      showChild: '',
+      showSecondChild: '',
     };
   },
   mounted() {
-    // this.showOverlay = true;
+    this.showOverlay = true;
     if (this.$route.query.activeTab) {
       this.activeTab = this.$route.query.activeTab;
     }
-    if (!this.cityId) {
-      this.$store.commit(
-        "common/getCityId",
-        window.localStorage.getItem("cityId") - 0
-      );
-      // this.cityId = window.localStorage.getItem("cityId");
-    }
-    console.log("this.cityId", this.cityId);
-    // getTotalCount(this.cityId)
-    //   .then((res) => {
-    //     // console.log("getTotalCount", res);
-    //     this.totalCount = res.data.totalCount;
-    //     getTreeCount(this.cityId)
-    //       .then((result) => {
-    //         // console.log("getTreeCount", result);
-    //         this.areaList = result.data.areaList;
-    //         this.areaList.forEach((item) => {
-    //           const areaTemp = {
-    //             text: item.ActivityCount > 0 ? `${item.Name}` : item.Name,
-    //             children: [],
-    //             ActivityCount: item.ActivityCount,
-    //           };
-    //           const childrenTemp = {
-    //             text: item.ChildrenCount > 0 ? `${item.Name}   ` : item.Name,
-    //             children: [],
-    //             ChildrenCount: item.ChildrenCount,
-    //           };
-    //           if (item.Area.length > 0) {
-    //             item.Area.forEach((areaItem) => {
-    //               const activityChildren = [];
-    //               const childrenChildren = [];
-    //               if (areaItem.Area.length > 0) {
-    //                 areaItem.Area.forEach((threeItem) => {
-    //                   activityChildren.push({
-    //                     text:
-    //                       threeItem.ActivityCount > 0
-    //                         ? `${threeItem.Name}   `
-    //                         : threeItem.Name,
-    //                     ActivityCount: threeItem.ActivityCount,
-    //                   });
-    //                   childrenChildren.push({
-    //                     text:
-    //                       threeItem.ChildrenCount > 0
-    //                         ? `${threeItem.Name}   `
-    //                         : threeItem.Name,
-    //                     ChildrenCount: threeItem.ChildrenCount,
-    //                   });
-    //                 });
-    //               }
-    //               areaTemp.children.push({
-    //                 text:
-    //                   areaItem.ActivityCount > 0
-    //                     ? `${areaItem.Name}  `
-    //                     : areaItem.Name,
-    //                 children: activityChildren,
-    //                 ActivityCount: areaItem.ActivityCount,
-    //               });
-    //               childrenTemp.children.push({
-    //                 text:
-    //                   areaItem.ChildrenCount > 0
-    //                     ? `${areaItem.Name}  `
-    //                     : areaItem.Name,
-    //                 children: childrenChildren,
-    //                 ChildrenCount: areaItem.ChildrenCount,
-    //               });
-    //             });
-    //           }
-    //           this.areaItems.push(areaTemp);
-    //           this.childrenItems.push(childrenTemp);
-    //           console.log('this.areaItems', this.areaItems);
-    //           console.log('this.childrenItems', this.childrenItems);
-    //         });
-    //         this.showOverlay = false;
-    //       })
-    //       .catch((err2) => {
-    //         console.log('getTreeCount', err2);
-    //         this.showOverlay = false;
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     console.log('getTotalCount', err);
-    //     this.showOverlay = false;
-    //   });
+    // if (!this.cityId) {
+    //   this.$store.commit(
+    //     'common/getCityId',
+    //     window.localStorage.getItem('cityId') - 0,
+    //   );
+    //   // this.cityId = window.localStorage.getItem("cityId");
+    // }
+    console.log('this.cityId', this.cityId);
+    getTotalCount(this.cityId)
+      .then((res) => {
+        // console.log("getTotalCount", res);
+        this.totalCount = res.data.totalCount;
+        getTreeCount(this.cityId)
+          .then((result) => {
+            // console.log("getTreeCount", result);
+            this.areaList = result.data.areaList;
+            this.areaList.forEach((item) => {
+              const areaTemp = {
+                text: item.ActivityCount > 0 ? `${item.Name}` : item.Name,
+                children: [],
+                ActivityCount: item.ActivityCount,
+              };
+              const childrenTemp = {
+                text: item.ChildrenCount > 0 ? `${item.Name}   ` : item.Name,
+                children: [],
+                ChildrenCount: item.ChildrenCount,
+              };
+              if (item.Area.length > 0) {
+                item.Area.forEach((areaItem) => {
+                  const activityChildren = [];
+                  const childrenChildren = [];
+                  if (areaItem.Area.length > 0) {
+                    areaItem.Area.forEach((threeItem) => {
+                      activityChildren.push({
+                        text:
+                          threeItem.ActivityCount > 0
+                            ? `${threeItem.Name}   `
+                            : threeItem.Name,
+                        ActivityCount: threeItem.ActivityCount,
+                      });
+                      childrenChildren.push({
+                        text:
+                          threeItem.ChildrenCount > 0
+                            ? `${threeItem.Name}   `
+                            : threeItem.Name,
+                        ChildrenCount: threeItem.ChildrenCount,
+                      });
+                    });
+                  }
+                  areaTemp.children.push({
+                    text:
+                      areaItem.ActivityCount > 0
+                        ? `${areaItem.Name}  `
+                        : areaItem.Name,
+                    children: activityChildren,
+                    ActivityCount: areaItem.ActivityCount,
+                  });
+                  childrenTemp.children.push({
+                    text:
+                      areaItem.ChildrenCount > 0
+                        ? `${areaItem.Name}  `
+                        : areaItem.Name,
+                    children: childrenChildren,
+                    ChildrenCount: areaItem.ChildrenCount,
+                  });
+                });
+              }
+              this.areaItems.push(areaTemp);
+              this.childrenItems.push(childrenTemp);
+              console.log('this.areaItems', this.areaItems);
+              console.log('this.childrenItems', this.childrenItems);
+            });
+            this.showOverlay = false;
+          })
+          .catch((err2) => {
+            console.log('getTreeCount', err2);
+            this.showOverlay = false;
+          });
+      })
+      .catch((err) => {
+        console.log('getTotalCount', err);
+        this.showOverlay = false;
+      });
   },
   computed: {
     cityId() {
-      return this.$store.state.common.cityId;
-    }
+      // return this.$store.state.common.cityId;
+      return 2018;
+    },
   },
   watch: {
     activeTab(val) {
-      this.showCurrentDown = "";
-      this.showSecondCurrentDown = "";
-      this.showChild = "";
-      this.showSecondChild = "";
+      this.showCurrentDown = '';
+      this.showSecondCurrentDown = '';
+      this.showChild = '';
+      this.showSecondChild = '';
       if (val === 2) {
         this.showOverlay = true;
-        // getTopChildrenHomeList(this.cityId)
-        //   .then((res) => {
-        //     // console.log("getTopChildrenHomeList", res);
-        //     this.topChildrenHomeList = res.data.topChildrenHomeList;
-        //     this.showOverlay = false;
-        //   })
-        //   .catch((err) => {
-        //     // console.log("getTotalCount", err);
-        //     this.showOverlay = false;
-        //   });
+        getTopChildrenHomeList(this.cityId)
+          .then((res) => {
+            // console.log("getTopChildrenHomeList", res);
+            this.topChildrenHomeList = res.data.topChildrenHomeList;
+            this.showOverlay = false;
+          })
+          .catch((err) => {
+            // console.log("getTotalCount", err);
+            this.showOverlay = false;
+          });
       } else if (val === 3) {
         this.showOverlay = true;
-        // getTopSocialStationList(this.cityId)
-        //   .then((res) => {
-        //     // console.log("getTopChildrenHomeList", res);
-        //     this.topSocialStationList = res.data.topSocialStationList;
-        //     this.showOverlay = false;
-        //   })
-        //   .catch((err) => {
-        //     // console.log("getTotalCount", err);
-        //     this.showOverlay = false;
-        //   });
+        getTopSocialStationList(this.cityId)
+          .then((res) => {
+            // console.log("getTopChildrenHomeList", res);
+            this.topSocialStationList = res.data.topSocialStationList;
+            this.showOverlay = false;
+          })
+          .catch((err) => {
+            // console.log("getTotalCount", err);
+            this.showOverlay = false;
+          });
       }
-    }
+    },
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "homePage"
+        name: 'homePage',
       });
     },
     goDetail(childrenHome) {
-      this.$store.commit("common/getVillageId", childrenHome.VillageId);
-      if (this.$route.query.currentPath) {
-        this.$store.commit(
-          "common/getPreCurrentPath",
-          this.$route.query.currentPath
-        );
-      }
+      // this.$store.commit('common/getVillageId', childrenHome.VillageId);
+      // if (this.$route.query.currentPath) {
+      //   this.$store.commit(
+      //     'common/getPreCurrentPath',
+      //     this.$route.query.currentPath,
+      //   );
+      // }
 
       this.$router.push({
-        name: "childrenHomeDetail",
+        name: 'childrenHomePage',
         query: {
-          currentPath: "careIndex"
-        }
+          currentPath: 'childrenHomePageIndex',
+        },
       });
     },
     goSocialStation(SocialStation) {
-      console.log("SocialStation", SocialStation);
-      this.$store.commit("common/getSocialStationId", SocialStation.Id);
+      console.log('SocialStation', SocialStation);
+      this.$store.commit('common/getSocialStationId', SocialStation.Id);
       if (this.$route.query.currentPath) {
         this.$store.commit(
-          "common/getPreCurrentPath",
-          this.$route.query.currentPath
+          'common/getPreCurrentPath',
+          this.$route.query.currentPath,
         );
       }
 
       this.$router.push({
-        name: "socialWorkstationDetail",
+        name: 'socialWorkstationDetail',
         query: {
-          currentPath: "careIndex",
-          isAssistant: false
-        }
+          currentPath: 'careIndex',
+          isAssistant: false,
+        },
       });
     },
     collapseDown(data, index) {
       if (this.showCurrentDown === index) {
-        this.showCurrentDown = "";
-        this.showChild = "";
+        this.showCurrentDown = '';
+        this.showChild = '';
       } else {
         this.showCurrentDown = index;
         this.showChild = index;
@@ -439,16 +441,16 @@ export default {
     },
     collapseSecondDown(data, index) {
       if (this.showSecondCurrentDown === index) {
-        this.showSecondCurrentDown = "";
-        this.showSecondChild = "";
+        this.showSecondCurrentDown = '';
+        this.showSecondChild = '';
       } else {
         this.showSecondCurrentDown = index;
         this.showSecondChild = index;
       }
 
       console.log(data);
-    }
-  }
+    },
+  },
 };
 </script>
 
