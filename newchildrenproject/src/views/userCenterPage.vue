@@ -7,7 +7,7 @@
     </van-nav-bar>
     <div class="headerInfo">
       <div class="flex">
-        <img class="usercenterHeaderImg" :src="headimg" alt />
+        <img :src="headimg" style="width: 74px;height: 74px;" alt />
         <div class="info">
           <div class="flex space-between">
             <div class="role flex">
@@ -46,36 +46,44 @@
     </div>
     <div class="headerBottomNav flex space-between">
       <div class="flex item">
-        <div>我的记录</div>
-        <div class="tipsNum">25</div>
+        <div style="max-width: 70px;position: relative;">
+          <div>我的记录</div>
+          <div class="tipsNum">25</div>
+        </div>
       </div>
       <div class="gapbar"></div>
       <div class="flex item">
-        <div>走访记录</div>
-        <div class="tipsNum">25</div>
+        <div style="max-width: 70px;position: relative;">
+          <div>走访记录</div>
+          <div class="tipsNum">25</div>
+        </div>
       </div>
       <div class="gapbar"></div>
       <div class="flex item">
-        <div>成长记录</div>
-        <div class="tipsNum">25</div>
+        <div style="max-width: 70px;position: relative;">
+          <div>成长记录</div>
+          <div class="tipsNum">25</div>
+        </div>
       </div>
       <div class="gapbar"></div>
       <div class="flex item">
-        <div>学习记录</div>
-        <div class="tipsNum">25</div>
+        <div style="max-width: 70px;position: relative;">
+          <div>学习记录</div>
+          <div class="tipsNum">25</div>
+        </div>
       </div>
     </div>
 
     <div class="iconNav flex space-between">
       <div v-for="(src,index) in navHeaderList" :key="index" @click="go(index)">
-        <img :src="src.img" class="img" alt />
+        <img :src="src.img" style="width: 24px;height: 24px;" alt />
         <div class="text">{{src.name}}</div>
       </div>
     </div>
     <div class="tenBar"></div>
     <div class="useInfo flex space-between">
       <div class="flex">
-        <img :src="usrInfoIcon" class="img" alt />
+        <img :src="usrInfoIcon" class="useInfoImg" alt />
         <div class="text">用户信息</div>
       </div>
       <van-icon name="arrow" />
@@ -84,7 +92,7 @@
     <div class="elseNav" v-for="(list,index) in settingList" :key="index">
       <div class="flex space-between">
         <div class="flex">
-          <img :src="list.img" class="img" alt />
+          <img :src="list.img" class="elseNavImg" alt />
           <div class="text">{{list.name}}</div>
         </div>
         <van-icon name="arrow" />
@@ -96,89 +104,93 @@
 </template>
 
 <script>
-import bottomNavPage from "./bottomNavPage.vue";
+import bottomNavPage from './bottomNavPage.vue';
 
 export default {
-  name: "userCenterPage",
+  name: 'userCenterPage',
   components: {
-    bottomNavPage
+    bottomNavPage,
   },
   data() {
     return {
-      selectedNav: "userCenterPage",
+      selectedNav: 'userCenterPage',
       // eslint-disable-next-line global-require
-      headimg: require("../assets/icon_touxiang_yonghuzhongxin@2x.png"),
+      headimg: require('../assets/icon_touxiang_yonghuzhongxin@2x.png'),
       navHeaderList: [
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_ertongzhijia.png"),
-          name: "儿童之家"
+          img: require('../assets/icon_ertongzhijia.png'),
+          name: '儿童之家',
         },
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_wodejifen_yonghuzhongxin@2x.png"),
-          name: "我的积分"
+          img: require('../assets/icon_wodejifen_yonghuzhongxin@2x.png'),
+          name: '我的积分',
         },
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_wodehuodong_yonghuzhongxin@2x.png"),
-          name: "我的活动"
+          img: require('../assets/icon_wodehuodong_yonghuzhongxin@2x.png'),
+          name: '我的活动',
         },
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_yonghufankui_yonghuzhongxin@2x.png"),
-          name: "用户反馈"
-        }
+          img: require('../assets/icon_yonghufankui_yonghuzhongxin@2x.png'),
+          name: '用户反馈',
+        },
       ],
       // eslint-disable-next-line global-require
-      usrInfoIcon: require("../assets/icon_yonghuxinxi_yonghuzhongxin@2x.png"),
+      usrInfoIcon: require('../assets/icon_yonghuxinxi_yonghuzhongxin@2x.png'),
       settingList: [
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_bangzhuzhongxin_yonghuzhongxin@2x.png"),
-          name: "帮助中心"
+          img: require('../assets/icon_bangzhuzhongxin_yonghuzhongxin@2x.png'),
+          name: '帮助中心',
         },
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_banbenshengji_yonghuzhongxin@2x.png"),
-          name: "版本升级"
+          img: require('../assets/icon_banbenshengji_yonghuzhongxin@2x.png'),
+          name: '版本升级',
         },
         {
           // eslint-disable-next-line global-require
-          img: require("../assets/icon_tuichudenglu_yonghuzhongxin@2x.png"),
-          name: "退出登录"
-        }
-      ]
+          img: require('../assets/icon_tuichudenglu_yonghuzhongxin@2x.png'),
+          name: '退出登录',
+        },
+      ],
     };
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "homePage"
-      }); 
+        name: 'homePage',
+      });
     },
     go(index) {
       console.log(index);
       switch (index) {
         case 0:
+          this.$store.commit('common/getPreCurrentPath', 'userCenterPage');
+          this.$router.push({
+            name: 'childrenHomePageIndex',
+          });
           break;
         case 1:
           this.$router.push({
-            name: "myIntegralPage"
+            name: 'myIntegralPage',
           });
           break;
         case 2:
           break;
         case 3:
           this.$router.push({
-            name: "userFeedbackPage"
+            name: 'userFeedbackPage',
           });
           break;
         default:
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -202,7 +214,7 @@ export default {
       height: 74px;
     }
     .info {
-      width: 100%;
+      width: 285px;
       .role {
         padding: 0 15px;
         .name {
@@ -221,7 +233,7 @@ export default {
         color: #efefef;
       }
       .infoTtem {
-        padding: 15px;
+        padding: 15px 10px;
         color: rgba(249, 249, 249, 1);
       }
       .gapbar {
@@ -231,15 +243,17 @@ export default {
     }
   }
   .headerBottomNav {
-    padding: 0px 20px;
+    // padding: 0px 20px;
     background: rgba(255, 0, 0, 0.4);
     color: rgba(93, 1, 1, 1);
     .gapbar {
       border-right: 1px solid rgba(245, 42, 42, 0.6);
     }
     .item {
-      margin: 15px 0;
+      margin: 15px 10px;
       position: relative;
+      flex: 4;
+      justify-content: center;
       .tipsNum {
         background: rgba(243, 0, 0, 1);
         width: 20px;
@@ -249,14 +263,14 @@ export default {
         font-size: 10px;
         color: #efefef;
         position: absolute;
-        right: -15px;
+        right: -10px;
         top: -13px;
       }
     }
   }
   .iconNav {
     padding: 20px;
-    .img {
+    .iconNavImg {
       width: 24px;
       height: 24px;
     }
@@ -272,7 +286,7 @@ export default {
   }
   .useInfo {
     padding: 20px;
-    .img {
+    .useInfoImg {
       width: 18px;
       height: 18px;
     }
@@ -284,7 +298,7 @@ export default {
   .elseNav {
     padding: 10px 20px;
     border-bottom: 1px solid #efefef;
-    .img {
+    .elseNavImg {
       width: 18px;
       height: 18px;
     }

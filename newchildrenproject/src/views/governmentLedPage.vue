@@ -39,7 +39,7 @@
                 <span class="jiatinngjiaoyuColor">{{totalCount.CourseCount}}</span>
                 <span class="gray">小时</span>
               </div>
-              <div class="name">家庭教育小视频</div>
+              <div class="name">家庭教育视频</div>
             </div>
           </div>
           <div class="flex">

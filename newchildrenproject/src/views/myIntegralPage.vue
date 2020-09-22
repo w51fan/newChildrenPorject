@@ -10,18 +10,22 @@
 
 <script>
 export default {
-  name: "myIntegralPage",
+  name: 'myIntegralPage',
   data() {
     return {};
   },
   methods: {
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.push({
+        name: 'userCenterPage',
+      });
+    },
     go() {
       //   this.$router.push({
       //     name: 'loginPage',
       //   });
-    }
-  }
+    },
+  },
 };
 </script>
 

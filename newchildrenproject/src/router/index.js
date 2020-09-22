@@ -73,7 +73,16 @@ const routes = [
     name: 'learningParkPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/learningParkPage.vue'),
   },
-
+  {
+    path: '/articleDetail',
+    name: 'articleDetail',
+    component: () => import(/* webpackChunkName: "about" */ '../views/articleDetail.vue'),
+  },
+  {
+    path: '/newsDetail',
+    name: 'newsDetail',
+    component: () => import(/* webpackChunkName: "about" */ '../views/newsDetail.vue'),
+  },
 ];
 
 const router = new VueRouter({

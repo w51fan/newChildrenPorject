@@ -354,6 +354,9 @@ export default {
       // return this.$store.state.common.cityId;
       return 2018;
     },
+    PreCurrentPath() {
+      return this.$store.state.common.PreCurrentPath;
+    },
   },
   watch: {
     activeTab(val) {
@@ -391,7 +394,7 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: 'homePage',
+        name: this.PreCurrentPath ? this.PreCurrentPath : 'homePage',
       });
     },
     goDetail(childrenHome) {
