@@ -27,9 +27,10 @@
                     <img
                       :src="dianzanIcon"
                       style="width: 16px;height: 17px;margin-top: 20px;margin-right: 10px;margin-left: 60px;"
+                      class="gry"
                       alt
                     />
-                    <div style="color:#666666;font-size:12px;">点赞</div>
+                    <div style="color:#666666;font-size:12px;" @click="dianZanFun">点赞</div>
                     <div style="color:#666666;font-size:12px;">{{article.dianzanNum}}W</div>
                     <img
                       :src="fensxiangIcon"
@@ -64,9 +65,10 @@
                     <img
                       :src="dianzanIcon"
                       style="width: 16px;height: 17px;margin-top: 20px;margin-right: 10px;margin-left: 60px;"
+                      class="gry"
                       alt
                     />
-                    <div style="color:#666666;font-size:12px;">点赞</div>
+                    <div style="color:#666666;font-size:12px;" @click="dianZanFun">点赞</div>
                     <div style="color:#666666;font-size:12px;">{{article.dianzanNum}}W</div>
                     <img
                       :src="fensxiangIcon"
@@ -101,9 +103,10 @@
                     <img
                       :src="dianzanIcon"
                       style="width: 16px;height: 17px;margin-top: 20px;margin-right: 10px;margin-left: 60px;"
+                      class="gry"
                       alt
                     />
-                    <div style="color:#666666;font-size:12px;">点赞</div>
+                    <div style="color:#666666;font-size:12px;" @click="dianZanFun">点赞</div>
                     <div style="color:#666666;font-size:12px;">{{article.dianzanNum}}W</div>
                     <img
                       :src="fensxiangIcon"
@@ -123,49 +126,50 @@
 
 <script>
 export default {
-  name: "learningParkPage",
+  name: 'learningParkPage',
   data() {
     return {
       autoplay: false,
-      dianzanIcon: require("../assets/icon_dianzan_sel@2x.png"),
-      fensxiangIcon: require("../assets/icon_fensxiang@2x.png"),
+      dianzanIcon: require('../assets/icon_dianzan_sel@2x.png'),
+      fensxiangIcon: require('../assets/icon_fensxiang@2x.png'),
       videoUrl:
-        "http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4",
+        'http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4',
       articlelist: [
         {
-          NewsThumbnail: require("../assets/icon_shipin@2x.png"),
-          Title: "青少年红色爱国主义基地",
-          subTitle: "由市创文办、市民政局、邵阳经开区",
-          dianzanNum: "4.2",
+          NewsThumbnail: require('../assets/icon_shipin@2x.png'),
+          Title: '青少年红色爱国主义基地',
+          subTitle: '由市创文办、市民政局、邵阳经开区',
+          dianzanNum: '4.2',
           Url:
-            "http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4"
+            'http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4',
         },
         {
-          NewsThumbnail: require("../assets/img_shaoyang@2x.png"),
-          Title: "“童享蓝天，放飞梦想”",
-          subTitle: "由市创文办、市民政局、邵阳经开区",
-          dianzanNum: "4.2",
+          NewsThumbnail: require('../assets/img_shaoyang@2x.png'),
+          Title: '“童享蓝天，放飞梦想”',
+          subTitle: '由市创文办、市民政局、邵阳经开区',
+          dianzanNum: '4.2',
           Url:
-            "http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4"
+            'http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4',
         },
         {
-          NewsThumbnail: require("../assets/icon_shipin@2x.png"),
-          Title: "青少年红色爱国主义基地",
-          subTitle: "由市创文办、市民政局、邵阳经开区",
-          dianzanNum: "4.2",
+          NewsThumbnail: require('../assets/icon_shipin@2x.png'),
+          Title: '青少年红色爱国主义基地',
+          subTitle: '由市创文办、市民政局、邵阳经开区',
+          dianzanNum: '4.2',
           Url:
-            "http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4"
-        }
-      ]
+            'http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4',
+        },
+      ],
     };
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "homePage"
+        name: 'homePage',
       });
-    }
-  }
+    },
+    dianZanFun() {},
+  },
 };
 </script>
 
@@ -190,6 +194,9 @@ export default {
         text-align: left;
         padding: 10px;
         flex: 1;
+      }
+      .gry {
+        color: rgba(205, 205, 205, 1);
       }
     }
   }

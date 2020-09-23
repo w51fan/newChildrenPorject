@@ -15,7 +15,7 @@
     <div class="gap"></div>-->
     <div class="headBar">
       <img class="headerImg" src="../assets/img_bg_zhengfuzhudao@2x.png" alt />
-      <div class="headerText">邵阳市民政儿童关爱</div>
+      <div class="headerText">{{cityName}}民政儿童关爱</div>
       <div class="headBarInteview">
         <div class="warp">
           <div class="titleText">儿童关爱统计数据</div>
@@ -133,6 +133,7 @@ export default {
   data() {
     return {
       selectedNav: 'governmentLedPage',
+      cityName: '邵阳市',
       imgList: [],
       tabList: [],
       newsList: [],

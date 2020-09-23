@@ -24,12 +24,12 @@
     </div>
     <div class="statisticsData">
       <div>
-        <div style="color:rgba(210, 30, 25, 1);font-size: 18px;font-weight: 600;">2387</div>
+        <div style="color:rgba(210, 30, 25, 1);font-size: 18px;font-weight: 600;">{{statisticsData.childrenHomeNum}}</div>
         <div style="color: rgba(102, 102, 102, 1);">邵阳儿童之家（个）</div>
       </div>
       <div style="width: 1px;height: 25px;background: rgba(218, 218, 218, 0.8);margin-top: 10px;"></div>
       <div>
-        <div style="color:rgba(107, 192, 60, 1);font-size: 18px;font-weight: 600;">32394</div>
+        <div style="color:rgba(107, 192, 60, 1);font-size: 18px;font-weight: 600;">{{statisticsData.activityNum}}</div>
         <div style="color: rgba(102, 102, 102, 1);">开展关爱活动（次）</div>
       </div>
     </div>
@@ -102,6 +102,10 @@ export default {
       seriesList: [1260, 200, 1570, 8670, 570, 1150, 1350, 969],
       maxNum: 10000,
       selectedNav: 'homePage',
+      statisticsData: {
+        childrenHomeNum: 2387,
+        activityNum: 32394,
+      },
     };
   },
   computed: {

@@ -5,6 +5,15 @@
         <div class="navTitle">我的积分</div>
       </template>
     </van-nav-bar>
+    <div class="myIntegralList">
+      <div v-for="(myIntegral,index) in myIntegralList" :key="index" class="flex" style="border-bottom: 1px solid rgba(151, 151, 151, 0.3);padding: 10px 10px;margin: 0 10px;">
+        <div style="flex:4;">
+          <div class="text">{{myIntegral.name}}</div>
+          <div class="time">{{myIntegral.time}}</div>
+        </div>
+        <div class="integral">{{myIntegral.integral}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,7 +21,20 @@
 export default {
   name: 'myIntegralPage',
   data() {
-    return {};
+    return {
+      myIntegralList: [
+        {
+          name: '参与双沟桥村童享蓝天，关注留守儿童活动',
+          time: '2020-08-26',
+          integral: 1,
+        },
+        {
+          name: '参与双沟桥村童享蓝天，关注留守儿童活动',
+          time: '2020-08-26',
+          integral: 1,
+        },
+      ],
+    };
   },
   methods: {
     onClickLeft() {
@@ -34,6 +56,29 @@ export default {
   .navTitle {
     font-size: 18px;
     font-weight: 600;
+  }
+  .flex {
+    display: flex;
+  }
+  .myIntegralList {
+    .text {
+      color: rgba(6, 25, 44, 1);
+      font-size: 14px;
+      text-align: left;
+      padding-bottom: 5px;
+    }
+    .time {
+      color: rgba(155, 155, 155, 1);
+      font-size: 14px;
+      text-align: left;
+    }
+    .integral {
+      color: rgba(6, 25, 44, 1);
+      font-size: 14px;
+      text-align: right;
+      line-height: 35px;
+      flex:1;
+    }
   }
 }
 </style>
