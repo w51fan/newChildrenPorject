@@ -106,34 +106,39 @@
       </div>
     </div>
     <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%;">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
 // import { getArticleList } from '@/api/home';
 // import bottomNav from './bottomNav';
-import bottomNavPage from "./bottomNavPage.vue";
+import bottomNavPage from './bottomNavPage.vue';
 
 export default {
-  name: "growthStoryPage",
+  name: 'growthStoryPage',
   components: {
-    bottomNavPage
+    bottomNavPage,
   },
   data() {
     return {
-      selected: "1",
-      selectedNav: "growthStoryPage",
+      selected: '1',
+      selectedNav: 'growthStoryPage',
       articlelist: [],
       showOverlay: false,
       showList: true,
-      articleContent: "",
-      articleTitle: "",
+      articleContent: '',
+      articleTitle: '',
       loading: false,
       finished: false,
       refreshing: false,
       pageNumber: 1,
       pageSize: 10,
-      total: "",
+      total: '',
       // areaItems: [],
       areaItems: [
         {
@@ -141,46 +146,46 @@ export default {
           children: [
             {
               ActivityCount: 0,
-              text: "横木社区"
+              text: '横木社区',
             },
             {
               ActivityCount: 1,
               children: [
                 {
                   ActivityCount: 0,
-                  text: "东塔社区"
+                  text: '东塔社区',
                 },
                 {
                   ActivityCount: 0,
-                  text: "百寿亭社区"
+                  text: '百寿亭社区',
                 },
                 {
                   ActivityCount: 0,
-                  text: "建设路社区"
+                  text: '建设路社区',
                 },
                 {
                   ActivityCount: 0,
-                  text: "麻子洼社区"
+                  text: '麻子洼社区',
                 },
                 {
                   ActivityCount: 1,
-                  text: "三眼井社区   "
+                  text: '三眼井社区   ',
                 },
                 {
                   ActivityCount: 0,
-                  text: "砂子坡社区"
-                }
+                  text: '砂子坡社区',
+                },
               ],
-              text: "汽车站街道  "
-            }
+              text: '汽车站街道  ',
+            },
           ],
-          text: "双清区"
-        }
+          text: '双清区',
+        },
       ],
-      showCurrentDown: "",
-      showSecondCurrentDown: "",
-      showChild: "",
-      showSecondChild: ""
+      showCurrentDown: '',
+      showSecondCurrentDown: '',
+      showChild: '',
+      showSecondChild: '',
     };
   },
   watch: {
@@ -202,23 +207,23 @@ export default {
       //     console.log('getTotalCount', err);
       //     this.showOverlay = false;
       //   });
-    }
+    },
   },
   computed: {
     cityId() {
       return this.$store.state.common.cityId;
-    }
+    },
   },
   mounted() {
-    // this.showOverlay = true;
+    this.showOverlay = true;
     if (!this.cityId) {
       this.$store.commit(
-        "common/getCityId",
-        window.localStorage.getItem("cityId") - 0
+        'common/getCityId',
+        window.localStorage.getItem('cityId') - 0,
       );
       // this.cityId = window.localStorage.getItem("cityId");
     }
-    console.log("this.cityId", this.cityId);
+    console.log('this.cityId', this.cityId);
     // getArticleList(this.cityId, 1, this.pageNumber, this.pageSize)
     //   .then(res => {
     //     console.log("getArticleList", res);
@@ -230,11 +235,12 @@ export default {
     //     console.log("getTotalCount", err);
     //     this.showOverlay = false;
     //   });
+    this.showOverlay = false;
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "homePage"
+        name: 'homePage',
       });
     },
     getDate(date) {
@@ -246,11 +252,11 @@ export default {
     },
     viewDetail(row) {
       this.$router.push({
-        name: "articleDetail",
+        name: 'articleDetail',
         query: {
           id: row.Id,
-          currentPath: "growthStoryPage"
-        }
+          currentPath: 'growthStoryPage',
+        },
       });
     },
     // eslint-disable-next-line no-unused-vars
@@ -290,7 +296,7 @@ export default {
     onRefresh() {
       // 清空列表数据
       this.finished = false;
-      console.log("22");
+      console.log('22');
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
@@ -298,8 +304,8 @@ export default {
     },
     collapseDown(data, index) {
       if (this.showCurrentDown === index) {
-        this.showCurrentDown = "";
-        this.showChild = "";
+        this.showCurrentDown = '';
+        this.showChild = '';
       } else {
         this.showCurrentDown = index;
         this.showChild = index;
@@ -309,8 +315,8 @@ export default {
     },
     collapseSecondDown(data, index) {
       if (this.showSecondCurrentDown === index) {
-        this.showSecondCurrentDown = "";
-        this.showSecondChild = "";
+        this.showSecondCurrentDown = '';
+        this.showSecondChild = '';
       } else {
         this.showSecondCurrentDown = index;
         this.showSecondChild = index;
@@ -324,21 +330,21 @@ export default {
           break;
         case 2:
           this.$router.push({
-            name: "myIntegralPage"
+            name: 'myIntegralPage',
           });
           break;
         case 3:
           break;
         case 4:
           this.$router.push({
-            name: "volunteersListPage"
+            name: 'volunteersListPage',
           });
           break;
         default:
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

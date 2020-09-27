@@ -559,3 +559,86 @@ export const getTopSocialStationList = function (cityId) {
     method: 'get',
   });
 };
+
+// 走访记录列表
+export const getVisitList = function (token) {
+  return axios.request({
+    url: `${config.hostApi}/visit/list?token=${token}`,
+    method: 'get',
+  });
+};
+
+// 走访记录详情接口
+export const getVisitDetail = function (id) {
+  return axios.request({
+    url: `${config.hostApi}/visit/detail?id=${id}`,
+    method: 'get',
+  });
+};
+
+// 添加走访记录
+export const addVisit = function (visit) {
+  return axios.request({
+    url: `${config.hostApi}/visit/add`,
+    data: visit,
+    method: 'post',
+  });
+};
+
+// 编辑走访记录
+// token,
+// id,
+// name,
+// phone,
+// address, 留守儿童家庭地址
+// date, 走访时间
+// objective, //非必填 走访目的
+// record, //非必填 走访过程简要记录
+export const editVisit = function (visit) {
+  return axios.request({
+    url: `${config.hostApi}/visit/edit`,
+    data: visit,
+    method: 'post',
+  });
+};
+
+// 删除走访记录
+export const deleteVisit = function (token, id) {
+  return axios.request({
+    url: `${config.hostApi}/visit/delete?token=${token}&id=${id}`,
+    method: 'get',
+  });
+};
+
+// 荣誉标兵列表接口
+export const getAwardList = function (cityId, type, pageNumber, pageSize) {
+  return axios.request({
+    url: `${config.hostApi}/award/list?cityId=${cityId}&type=${type}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    method: 'get',
+  });
+};
+
+// 荣誉标兵详情
+export const getAwardDetail = function (Id) {
+  return axios.request({
+    url: `${config.hostApi}/award/detail?Id=${Id}`,
+    method: 'get',
+  });
+};
+
+// 红色爱国教育列表
+export const getPatrioticList = function (pageNumber, pageSize) {
+  return axios.request({
+    url:
+      `${config.hostApi}/patriotic/list?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    method: 'get',
+  });
+};
+
+// 点赞课程
+export const patrioticLikes = function (token, id) {
+  return axios.request({
+    url: `${config.hostApi}/patriotic/likes?token=${token}&id=${id}`,
+    method: 'get',
+  });
+};

@@ -36,48 +36,52 @@
 
 <script>
 export default {
-  name: "volunteersListPage",
+  name: 'volunteersListPage',
   data() {
     return {
-      areaName: "邵阳市",
+      areaName: '邵阳市',
       volunteersList: [
         {
-          name: "含课件",
-          time: "3个月",
-          integral: "3333",
-          img: require("../assets/img_ertong01@2x.png"),
-          id: 1
+          name: '含课件',
+          time: '3个月',
+          integral: '3333',
+          img: require('../assets/img_ertong01@2x.png'),
+          id: 1,
         },
         {
-          name: "洗洁精哦不知道炒菜",
-          time: "3个月",
-          integral: "3333",
-          img: require("../assets/img_ertong01@2x.png"),
-          id: 2
+          name: '洗洁精哦不知道炒菜',
+          time: '3个月',
+          integral: '3333',
+          img: require('../assets/img_ertong01@2x.png'),
+          id: 2,
         },
         {
-          name: "与会",
-          time: "3个月",
-          integral: "3333",
-          img: require("../assets/img_ertong01@2x.png"),
-          id: 3
-        }
-      ]
+          name: '与会',
+          time: '3个月',
+          integral: '3333',
+          img: require('../assets/img_ertong01@2x.png'),
+          id: 3,
+        },
+      ],
     };
   },
   methods: {
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.push({
+        name: 'homePage',
+      });
+    },
     go() {
       //   this.$router.push({
       //     name: 'loginPage',
       //   });
     },
     detail(volunteer) {
-        this.$router.push({
-          name: 'volunteerDetailPage',
-        });
-    }
-  }
+      this.$router.push({
+        name: 'volunteerDetailPage',
+      });
+    },
+  },
 };
 </script>
 

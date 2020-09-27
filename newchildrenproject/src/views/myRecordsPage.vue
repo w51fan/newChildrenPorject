@@ -1,5 +1,5 @@
 <template>
-  <div class="userFeedbackPage">
+  <div class="myRecordsPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
       <template #title>
         <div class="navTitle">我的记录</div>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'userFeedbackPage',
+  name: 'myRecordsPage',
   data() {
     return {};
   },
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="less">
-.userFeedbackPage {
+.myRecordsPage {
   .navTitle {
     font-size: 18px;
     font-weight: 600;

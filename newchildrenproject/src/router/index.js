@@ -83,6 +83,46 @@ const routes = [
     name: 'newsDetail',
     component: () => import(/* webpackChunkName: "about" */ '../views/newsDetail.vue'),
   },
+  {
+    path: '/courseDetailPage',
+    name: 'courseDetailPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/courseDetailPage.vue'),
+  },
+  {
+    path: '/lessonPage',
+    name: 'lessonPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/lessonPage.vue'),
+  },
+  {
+    path: '/myRecordsListPage',
+    name: 'myRecordsListPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/myRecordsListPage.vue'),
+  },
+  {
+    path: '/myRecordsPage',
+    name: 'myRecordsPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/myRecordsPage.vue'),
+  },
+  {
+    path: '/growthRecordPage',
+    name: 'growthRecordPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/growthRecordPage.vue'),
+  },
+  {
+    path: '/learningRecordsPage',
+    name: 'learningRecordsPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/learningRecordsPage.vue'),
+  },
+  {
+    path: '/accountSettingPage',
+    name: 'accountSettingPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/accountSettingPage.vue'),
+  },
+  {
+    path: '/myMembersListPage',
+    name: 'myMembersListPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/myMembersListPage.vue'),
+  },
 ];
 
 const router = new VueRouter({

@@ -70,7 +70,7 @@ export default {
     return {
       pageTitle: '验证码登陆',
       code: '',
-      tel: '1382440484816',
+      tel: '13824404816',
       loginType: 1,
       password: '',
       phoneErr: '',

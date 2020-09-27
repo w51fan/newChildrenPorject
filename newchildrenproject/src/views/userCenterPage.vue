@@ -14,10 +14,10 @@
               <div class="name">abbc</div>
               <div class="roleName">管理员</div>
             </div>
-            <van-icon class="settingIcon" name="setting-o" />
+            <van-icon class="settingIcon" name="setting-o" @click="go(7)" />
           </div>
           <div class="flex">
-            <div class="infoTtem" @click="go(0)">
+            <div class="infoTtem" @click="go(8)">
               <div>
                 10
                 <span style="font-size: 10px;">个</span>
@@ -45,28 +45,28 @@
       </div>
     </div>
     <div class="headerBottomNav flex space-between">
-      <div class="flex item">
+      <div class="flex item" @click="go(4)">
         <div style="max-width: 70px;position: relative;">
           <div>我的记录</div>
           <div class="tipsNum">25</div>
         </div>
       </div>
       <div class="gapbar"></div>
-      <div class="flex item">
+      <div class="flex item" @click="go(5)">
         <div style="max-width: 70px;position: relative;">
           <div>走访记录</div>
           <div class="tipsNum">25</div>
         </div>
       </div>
       <div class="gapbar"></div>
-      <div class="flex item">
+      <div class="flex item" @click="go(6)">
         <div style="max-width: 70px;position: relative;">
           <div>成长记录</div>
           <div class="tipsNum">25</div>
         </div>
       </div>
       <div class="gapbar"></div>
-      <div class="flex item">
+      <div class="flex item" @click="go(7)">
         <div style="max-width: 70px;position: relative;">
           <div>学习记录</div>
           <div class="tipsNum">25</div>
@@ -100,6 +100,11 @@
     </div>
     <div class="bottomText">全学家儿童关爱平台</div>
     <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%;">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -157,6 +162,7 @@ export default {
           name: '退出登录',
         },
       ],
+      showOverlay: false,
     };
   },
   methods: {
@@ -184,6 +190,31 @@ export default {
         case 3:
           this.$router.push({
             name: 'userFeedbackPage',
+          });
+          break;
+        case 4:
+          this.$router.push({
+            name: 'myRecordsPage',
+          });
+          break;
+        case 5:
+          this.$router.push({
+            name: 'myRecordsListPage',
+          });
+          break;
+        case 6:
+          this.$router.push({
+            name: 'growthRecordPage',
+          });
+          break;
+        case 7:
+          this.$router.push({
+            name: 'accountSettingPage',
+          });
+          break;
+        case 8:
+          this.$router.push({
+            name: 'myMembersListPage',
           });
           break;
         default:

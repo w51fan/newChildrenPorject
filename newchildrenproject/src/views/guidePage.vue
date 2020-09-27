@@ -61,8 +61,8 @@ export default {
       position: absolute;
       font-size: 40px;
       color: #feffff;
-      top: 26vw;
-      left: 12vh;
+      top: 10vw;
+      width: 100%;
     }
     .headBarInteview {
       background: #fff;
