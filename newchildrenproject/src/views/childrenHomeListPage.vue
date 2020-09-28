@@ -1,20 +1,16 @@
 <template>
-  <div class="userFeedbackPage">
+  <div class="childrenHomeListPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
       <template #title>
-        <div class="navTitle">用户反馈</div>
+        <div class="navTitle">儿童之家列表</div>
       </template>
     </van-nav-bar>
-    <van-field v-model="message" rows="6" autosize type="textarea" placeholder="输入您的意见或建议…" />
-    <div class="submitBtn" @click="go">
-      <div>提交意见</div>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'userFeedbackPage',
+  name: 'childrenHomeListPage',
   data() {
     return {};
   },
@@ -34,7 +30,7 @@ export default {
 </script>
 
 <style lang="less">
-.userFeedbackPage {
+.childrenHomeListPage {
   .navTitle {
     font-size: 18px;
     font-weight: 600;

@@ -123,6 +123,21 @@ const routes = [
     name: 'myMembersListPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/myMembersListPage.vue'),
   },
+  {
+    path: '/childrenHomeListPage',
+    name: 'childrenHomeListPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/childrenHomeListPage.vue'),
+  },
+  {
+    path: '/addRecordPage',
+    name: 'addRecordPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/addRecordPage.vue'),
+  },
+  {
+    path: '/recordDetailPage',
+    name: 'recordDetailPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/recordDetailPage.vue'),
+  },
 ];
 
 const router = new VueRouter({

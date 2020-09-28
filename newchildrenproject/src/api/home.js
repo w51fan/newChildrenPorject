@@ -580,7 +580,7 @@ export const getVisitDetail = function (id) {
 export const addVisit = function (visit) {
   return axios.request({
     url: `${config.hostApi}/visit/add`,
-    data: visit,
+    data: qs.stringify(visit),
     method: 'post',
   });
 };
@@ -597,7 +597,7 @@ export const addVisit = function (visit) {
 export const editVisit = function (visit) {
   return axios.request({
     url: `${config.hostApi}/visit/edit`,
-    data: visit,
+    data: qs.stringify(visit),
     method: 'post',
   });
 };

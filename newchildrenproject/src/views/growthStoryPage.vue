@@ -1,13 +1,18 @@
 <template>
   <div class="growthStoryPage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">成长故事</div>
       </template>
     </van-nav-bar>
     <div class="pageText">荣誉标兵</div>
     <div class="navImgList flex wrap">
-      <div class="item flex space-between fudaoyuanBgColor">
+      <div class="item flex space-between fudaoyuanBgColor" @click="go(1)">
         <div class="warp">
           <div class="text fudaoyuanColor">优秀儿童辅导员</div>
           <div class="quchakan fudaoyuanColorchakan">去查看></div>
@@ -16,45 +21,54 @@
           <img
             src="../assets/icon_rongyubiaobin01@2x.png"
             alt
-            style="max-width: 46px;height: 40px;padding: 10px 0;"
+            style="max-width: 46px; height: 40px; padding: 10px 0"
           />
-          <div style="width:8px;height:100%;background: #fff;"></div>
+          <div style="width: 8px; height: 100%; background: #fff"></div>
         </div>
       </div>
-      <div class="item flex space-between ertongzhurenBgColor">
+      <div class="item flex space-between ertongzhurenBgColor" @click="go(2)">
         <div class="warp">
-          <div class="text ertongzhurenColor" style="color:rgba(0, 122, 255, 1);">优秀儿童主任</div>
+          <div
+            class="text ertongzhurenColor"
+            style="color: rgba(0, 122, 255, 1)"
+          >
+            优秀儿童主任
+          </div>
           <div class="quchakan ertongzhurenColorchakan">去查看></div>
         </div>
         <img
           src="../assets/icon_rongyubiaobin02@2x.png"
           alt
-          style="max-width: 46px;padding: 10px 0;"
+          style="max-width: 46px; padding: 10px 0"
         />
       </div>
-      <div class="item flex space-between shaonianBgColor">
+      <div class="item flex space-between shaonianBgColor" @click="go(3)">
         <div class="warp">
-          <div class="text shaonianColor" style="color:rgba(20, 18, 100, 1);">最美少年</div>
+          <div class="text shaonianColor" style="color: rgba(20, 18, 100, 1)">
+            最美少年
+          </div>
           <div class="quchakan shaonianColorchakan">去查看></div>
         </div>
         <div class="flex">
           <img
             src="../assets/icon_rongyubiaobin03@2x.png"
             alt
-            style="max-width: 46px;padding: 10px 0;"
+            style="max-width: 46px; padding: 10px 0"
           />
-          <div style="width:8px;height:100%;background: #fff;"></div>
+          <div style="width: 8px; height: 100%; background: #fff"></div>
         </div>
       </div>
       <div class="item flex space-between xuexileyuanBgColor" @click="go(4)">
         <div class="warp">
-          <div class="text xuexileyuanColor" style="color:rgba(237, 1, 1, 1);">优秀志愿者</div>
+          <div class="text xuexileyuanColor" style="color: rgba(237, 1, 1, 1)">
+            优秀志愿者
+          </div>
           <div class="quchakan xuexileyuanColorchakan">去查看></div>
         </div>
         <img
           src="../assets/icon_rongyubiaobin04@2x.png"
           alt
-          style="max-width: 69px;padding: 10px 0;"
+          style="max-width: 69px; padding: 10px 0"
         />
       </div>
     </div>
@@ -62,12 +76,12 @@
     <div class="zhiyuanzherenshuText">志愿者人数统计</div>
     <div class="gap gapone"></div>
     <div>
-      <div v-for="(area,index) in areaItems" :key="index">
-        <div class="flex space-between" style="padding: 20px;">
-          <div>{{area.text}}</div>
-          <div v-if="area.ActivityCount>0" @click="collapseDown(area,index)">
-            ({{area.ActivityCount}}人)
-            <van-icon name="arrow-down" v-if="showCurrentDown===index" />
+      <div v-for="(area, index) in areaItems" :key="index">
+        <div class="flex space-between" style="padding: 20px">
+          <div>{{ area.text }}</div>
+          <div v-if="area.ActivityCount > 0" @click="collapseDown(area, index)">
+            ({{ area.ActivityCount }}人)
+            <van-icon name="arrow-down" v-if="showCurrentDown === index" />
             <van-icon name="arrow" v-else />
           </div>
           <div v-else>
@@ -76,13 +90,21 @@
           </div>
         </div>
         <div class="gap gapone"></div>
-        <div v-if="showChild===index">
-          <div v-for="(child,turn) in area.children" :key="turn">
-            <div class="flex space-between" style="padding: 5px 25px;">
-              <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{child.text}}</div>
-              <div v-if="child.ActivityCount>0" @click="collapseSecondDown(child,turn)">
-                ({{child.ActivityCount}}人)
-                <van-icon name="arrow-down" v-if="showSecondCurrentDown===turn" />
+        <div v-if="showChild === index">
+          <div v-for="(child, turn) in area.children" :key="turn">
+            <div class="flex space-between" style="padding: 5px 25px">
+              <div style="border-left: 1px solid #676767; padding-left: 5px">
+                --{{ child.text }}
+              </div>
+              <div
+                v-if="child.ActivityCount > 0"
+                @click="collapseSecondDown(child, turn)"
+              >
+                ({{ child.ActivityCount }}人)
+                <van-icon
+                  name="arrow-down"
+                  v-if="showSecondCurrentDown === turn"
+                />
                 <van-icon name="arrow" v-else />
               </div>
               <div v-else>
@@ -91,11 +113,17 @@
               </div>
             </div>
             <div class="gap gapone"></div>
-            <div v-if="showSecondChild===turn">
-              <div v-for="(tree,temp) in child.children" :key="temp">
-                <div class="flex space-between" style="padding: 5px 45px;">
-                  <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{tree.text}}</div>
-                  <div v-if="tree.ActivityCount>0">({{tree.ActivityCount}}人)</div>
+            <div v-if="showSecondChild === turn">
+              <div v-for="(tree, temp) in child.children" :key="temp">
+                <div class="flex space-between" style="padding: 5px 45px">
+                  <div
+                    style="border-left: 1px solid #676767; padding-left: 5px"
+                  >
+                    --{{ tree.text }}
+                  </div>
+                  <div v-if="tree.ActivityCount > 0">
+                    ({{ tree.ActivityCount }}人)
+                  </div>
                   <div v-else>(0人)</div>
                 </div>
               </div>
@@ -107,7 +135,7 @@
     </div>
     <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -308,7 +336,7 @@ export default {
         this.showChild = '';
       } else {
         this.showCurrentDown = index;
-        this.showChild = index;
+        his.showChild = index;
       }
 
       console.log(data);
@@ -325,19 +353,42 @@ export default {
       console.log(data);
     },
     go(index) {
+      // 1：优秀儿童督导员 2：优秀儿童主任 3：最美少年 4：优秀志愿者
       switch (index) {
         case 1:
+          this.$router.push({
+            name: 'volunteersListPage',
+            query: {
+              type: index,
+              titleName: '优秀儿童督导员',
+            },
+          });
           break;
         case 2:
           this.$router.push({
-            name: 'myIntegralPage',
+            name: 'volunteersListPage',
+            query: {
+              type: index,
+              titleName: '优秀儿童主任',
+            },
           });
           break;
         case 3:
+          this.$router.push({
+            name: 'volunteersListPage',
+            query: {
+              type: index,
+              titleName: '最美少年',
+            },
+          });
           break;
         case 4:
           this.$router.push({
             name: 'volunteersListPage',
+            query: {
+              type: index,
+              titleName: '优秀志愿者',
+            },
           });
           break;
         default:

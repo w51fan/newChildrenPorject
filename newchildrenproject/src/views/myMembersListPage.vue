@@ -2,7 +2,7 @@
   <div class="myMembersListPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
       <template #title>
-        <div class="navTitle">我的成员</div>
+        <div class="navTitle">我的成员列表</div>
       </template>
     </van-nav-bar>
     <div class="myRecordsList">

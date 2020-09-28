@@ -184,16 +184,18 @@ export default {
       });
     },
     dianZanFun(article, index) {
-      if (!article.Likes > 0) {
-        patrioticLikes(this.Token, article.Id)
-          .then((res) => {
-            console.log('patrioticLikes', res);
+      patrioticLikes(this.Token, article.Id)
+        .then((res) => {
+          console.log('patrioticLikes', res);
+          if (article.Likes > 0) {
+            this.articlelist[index].Likes = 0;
+          } else {
             this.articlelist[index].Likes = 1;
-          })
-          .catch((err) => {
-            console.log('patrioticLikes', err);
-          });
-      }
+          }
+        })
+        .catch((err) => {
+          console.log('patrioticLikes', err);
+        });
     },
     getPatrioticListFun() {
       getPatrioticList(this.pageNumber, this.pageSize)

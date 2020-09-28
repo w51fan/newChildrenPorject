@@ -68,6 +68,9 @@ export default {
     User() {
       return this.$store.state.common.User;
     },
+    PreCurrentPath() {
+      return this.$store.state.common.PreCurrentPath;
+    },
   },
   mounted() {
     this.userName = this.User.Name;
@@ -78,7 +81,7 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: 'userCenterPage',
+        name: this.PreCurrentPath ? this.PreCurrentPath : 'userCenterPage',
       });
     },
     logout() {
