@@ -12,11 +12,15 @@
     </van-nav-bar>
     <div class="headerInfo">
       <div class="flex">
-        <img :src="headimg" style="width: 74px; height: 74px" alt />
+        <img
+          :src="userInfo.ProfilePhoto"
+          style="width: 74px; height: 74px"
+          alt
+        />
         <div class="info">
           <div class="flex space-between">
             <div class="role flex">
-              <div class="name">abbc</div>
+              <div class="name">{{userName}}</div>
               <div class="roleName">{{ userIdentity }}</div>
             </div>
             <van-icon class="settingIcon" name="setting-o" @click="go(7)" />
@@ -24,7 +28,7 @@
           <div class="flex">
             <div class="infoTtem" @click="go(8)">
               <div>
-                10
+                {{ userInfo.ChildrenCount }}
                 <span style="font-size: 10px">个</span>
               </div>
               <div>我的成员</div>
@@ -32,7 +36,7 @@
             <div class="gapbar"></div>
             <div class="infoTtem" @click="go(2)">
               <div>
-                20
+                {{ userInfo.ActivityCount }}
                 <span style="font-size: 10px">场</span>
               </div>
               <div>我的活动</div>
@@ -40,7 +44,7 @@
             <div class="gapbar"></div>
             <div class="infoTtem" @click="go(1)">
               <div>
-                100
+                {{ userInfo.Points }}
                 <span style="font-size: 10px">分</span>
               </div>
               <div>我的积分</div>
@@ -50,31 +54,31 @@
       </div>
     </div>
     <div class="headerBottomNav flex space-between">
-      <div class="flex item" @click="go(4)">
+      <!-- <div class="flex item" @click="go(4)">
         <div style="max-width: 70px; position: relative">
           <div>我的记录</div>
-          <div class="tipsNum">25</div>
+          <div class="tipsNum">{{userInfo.Points}}</div>
         </div>
       </div>
-      <div class="gapbar"></div>
+      <div class="gapbar"></div> -->
       <div class="flex item" @click="go(5)">
         <div style="max-width: 70px; position: relative">
           <div>走访记录</div>
-          <div class="tipsNum">25</div>
+          <div class="tipsNum">{{ userInfo.VisitCount }}</div>
         </div>
       </div>
       <div class="gapbar"></div>
-      <div class="flex item" @click="go(6)">
+      <!-- <div class="flex item" @click="go(6)">
         <div style="max-width: 70px; position: relative">
           <div>成长记录</div>
-          <div class="tipsNum">25</div>
+          <div class="tipsNum">{{userInfo.Points}}</div>
         </div>
       </div>
-      <div class="gapbar"></div>
+      <div class="gapbar"></div> -->
       <div class="flex item" @click="go(7)">
         <div style="max-width: 70px; position: relative">
           <div>学习记录</div>
-          <div class="tipsNum">25</div>
+          <div class="tipsNum">{{ userInfo.LearningCount }}</div>
         </div>
       </div>
     </div>
@@ -107,64 +111,99 @@
         </div>
       </div>
     </div>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
-import { getVisitList } from '@/api/home';
+import { getVisitList, getUserInfo } from '@/api/home';
 
 export default {
   name: 'myRecordsListPage',
   data() {
     return {
       myRecordsList: [],
+      showOverlay: false,
       // eslint-disable-next-line global-require
-      headimg: require('../assets/icon_touxiang_yonghuzhongxin@2x.png'),
+      headimg: require('../assets/nohead.png'),
       // eslint-disable-next-line global-require
       addImg: require('../assets/icon_add active.png'),
       userIdentity: '',
+      userName: '',
+      userInfo: {
+        ActivityCount: 0,
+        ChildrenCount: 0,
+        LearningCount: 0,
+        Points: 0,
+        VisitCount: 0,
+        ProfilePhoto: '',
+        // growingCount: 0,
+        // myRecordsCount: 0,
+      },
     };
   },
   computed: {
     Token() {
-      return this.$store.state.common.Token;
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
     },
-    User: {
-      get() {
-        return this.$store.state.common.User;
-      },
-      set() {},
-    },
+    // User: {
+    //   get() {
+    //     return this.$store.state.common.User;
+    //   },
+    //   set() {},
+    // },
   },
   mounted() {
-    this.userIdentity = this.User.Type === 4
-      ? '儿童主任'
-      : this.User.Type === 7
-        ? '志愿者'
-        : this.User.Type === 3
-          ? '镇级管理员'
-          : this.User.Type === 2
-            ? '县级管理员'
-            : this.User.Type === 1
-              ? '市级管理员'
-              : this.User.Type === 6
-                ? '助理'
-                : this.User.Type === 11
-                  ? '家长'
-                  : this.User.Type === 12
-                    ? '社区工作服务管理员'
-                    : this.User.Type === 14
-                      ? '校儿童主任'
-                      : this.User.Type === 15
-                        ? '校儿童督导员'
-                        : '村级讲师';
-    getVisitList(this.Token)
+    this.showOverlay = true;
+    getUserInfo(this.Token)
       .then((res) => {
-        console.log('getVisitList', res);
-        this.myRecordsList = res.data.visitList;
+        console.log('getUserInfo', res);
+        this.userInfo = res.data.user;
+        this.userName = res.data.user.Name;
+        this.userInfo.ProfilePhoto = this.userInfo.ProfilePhoto === ''
+          ? this.headimg
+          : this.userInfo.ProfilePhoto;
+        this.userIdentity = this.userInfo.Type === 4
+          ? '儿童主任'
+          : this.userInfo.Type === 7
+            ? '志愿者'
+            : this.userInfo.Type === 3
+              ? '镇级管理员'
+              : this.userInfo.Type === 2
+                ? '县级管理员'
+                : this.userInfo.Type === 1
+                  ? '市级管理员'
+                  : this.userInfo.Type === 6
+                    ? '助理'
+                    : this.userInfo.Type === 11
+                      ? '家长'
+                      : this.userInfo.Type === 12
+                        ? '社区工作服务管理员'
+                        : this.userInfo.Type === 14
+                          ? '校儿童主任'
+                          : this.userInfo.Type === 15
+                            ? '校儿童督导员'
+                            : '村级讲师';
+        getVisitList(this.Token)
+          .then((res) => {
+            console.log('getVisitList', res);
+            this.myRecordsList = res.data.visitList;
+            this.showOverlay = false;
+          })
+          .catch((err) => {
+            console.log('getVisitList', err);
+            this.showOverlay = false;
+          });
       })
       .catch((err) => {
-        console.log('getVisitList', err);
+        console.log('getUserInfo', err);
+        this.showOverlay = false;
       });
   },
   filters: {
@@ -291,6 +330,7 @@ export default {
         .roleName {
           font-size: 14px;
           color: rgba(249, 249, 249, 1);
+          line-height: 24px;
         }
       }
       .settingIcon {

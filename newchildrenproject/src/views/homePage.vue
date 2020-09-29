@@ -19,8 +19,9 @@
       </div>
     </div>
     <div style="width:100%;height:10px;background:#EBECEC;"></div>
-    <div style="text-align: left;padding:20px;font-size: 16px;font-weight: 600;">
+    <div class="flex space-between" style="text-align: left;padding:20px;font-size: 16px;font-weight: 600;">
       <div>儿童关爱数据统计</div>
+      <div style="color: #989898" @click="changeCity">切换城市</div>
     </div>
     <div class="statisticsData">
       <div>
@@ -204,9 +205,9 @@ export default {
       };
     },
     cityId() {
-      console.log('governmentLedPage', this.$store.state);
-      // return this.$store.state.common.cityId;
-      return 2018;
+      return this.$store.state.common.cityId
+        ? this.$store.state.common.cityId
+        : window.localStorage.getItem('cityId');
     },
   },
   mounted() {
@@ -340,12 +341,26 @@ export default {
           break;
       }
     },
+    changeCity() {
+      this.$router.push({
+        name: 'changeCityPage',
+        query: {
+          needComeBack: true,
+        },
+      });
+    },
   },
 };
 </script>
 
 <style lang="less">
 .homePage {
+  .flex{
+    display: flex;
+  }
+  .space-between{
+    justify-content: space-between;
+  }
   .navTitle {
     font-size: 18px;
     font-weight: 600;

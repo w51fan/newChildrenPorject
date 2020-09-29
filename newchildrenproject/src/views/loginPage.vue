@@ -2,7 +2,7 @@
   <div class="loginPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft">
       <template #title>
-        <div class="navTitle">{{pageTitle}}</div>
+        <div class="navTitle">{{ pageTitle }}</div>
       </template>
     </van-nav-bar>
     <img class="logoImg" src="../assets/img_logo_denglu@2x.png" alt />
@@ -22,7 +22,7 @@
         placeholder="请输入验证码"
         :error-message="codeErr"
         input-align="left"
-        v-if="loginType===1"
+        v-if="loginType === 1"
       >
         <template #left-icon>
           <van-icon name="lock" />
@@ -35,7 +35,8 @@
             class="codeText"
             @click="getCode"
             :disabled="disabledBtn"
-          >{{codeText}}</van-button>
+            >{{ codeText }}</van-button
+          >
         </template>
       </van-field>
       <van-field
@@ -54,9 +55,21 @@
       <div>立 即 登 录</div>
     </div>
     <div class="flex space-between">
-      <div v-if="loginType===1" style="padding:0 45px;color:#9B9B9B;" @click="switchLoginType">密码登录</div>
-      <div v-else style="padding:0 45px;color:#9B9B9B;" @click="switchLoginType">验证码登录</div>
-      <div style="padding:0 45px;color:#9B9B9B;">注册</div>
+      <div
+        v-if="loginType === 1"
+        style="padding: 0 45px; color: #9b9b9b"
+        @click="switchLoginType"
+      >
+        密码登录
+      </div>
+      <div
+        v-else
+        style="padding: 0 45px; color: #9b9b9b"
+        @click="switchLoginType"
+      >
+        验证码登录
+      </div>
+      <div style="padding: 0 45px; color: #9b9b9b">注册</div>
     </div>
   </div>
 </template>
@@ -107,8 +120,8 @@ export default {
       if (this.loginType === 1) {
         // eslint-disable-next-line no-return-assign
         if (this.code === '') return (this.codeErr = '验证码不能为空');
-      // eslint-disable-next-line no-return-assign
-      } else if (this.password === '') return (this.passwordErr = '密码不能为空');
+        // eslint-disable-next-line no-return-assign
+      } else if (this.password === '') { return (this.passwordErr = '密码不能为空'); }
       this.passwordErr = '';
       this.codeErr = '';
       this.showOverlay = true;
@@ -131,6 +144,8 @@ export default {
                 // type 4:儿童主任,显示儿童之家，   1. 市级管理员 2. 县级管理员  3. 镇级管理员 4. 村级管理员 5. 村级讲师 6. 助理 7. 志愿者 11. 家长用户 12 社会救助服务管理员 显示社工服务
                 this.$store.commit('common/getUserTpye', res.data.user.Type);
                 this.$store.commit('common/SET_UserTpye', res.data.user.Type);
+                this.$store.commit('common/getCityId', res.data.user.CityId);
+                this.$store.commit('common/SET_cityId', res.data.user.CityId);
                 this.$store.commit('common/getUser', res.data.user);
                 this.showOverlay = false;
                 if (

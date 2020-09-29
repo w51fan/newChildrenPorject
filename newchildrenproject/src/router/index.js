@@ -138,6 +138,11 @@ const routes = [
     name: 'recordDetailPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/recordDetailPage.vue'),
   },
+  {
+    path: '/changeCityPage',
+    name: 'changeCityPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/changeCityPage.vue'),
+  },
 ];
 
 const router = new VueRouter({

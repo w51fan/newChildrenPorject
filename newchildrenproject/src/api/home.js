@@ -642,3 +642,21 @@ export const patrioticLikes = function (token, id) {
     method: 'get',
   });
 };
+
+// 获取成员列表
+export const getChildrenList = function (token) {
+  return axios.request({
+    url: `${config.hostApi}/manage/getChildrenList?token=${token}`,
+    method: 'get',
+  });
+};
+
+// token, content
+// 用户反馈
+export const feedback = function (data) {
+  return axios.request({
+    url: `${config.hostApi}/feedback/add`,
+    data: qs.stringify(data),
+    method: 'post',
+  });
+};

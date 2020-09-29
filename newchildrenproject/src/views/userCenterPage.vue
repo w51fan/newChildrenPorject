@@ -14,11 +14,15 @@
     </van-nav-bar>
     <div class="headerInfo">
       <div class="flex">
-        <img :src="userInfo.ProfilePhoto" style="width: 74px; height: 74px" alt />
+        <img
+          :src="userInfo.ProfilePhoto"
+          style="width: 74px; height: 74px"
+          alt
+        />
         <div class="info">
           <div class="flex space-between">
             <div class="role flex">
-              <div class="name">abbc</div>
+              <div class="name">{{userName}}</div>
               <div class="roleName">{{ userIdentity }}</div>
             </div>
             <van-icon class="settingIcon" name="setting-o" @click="go(7)" />
@@ -26,7 +30,7 @@
           <div class="flex">
             <div class="infoTtem" @click="go(8)">
               <div>
-                {{userInfo.ChildrenCount}}
+                {{ userInfo.ChildrenCount }}
                 <span style="font-size: 10px">个</span>
               </div>
               <div>我的成员</div>
@@ -34,7 +38,7 @@
             <div class="gapbar"></div>
             <div class="infoTtem" @click="go(2)">
               <div>
-                 {{userInfo.ActivityCount}}
+                {{ userInfo.ActivityCount }}
                 <span style="font-size: 10px">场</span>
               </div>
               <div>我的活动</div>
@@ -42,7 +46,7 @@
             <div class="gapbar"></div>
             <div class="infoTtem" @click="go(1)">
               <div>
-                 {{userInfo.Points}}
+                {{ userInfo.Points }}
                 <span style="font-size: 10px">分</span>
               </div>
               <div>我的积分</div>
@@ -62,7 +66,7 @@
       <div class="flex item" @click="go(5)">
         <div style="max-width: 70px; position: relative">
           <div>走访记录</div>
-          <div class="tipsNum">{{userInfo.VisitCount}}</div>
+          <div class="tipsNum">{{ userInfo.VisitCount }}</div>
         </div>
       </div>
       <div class="gapbar"></div>
@@ -76,7 +80,7 @@
       <div class="flex item" @click="go(7)">
         <div style="max-width: 70px; position: relative">
           <div>学习记录</div>
-          <div class="tipsNum">{{userInfo.LearningCount}}</div>
+          <div class="tipsNum">{{ userInfo.LearningCount }}</div>
         </div>
       </div>
     </div>
@@ -101,7 +105,7 @@
     </div>
     <div class="tenBar"></div>
     <div class="elseNav" v-for="(list, index) in settingList" :key="index">
-      <div class="flex space-between">
+      <div class="flex space-between" @click="gofun(index)">
         <div class="flex">
           <img :src="list.img" class="elseNavImg" alt />
           <div class="text">{{ list.name }}</div>
@@ -176,6 +180,7 @@ export default {
       ],
       showOverlay: false,
       userIdentity: '',
+      userName: '',
       userInfo: {
         ActivityCount: 0,
         ChildrenCount: 0,
@@ -190,42 +195,48 @@ export default {
   },
   computed: {
     Token() {
-      return this.$store.state.common.Token;
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
     },
-    User: {
-      get() {
-        return this.$store.state.common.User;
-      },
-      set() {},
-    },
+    // User: {
+    //   get() {
+    //     return this.$store.state.common.User;
+    //   },
+    //   set() {},
+    // },
   },
   mounted() {
-    this.userIdentity = this.User.Type === 4
-      ? '儿童主任'
-      : this.User.Type === 7
-        ? '志愿者'
-        : this.User.Type === 3
-          ? '镇级管理员'
-          : this.User.Type === 2
-            ? '县级管理员'
-            : this.User.Type === 1
-              ? '市级管理员'
-              : this.User.Type === 6
-                ? '助理'
-                : this.User.Type === 11
-                  ? '家长'
-                  : this.User.Type === 12
-                    ? '社区工作服务管理员'
-                    : this.User.Type === 14
-                      ? '校儿童主任'
-                      : this.User.Type === 15
-                        ? '校儿童督导员'
-                        : '村级讲师';
+    this.showOverlay = true;
     getUserInfo(this.Token)
       .then((res) => {
         console.log('getUserInfo', res);
         this.userInfo = res.data.user;
-        this.userInfo.ProfilePhoto = this.userInfo.ProfilePhoto === '' ? this.headimg : this.userInfo.ProfilePhoto;
+        this.userName = res.data.user.Name;
+        this.userInfo.ProfilePhoto = this.userInfo.ProfilePhoto === ''
+          ? this.headimg
+          : this.userInfo.ProfilePhoto;
+        this.userIdentity = this.userInfo.Type === 4
+          ? '儿童主任'
+          : this.userInfo.Type === 7
+            ? '志愿者'
+            : this.userInfo.Type === 3
+              ? '镇级管理员'
+              : this.userInfo.Type === 2
+                ? '县级管理员'
+                : this.userInfo.Type === 1
+                  ? '市级管理员'
+                  : this.userInfo.Type === 6
+                    ? '助理'
+                    : this.userInfo.Type === 11
+                      ? '家长'
+                      : this.userInfo.Type === 12
+                        ? '社区工作服务管理员'
+                        : this.userInfo.Type === 14
+                          ? '校儿童主任'
+                          : this.userInfo.Type === 15
+                            ? '校儿童督导员'
+                            : '村级讲师';
         this.showOverlay = false;
       })
       .catch((err) => {
@@ -279,13 +290,61 @@ export default {
         case 7:
           this.$store.commit('common/getPreCurrentPath', 'userCenterPage');
           this.$router.push({
-            name: 'learningRecordsPage',
+            name: 'accountSettingPage',
           });
           break;
         case 8:
           this.$router.push({
             name: 'myMembersListPage',
           });
+          break;
+        default:
+          break;
+      }
+    },
+    gofun(index) {
+      switch (index) {
+        case 0:
+          this.$store.commit('common/getPreCurrentPath', 'userCenterPage');
+          this.$router.push({
+            // name: 'childrenHomePageIndex',
+            name: 'childrenHomeListPage',
+          });
+          break;
+        case 1:
+          this.$router.push({
+            name: 'myIntegralPage',
+          });
+          break;
+        case 2:
+          // Dialog.confirm({
+          //   title: '标题',
+          //   message: '弹窗内容',
+          // })
+          //   .then(() => {
+          //     // on confirm
+          //   })
+          //   .catch(() => {
+          //     // on cancel
+          //   });
+          this.$dialog
+            .confirm({
+              // title: '提示',
+              message: '确定退出登录？',
+            })
+            .then(() => {
+              // on confirm
+              console.log('queding');
+              window.localStorage.removeItem('Token');
+              window.localStorage.removeItem('cityId');
+              this.$router.push({
+                name: 'guidePage',
+              });
+            })
+            .catch(() => {
+              // on cancel
+              console.log('guanbi ');
+            });
           break;
         default:
           break;
@@ -327,6 +386,7 @@ export default {
         .roleName {
           font-size: 14px;
           color: rgba(249, 249, 249, 1);
+          line-height: 24px;
         }
       }
       .settingIcon {

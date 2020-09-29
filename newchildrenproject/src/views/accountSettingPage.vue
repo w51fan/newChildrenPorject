@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { updateUser, uploadImg } from '@/api/home';
+import { updateUser, uploadImg, getUserInfo } from '@/api/home';
 
 export default {
   name: 'accountSettingPage',
@@ -63,20 +63,56 @@ export default {
   },
   computed: {
     Token() {
-      return this.$store.state.common.Token;
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
     },
-    User() {
-      return this.$store.state.common.User;
-    },
+    // User() {
+    //   return this.$store.state.common.User;
+    // },
     PreCurrentPath() {
       return this.$store.state.common.PreCurrentPath;
     },
   },
   mounted() {
-    this.userName = this.User.Name;
+    // this.userName = this.User.Name;
     // eslint-disable-next-line no-nested-ternary
-    this.userIdentity = this.User.Type === 4 ? '儿童主任' : this.User.Type === 7 ? '志愿者' : this.User.Type === 3 ? '镇级管理员' : this.User.Type === 2 ? '县级管理员' : this.User.Type === 1 ? '市级管理员' : this.User.Type === 6 ? '助理' : this.User.Type === 11 ? '家长' : this.User.Type === 12 ? '社区工作服务管理员' : this.User.Type === 14 ? '校儿童主任' : this.User.Type === 15 ? '校儿童督导员' : '村级讲师';
-    this.userImg = this.User.ProfilePhoto !== '' ? this.User.ProfilePhoto : this.noheadImg;
+    // this.userIdentity = this.User.Type === 4 ? '儿童主任' : this.User.Type === 7 ? '志愿者' : this.User.Type === 3 ? '镇级管理员' : this.User.Type === 2 ? '县级管理员' : this.User.Type === 1 ? '市级管理员' : this.User.Type === 6 ? '助理' : this.User.Type === 11 ? '家长' : this.User.Type === 12 ? '社区工作服务管理员' : this.User.Type === 14 ? '校儿童主任' : this.User.Type === 15 ? '校儿童督导员' : '村级讲师';
+    // this.userImg = this.User.ProfilePhoto !== '' ? this.User.ProfilePhoto : this.noheadImg;
+    getUserInfo(this.Token)
+      .then((res) => {
+        console.log('getUserInfo', res);
+        this.userInfo = res.data.user;
+        this.userInfo.ProfilePhoto = this.userInfo.ProfilePhoto === ''
+          ? this.headimg
+          : this.userInfo.ProfilePhoto;
+        this.userName = res.data.user.Name;
+        this.userIdentity = this.userInfo.Type === 4
+          ? '儿童主任'
+          : this.userInfo.Type === 7
+            ? '志愿者'
+            : this.userInfo.Type === 3
+              ? '镇级管理员'
+              : this.userInfo.Type === 2
+                ? '县级管理员'
+                : this.userInfo.Type === 1
+                  ? '市级管理员'
+                  : this.userInfo.Type === 6
+                    ? '助理'
+                    : this.userInfo.Type === 11
+                      ? '家长'
+                      : this.userInfo.Type === 12
+                        ? '社区工作服务管理员'
+                        : this.userInfo.Type === 14
+                          ? '校儿童主任'
+                          : this.userInfo.Type === 15
+                            ? '校儿童督导员'
+                            : '村级讲师';
+      })
+      .catch((err) => {
+        console.log('getUserInfo', err);
+        this.showOverlay = false;
+      });
   },
   methods: {
     onClickLeft() {

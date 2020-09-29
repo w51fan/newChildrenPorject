@@ -87,8 +87,9 @@ export default {
   },
   computed: {
     cityId() {
-      // return this.$store.state.common.cityId;
-      return 2018;
+      return this.$store.state.common.cityId
+        ? this.$store.state.common.cityId
+        : window.localStorage.getItem('cityId');
     },
     PreCurrentPath() {
       return this.$store.state.common.PreCurrentPath;

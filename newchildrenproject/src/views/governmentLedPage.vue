@@ -122,19 +122,19 @@ import {
   getMenuList,
   getNewsList,
   getGoveList,
-  getTotalCount
-} from "@/api/home";
-import bottomNavPage from "./bottomNavPage.vue";
+  getTotalCount,
+} from '@/api/home';
+import bottomNavPage from './bottomNavPage.vue';
 
 export default {
-  name: "governmentLedPage",
+  name: 'governmentLedPage',
   components: {
-    bottomNavPage
+    bottomNavPage,
   },
   data() {
     return {
-      selectedNav: "governmentLedPage",
-      cityName: "邵阳市",
+      selectedNav: 'governmentLedPage',
+      cityName: '邵阳市',
       imgList: [],
       tabList: [],
       newsList: [],
@@ -145,7 +145,7 @@ export default {
       refreshing: false,
       pageNumber: 1,
       pageSize: 10,
-      total: "",
+      total: '',
       // totalCount: '',
       totalCount: {
         ChildrenCount: '',
@@ -153,123 +153,123 @@ export default {
         CourseCount: '',
         ChildrenHomeCount: '',
         UserCount: '',
-        SocialStationCount: ''
-      }
+        SocialStationCount: '',
+      },
     };
   },
   watch: {
     selectedNav(val) {
       console.log(val);
       this.$router.push({
-        name: val
+        name: val,
       });
-    }
+    },
   },
   mounted() {
     if (this.$route.query.User && this.$route.query.UserTpye) {
-      this.$store.commit("common/getUserTpye", this.$route.query.UserTpye);
-      this.$store.commit("common/SET_UserTpye", this.$route.query.UserTpye);
-      this.$store.commit("common/getUser", this.$route.query.User);
+      this.$store.commit('common/getUserTpye', this.$route.query.UserTpye);
+      this.$store.commit('common/SET_UserTpye', this.$route.query.UserTpye);
+      this.$store.commit('common/getUser', this.$route.query.User);
     }
     if (!this.Token) {
       this.$store.commit(
-        "common/getToken",
-        window.localStorage.getItem("Token")
+        'common/getToken',
+        window.localStorage.getItem('Token'),
       );
     }
     this.showOverlay = true;
     this.isAssistant = this.$route.query.isAssistant;
     if (!this.cityId) {
       this.$store.commit(
-        "common/getCityId",
-        window.localStorage.getItem("cityId") - 0
+        'common/getCityId',
+        window.localStorage.getItem('cityId') - 0,
       );
       // this.cityId = window.localStorage.getItem("cityId")
     }
-    console.log("this.cityId", this.cityId);
+    console.log('this.cityId', this.cityId);
     getHomeImgList(this.cityId)
-      .then(res => {
-        this.imgList = res.data.newsList[0].NewsThumbnail.split(",");
+      .then((res) => {
+        this.imgList = res.data.newsList[0].NewsThumbnail.split(',');
         getMenuList(this.cityId)
-          .then(result => {
+          .then((result) => {
             console.log(result);
             this.tabList = result.data.newsList.reverse();
           })
-          .catch(err => {
-            console.log("err", err);
+          .catch((err) => {
+            console.log('err', err);
             this.showOverlay = false;
           });
         getNewsList(this.cityId, this.pageNumber, this.pageSize)
-          .then(news => {
+          .then((news) => {
             console.log(news);
             this.newsList = news.data.newsList;
             this.total = news.data.total;
             // this.showOverlay = false;
             getTotalCount(this.cityId)
-              .then(res => {
+              .then((res) => {
                 // console.log("getTotalCount", res);
                 this.totalCount = res.data.totalCount;
                 this.showOverlay = false;
               })
-              .catch(err => {
-                console.log("getTotalCount", err);
+              .catch((err) => {
+                console.log('getTotalCount', err);
                 this.showOverlay = false;
               });
           })
-          .catch(err => {
-            console.log("err", err);
+          .catch((err) => {
+            console.log('err', err);
             this.showOverlay = false;
           });
       })
-      .catch(err => {
-        console.log("err", err);
+      .catch((err) => {
+        console.log('err', err);
         this.showOverlay = false;
       });
   },
   computed: {
     cityId() {
-      console.log("governmentLedPage", this.$store.state);
-      // return this.$store.state.common.cityId;
-      return 2018;
-    }
+      return this.$store.state.common.cityId
+        ? this.$store.state.common.cityId
+        : window.localStorage.getItem('cityId');
+    },
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "homePage"
+        name: 'homePage',
       });
     },
     viewDeatil(row) {
       this.$router.push({
-        name: "newsDetail",
+        name: 'newsDetail',
         query: {
-          Id: row.Id
-        }
+          Id: row.Id,
+        },
       });
     },
     changeCity() {
       this.$router.push({
-        name: "changeCityPage",
+        name: 'changeCityPage',
         query: {
-          needComeBack: true
-        }
+          needComeBack: true,
+        },
       });
     },
     getNewsList(param) {
       const { cityId, pageNumber, pageSize } = param;
       this.showOverlay = true;
       getNewsList(cityId, pageNumber, pageSize)
-        .then(res => {
+        .then((res) => {
           // console.log(news);
-          res.data.newsList.forEach(item => {
+          res.data.newsList.forEach((item) => {
             this.newsList.push(item);
           });
           this.loading = false;
           this.showOverlay = false;
           if (!(this.newsList.length < this.total)) this.finished = true;
         })
-        .catch(err => {
-          console.log("err", err);
+        .catch((err) => {
+          console.log('err', err);
           this.showOverlay = false;
         });
     },
@@ -284,7 +284,7 @@ export default {
         this.getNewsList({
           cityId: this.cityId,
           pageNumber: this.pageNumber++ + 1,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
         });
       } else {
         // this.finished = true;
@@ -300,8 +300,8 @@ export default {
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
       this.onLoad();
-    }
-  }
+    },
+  },
 };
 </script>
 

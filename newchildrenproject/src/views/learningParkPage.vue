@@ -1,6 +1,11 @@
 <template>
   <div class="learningParkPage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">学习乐园</div>
       </template>
@@ -10,37 +15,81 @@
         <div class="gap"></div>
         <div class="Content">
           <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-              <div v-for="(article,index) in articlelist" :key="index" class="ContentItem">
-                <video :src="article.Url" :autoplay="autoplay" controls style="width: 100%;"></video>
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+            >
+              <div
+                v-for="(article, index) in articlelist"
+                :key="index"
+                class="ContentItem"
+              >
+                <video
+                  :src="article.Url"
+                  :autoplay="autoplay"
+                  controls
+                  style="width: 100%"
+                ></video>
                 <div class="flex">
                   <div class="articleTitle">
-                    <div style="color:#171114;font-size: 15px;font-weight: 600;">{{article.Title}}</div>
+                    <div
+                      style="color: #171114; font-size: 15px; font-weight: 600"
+                    >
+                      {{ article.Title }}
+                    </div>
                     <!-- <div style="color:#CCCCCC;font-size: 12px;">{{article.Description}}</div> -->
-                    <div style="color:#CCCCCC;font-size: 12px;">{{article.CreateTime}}</div>
+                    <div style="color: #cccccc; font-size: 12px">
+                      {{ article.CreateTime }}
+                    </div>
                   </div>
-                  <div class="flex" style="line-height: 62px;flex: 1;">
+                  <div class="flex" style="line-height: 62px; flex: 1">
                     <img
                       :src="dianzanIcon"
-                      style="width: 16px;height: 17px;margin-top: 20px;margin-right: 10px;margin-left: 60px;"
+                      style="
+                        width: 16px;
+                        height: 17px;
+                        margin-top: 20px;
+                        margin-right: 10px;
+                        margin-left: 60px;
+                      "
                       class="gry"
                       alt
-                      @click="dianZanFun(article,index)"
-                      v-if="article.Likes>0"
+                      @click="dianZanFun(article, index)"
+                      v-if="article.Likes > 0"
                     />
                     <img
                       :src="notDianzanIcon"
-                      style="width: 16px;height: 17px;margin-top: 20px;margin-right: 10px;margin-left: 60px;"
+                      style="
+                        width: 16px;
+                        height: 17px;
+                        margin-top: 20px;
+                        margin-right: 10px;
+                        margin-left: 60px;
+                      "
                       class="gry"
                       alt
-                      @click="dianZanFun(article,index)"
+                      @click="dianZanFun(article, index)"
                       v-else
                     />
-                    <div style="color:#666666;font-size:12px;" @click="dianZanFun(article,index)">点赞</div>
-                    <div style="color:#666666;font-size:12px;">{{article.Orders}}W</div>
+                    <div
+                      style="color: #666666; font-size: 12px"
+                      @click="dianZanFun(article, index)"
+                    >
+                      点赞
+                    </div>
+                    <div style="color: #666666; font-size: 12px">
+                      {{ article.Orders }}W
+                    </div>
                     <img
                       :src="fensxiangIcon"
-                      style="width: 16px;height: 17px;margin-top: 20px;margin-left: 10px;"
+                      style="
+                        width: 16px;
+                        height: 17px;
+                        margin-top: 20px;
+                        margin-left: 10px;
+                      "
                       alt
                     />
                   </div>
@@ -54,37 +103,72 @@
         <div class="gap"></div>
         <div class="Content">
           <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+            >
               <div class="familyResponsibilityHead">
                 <img src="../assets/jiatingjinze.png" alt />
                 <div class="text">
                   <div>家庭教育系列课程</div>
                 </div>
               </div>
-              <div style="text-align: left;padding: 20px;font-weight: 600;font-size: 20px;">课程列表</div>
-              <div style="margin-bottom: 60px;">
+              <div
+                style="
+                  text-align: left;
+                  padding: 20px;
+                  font-weight: 600;
+                  font-size: 20px;
+                "
+              >
+                课程列表
+              </div>
+              <div style="margin-bottom: 60px">
                 <div
-                  v-for="(course,index) in courseList"
+                  v-for="(course, index) in courseList"
                   :key="index"
                   class="flex"
-                  style="padding: 10px 20px 20px;"
+                  style="padding: 10px 20px 20px"
                   @click="courseDetail(course)"
                 >
                   <img
                     :src="course.Professor.HeadPortrait"
                     alt
-                    style="height: 120px;width: 100px;border-radius: 8px;"
+                    style="height: 120px; width: 100px; border-radius: 8px"
                   />
-                  <div style="padding-left: 10px;">
+                  <div style="padding-left: 10px">
                     <div
-                      style="font-size: 18px;font-weight: 900;text-align: left;"
-                    >{{course.Professor.Name}}</div>
+                      style="
+                        font-size: 18px;
+                        font-weight: 900;
+                        text-align: left;
+                      "
+                    >
+                      {{ course.Professor.Name }}
+                    </div>
                     <div
-                      style="text-align: left;font-size: 16px;font-weight: 600;padding: 5px 0;color: #5f5b5b;"
-                    >{{course.CourseName}}</div>
+                      style="
+                        text-align: left;
+                        font-size: 16px;
+                        font-weight: 600;
+                        padding: 5px 0;
+                        color: #5f5b5b;
+                      "
+                    >
+                      {{ course.CourseName }}
+                    </div>
                     <div
-                      style="text-align: left;font-size: 14px;color: #a5a0a0;padding: 5px 0;"
-                    >点击观看</div>
+                      style="
+                        text-align: left;
+                        font-size: 14px;
+                        color: #a5a0a0;
+                        padding: 5px 0;
+                      "
+                    >
+                      点击观看
+                    </div>
                   </div>
                 </div>
               </div>
@@ -92,16 +176,87 @@
           </van-pull-refresh>
         </div>
       </van-tab>
-      <van-tab title="儿童书屋">
+      <van-tab title="儿童主任课程">
         <div class="gap"></div>
         <div class="Content">
           <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+            <!-- <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+              >暂无数据</van-list
+            > -->
             <van-list
               v-model="loading"
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad"
-            >暂无数据</van-list>
+            >
+              <div class="familyResponsibilityHead">
+                <img src="../assets/jiatingjinze.png" alt />
+                <div class="text">
+                  <div>儿童主任系列课程</div>
+                </div>
+              </div>
+              <div
+                style="
+                  text-align: left;
+                  padding: 20px;
+                  font-weight: 600;
+                  font-size: 20px;
+                "
+              >
+                课程列表
+              </div>
+              <div style="margin-bottom: 60px">
+                <div
+                  v-for="(course, index) in courseList"
+                  :key="index"
+                  class="flex"
+                  style="padding: 10px 20px 20px"
+                  @click="courseDetail(course)"
+                >
+                  <img
+                    :src="course.Professor.HeadPortrait"
+                    alt
+                    style="height: 120px; width: 100px; border-radius: 8px"
+                  />
+                  <div style="padding-left: 10px">
+                    <div
+                      style="
+                        font-size: 18px;
+                        font-weight: 900;
+                        text-align: left;
+                      "
+                    >
+                      {{ course.Professor.Name }}
+                    </div>
+                    <div
+                      style="
+                        text-align: left;
+                        font-size: 16px;
+                        font-weight: 600;
+                        padding: 5px 0;
+                        color: #5f5b5b;
+                      "
+                    >
+                      {{ course.CourseName }}
+                    </div>
+                    <div
+                      style="
+                        text-align: left;
+                        font-size: 14px;
+                        color: #a5a0a0;
+                        padding: 5px 0;
+                      "
+                    >
+                      点击观看
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </van-list>
           </van-pull-refresh>
         </div>
       </van-tab>
@@ -162,7 +317,9 @@ export default {
   },
   computed: {
     Token() {
-      return this.$store.state.common.Token;
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
     },
   },
   mounted() {

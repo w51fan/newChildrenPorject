@@ -6,17 +6,40 @@
       </template>
     </van-nav-bar>
     <van-field v-model="message" rows="6" autosize type="textarea" placeholder="输入您的意见或建议…" />
-    <div class="submitBtn" @click="go">
+    <div class="submitBtn" @click="submitFun">
       <div>提交意见</div>
     </div>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
+import { feedback } from '@/api/home';
+
 export default {
   name: 'userFeedbackPage',
   data() {
-    return {};
+    return {
+      message: '',
+      showOverlay: false,
+    };
+  },
+  computed: {
+    Token() {
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
+    },
+    // User: {
+    //   get() {
+    //     return this.$store.state.common.User;
+    //   },
+    //   set() {},
+    // },
   },
   methods: {
     onClickLeft() {
@@ -24,10 +47,28 @@ export default {
         name: 'userCenterPage',
       });
     },
-    go() {
-      //   this.$router.push({
-      //     name: 'loginPage',
-      //   });
+    submitFun() {
+      this.showOverlay = true;
+      feedback({
+        token: this.Token,
+        content: this.message,
+      }).then((res) => {
+        console.log('feedback', res);
+        this.$notify({
+          type: 'success',
+          message: res.data.msg,
+          duration: 500,
+        });
+        setTimeout(() => {
+          this.showOverlay = false;
+          this.$router.push({
+            name: 'userCenterPage',
+          });
+        }, 1000);
+      }).catch((err) => {
+        console.log('feedback', err);
+        this.showOverlay = false;
+      });
     },
   },
 };

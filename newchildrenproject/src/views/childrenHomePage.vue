@@ -154,7 +154,9 @@ export default {
   },
   computed: {
     Token() {
-      return this.$store.state.common.Token;
+      return this.$store.state.common.Token
+        ? this.$store.state.common.Token
+        : window.localStorage.getItem('Token');
     },
     User: {
       get() {
