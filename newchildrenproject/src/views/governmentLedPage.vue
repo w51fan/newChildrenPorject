@@ -174,7 +174,7 @@ export default {
     if (!this.Token) {
       this.$store.commit(
         'common/getToken',
-        window.localStorage.getItem('Token'),
+        window.localStorage.getItem('childrenToken'),
       );
     }
     this.showOverlay = true;

@@ -197,7 +197,7 @@ export default {
     Token() {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
-        : window.localStorage.getItem('Token');
+        : window.localStorage.getItem('childrenToken');
     },
     // User: {
     //   get() {
@@ -266,6 +266,9 @@ export default {
           });
           break;
         case 2:
+          this.$router.push({
+            name: 'offlineActivityPage',
+          });
           break;
         case 3:
           this.$router.push({
@@ -335,7 +338,7 @@ export default {
             .then(() => {
               // on confirm
               console.log('queding');
-              window.localStorage.removeItem('Token');
+              window.localStorage.removeItem('childrenToken');
               window.localStorage.removeItem('cityId');
               this.$router.push({
                 name: 'guidePage',

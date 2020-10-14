@@ -399,7 +399,8 @@ export default {
       });
     },
     goDetail(childrenHome) {
-      // this.$store.commit('common/getVillageId', childrenHome.VillageId);
+      // this.$store.commit('common/getPreCurrentPath', 'childrenHomePageIndex');
+      this.$store.commit('common/getVillageId', childrenHome.VillageId);
       // if (this.$route.query.currentPath) {
       //   this.$store.commit(
       //     'common/getPreCurrentPath',

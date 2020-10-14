@@ -280,15 +280,15 @@ export default {
       const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
     },
-    viewDetail(row) {
-      this.$router.push({
-        name: 'articleDetail',
-        query: {
-          id: row.Id,
-          currentPath: 'growthStoryPage',
-        },
-      });
-    },
+    // viewDetail(row) {
+    //   this.$router.push({
+    //     name: 'articleDetail',
+    //     query: {
+    //       id: row.Id,
+    //       currentPath: 'growthStoryPage',
+    //     },
+    //   });
+    // },
     // eslint-disable-next-line no-unused-vars
     getArticleList(cityId, type, pageNumber, pageSize) {
       // getArticleList(cityId, type, pageNumber, pageSize)

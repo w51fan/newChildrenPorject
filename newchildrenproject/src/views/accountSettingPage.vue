@@ -65,7 +65,7 @@ export default {
     Token() {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
-        : window.localStorage.getItem('Token');
+        : window.localStorage.getItem('childrenToken');
     },
     // User() {
     //   return this.$store.state.common.User;
@@ -131,7 +131,7 @@ export default {
       function beforeClose(action, done) {
         if (action === 'confirm') {
           done();
-          window.localStorage.removeItem('Token');
+          window.localStorage.removeItem('childrenToken');
           $this.$store.commit('common/getToken', '');
 
           $this.$router.push({

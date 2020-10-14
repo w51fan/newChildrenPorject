@@ -143,6 +143,28 @@ const routes = [
     name: 'changeCityPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/changeCityPage.vue'),
   },
+  {
+    path: '/offlineActivityPage',
+    name: 'offlineActivityPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/offlineActivityPage.vue'),
+  },
+  {
+    path: '/addActivityPage',
+    name: 'addActivityPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/addActivityPage.vue'),
+  },
+  {
+    path: '/unfinishedActivityPage',
+    name: 'unfinishedActivityPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/unfinishedActivityPage.vue'),
+  },
+  {
+    path: '/activityDetailPage',
+    name: 'activityDetailPage',
+    component: () => import(/* webpackChunkName: "about" */
+      '../views/activityDetailPage.vue'
+    ),
+  },
 ];
 
 const router = new VueRouter({

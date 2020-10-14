@@ -116,7 +116,7 @@ export default {
     Token() {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
-        : window.localStorage.getItem('Token');
+        : window.localStorage.getItem('childrenToken');
     },
     PreCurrentPath() {
       return this.$store.state.common.PreCurrentPath;

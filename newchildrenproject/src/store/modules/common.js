@@ -79,7 +79,7 @@ const mutations = {
   },
   SET_TOKEN(state, value) {
     state.Token = value;
-    window.localStorage.setItem('Token', value);
+    window.localStorage.setItem('childrenToken', value);
   },
   SET_cityId(state, value) {
     state.cityId = value;

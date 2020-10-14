@@ -16,7 +16,7 @@
         :key="index"
         class="childrenHomeList"
       >
-        <div class="childrenHome">
+        <div class="childrenHome" @click="go(childrenHome)">
           <div class="flex childrenHomeHeader">
             <img src="../assets/icon_ertongzhijia_red.png" class="img" alt />
             <div class="childrenHomeName">{{ childrenHome.Name }}</div>
@@ -73,7 +73,7 @@ export default {
     Token() {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
-        : window.localStorage.getItem('Token');
+        : window.localStorage.getItem('childrenToken');
     },
   },
   mounted() {
@@ -92,10 +92,12 @@ export default {
         name: 'userCenterPage',
       });
     },
-    go() {
-      //   this.$router.push({
-      //     name: 'loginPage',
-      //   });
+    go(childrenHome) {
+      this.$store.commit('common/getVillageId', childrenHome.VillageId);
+      this.$store.commit('common/getPreCurrentPath', 'childrenHomeListPage');
+      this.$router.push({
+        name: 'childrenHomePage',
+      });
     },
   },
 };

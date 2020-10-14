@@ -156,13 +156,19 @@ export default {
     Token() {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
-        : window.localStorage.getItem('Token');
+        : window.localStorage.getItem('childrenToken');
     },
     User: {
       get() {
         return this.$store.state.common.User;
       },
       set() {},
+    },
+    PreCurrentPath() {
+      return this.$store.state.common.PreCurrentPath;
+    },
+    VillageId() {
+      return this.$store.state.common.VillageId;
     },
   },
   mounted() {
@@ -174,7 +180,7 @@ export default {
     if (!this.Token) {
       this.$store.commit(
         'common/getToken',
-        window.localStorage.getItem('Token'),
+        window.localStorage.getItem('childrenToken'),
       );
     }
     this.User = this.$store.state.common.User;
@@ -228,8 +234,12 @@ export default {
   },
   methods: {
     onClickLeft() {
+      // this.$router.push({
+      //   name: 'childrenHomePageIndex',
+      // });
       this.$router.push({
-        name: 'childrenHomePageIndex',
+        // eslint-disable-next-line no-nested-ternary
+        name: this.$route.query.currentPath ? this.$route.query.currentPath : this.PreCurrentPath ? this.PreCurrentPath : 'childrenHomePageIndex',
       });
     },
     goChildrenHomeDetail(childrenHome) {

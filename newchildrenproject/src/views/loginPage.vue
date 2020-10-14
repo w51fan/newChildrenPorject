@@ -71,6 +71,11 @@
       </div>
       <div style="padding: 0 45px; color: #9b9b9b">注册</div>
     </div>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -81,6 +86,7 @@ export default {
   name: 'loginPage',
   data() {
     return {
+      showOverlay: false,
       pageTitle: '验证码登陆',
       code: '',
       tel: '13824404816',
@@ -121,7 +127,9 @@ export default {
         // eslint-disable-next-line no-return-assign
         if (this.code === '') return (this.codeErr = '验证码不能为空');
         // eslint-disable-next-line no-return-assign
-      } else if (this.password === '') { return (this.passwordErr = '密码不能为空'); }
+      } else if (this.password === '') {
+        return (this.passwordErr = '密码不能为空');
+      }
       this.passwordErr = '';
       this.codeErr = '';
       this.showOverlay = true;
