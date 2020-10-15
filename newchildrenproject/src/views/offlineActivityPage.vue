@@ -307,7 +307,7 @@ export default {
     },
     goActivityDetail(activity) {
       this.$router.push({
-        name: 'activityDetail',
+        name: 'activityDetailPage',
         query: {
           currentPath: 'offlineActivity',
           activityId: activity.Id,

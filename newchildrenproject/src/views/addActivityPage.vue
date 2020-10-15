@@ -245,7 +245,7 @@ export default {
       this.showPicker = false;
     },
     onConfirmType(value) {
-      console.log(value);
+      console.log('onConfirmType', value);
       this.activityType = value;
       this.showPicker = false;
     },
@@ -272,6 +272,7 @@ export default {
       if (this.activityName === '') {
         this.activityNameErrText = '请输入';
         this.showOverlay = false;
+        console.log('failed', 1);
         return;
       }
       this.activityNameErrText = '';
@@ -279,6 +280,7 @@ export default {
       if (this.activityDate === '') {
         this.activityDateErrText = '请选择';
         this.showOverlay = false;
+        console.log('failed', 2);
         return;
       }
       this.activityDateErrText = '';
@@ -286,13 +288,15 @@ export default {
       if (this.activityType === '') {
         this.activityTypeErrText = '请选择';
         this.showOverlay = false;
+        console.log('failed', 3);
         return;
       }
       this.activityTypeErrText = '';
 
-      if (this.activityHome === '') {
+      if (this.activityHome === '' && this.UserTpye === 12) {
         this.activityHomeErrText = '请选择';
         this.showOverlay = false;
+        console.log('failed', 4);
         return;
       }
       this.activityHomeErrText = '';

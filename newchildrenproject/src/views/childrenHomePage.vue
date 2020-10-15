@@ -266,6 +266,16 @@ export default {
       const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
     },
+    viewDetail(activity) {
+      this.$router.push({
+        name: 'activityDetailPage',
+        query: {
+          currentPath: 'childrenHomePage',
+          activityId: activity.Id,
+          showSubmitButton: true,
+        },
+      });
+    },
   },
 };
 </script>

@@ -44,7 +44,15 @@
                       {{ article.CreateTime }}
                     </div>
                   </div>
-                  <div class="flex" style="line-height: 62px; flex: 1">
+                  <div
+                    class="flex"
+                    style="
+                      line-height: 62px;
+                      flex: 1;
+                      justify-content: flex-end;
+                      margin-right: 10px;
+                    "
+                  >
                     <img
                       :src="dianzanIcon"
                       style="
@@ -52,7 +60,6 @@
                         height: 17px;
                         margin-top: 20px;
                         margin-right: 10px;
-                        margin-left: 60px;
                       "
                       class="gry"
                       alt
@@ -66,7 +73,6 @@
                         height: 17px;
                         margin-top: 20px;
                         margin-right: 10px;
-                        margin-left: 60px;
                       "
                       class="gry"
                       alt
@@ -102,7 +108,7 @@
       <van-tab title="家庭尽责学习">
         <div class="gap"></div>
         <div class="Content">
-          <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+          <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
             <van-list
               v-model="loading"
               :finished="finished"
@@ -173,13 +179,13 @@
                 </div>
               </div>
             </van-list>
-          </van-pull-refresh>
+          <!-- </van-pull-refresh> -->
         </div>
       </van-tab>
       <van-tab title="儿童主任课程">
         <div class="gap"></div>
         <div class="Content">
-          <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+          <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
             <!-- <van-list
               v-model="loading"
               :finished="finished"
@@ -257,10 +263,15 @@
                 </div>
               </div>
             </van-list>
-          </van-pull-refresh>
+          <!-- </van-pull-refresh> -->
         </div>
       </van-tab>
     </van-tabs>
+    <van-overlay :show="showOverlay" @click="show = false">
+      <div style="margin-top: 50%">
+        <van-loading type="spinner" />
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -311,8 +322,11 @@ export default {
         //     'http://1257354027.vod2.myqcloud.com/5fac28c3vodgzp1257354027/94c2dc9c5285890803955787383/rhpGwXhpRC4A.mp4',
         // },
       ],
-      pageNumber: 10,
-      pageSize: 1,
+      pageNumber: 1,
+      pageSize: 10,
+      patrioticLisTotal: '',
+      // courseLisTotal: '',
+      showOverlay: false,
     };
   },
   computed: {
@@ -322,17 +336,17 @@ export default {
         : window.localStorage.getItem('childrenToken');
     },
   },
+  // watch:{
+  //   selected
+  // },
   mounted() {
-    this.getPatrioticListFun();
-    getCourseList()
-      .then((res) => {
-        this.courseList = res.data.courseList;
-        this.showOverlay = false;
-      })
-      .catch((err) => {
-        console.log('getCourseList', err);
-        this.showOverlay = false;
-      });
+    this.showOverlay = true;
+    this.getPatrioticListFun({
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      isPull: false,
+    });
+    this.getCourseListFun();
   },
   methods: {
     onClickLeft() {
@@ -354,14 +368,43 @@ export default {
           console.log('patrioticLikes', err);
         });
     },
-    getPatrioticListFun() {
-      getPatrioticList(this.pageNumber, this.pageSize)
+    getPatrioticListFun(param) {
+      const { pageSize, pageNumber, isPull } = param;
+      getPatrioticList({
+        pageSize,
+        pageNumber,
+      })
         .then((res) => {
           console.log('getPatrioticList', res);
-          this.articlelist = res.data.patrioticList;
+          if (isPull) {
+            res.data.patrioticList.forEach((item) => {
+              this.articlelist.push(item);
+            });
+            this.loading = false;
+            this.showOverlay = false;
+            if (!(this.articlelist.length < this.patrioticLisTotal)) this.finished = true;
+          } else {
+            this.articlelist = res.data.patrioticList;
+            this.patrioticLisTotal = res.data.total;
+            this.showOverlay = false;
+          }
         })
         .catch((err) => {
           console.log('getPatrioticList', err);
+          this.showOverlay = false;
+        });
+    },
+    getCourseListFun() {
+      getCourseList()
+        .then((res) => {
+          console.log('getCourseList', res);
+          this.courseList = res.data.courseList;
+          // this.courseLisTotal = res.data.total;
+          this.showOverlay = false;
+        })
+        .catch((err) => {
+          console.log('getCourseList', err);
+          this.showOverlay = false;
         });
     },
     onLoad() {
@@ -369,13 +412,13 @@ export default {
         // this.articlelist = [];
         this.refreshing = false;
       }
-      if (this.articlelist.length < this.total) {
-        this.getArticleList(
-          this.cityId,
-          this.selected + 1,
-          this.pageNumber++ + 1,
-          this.pageSize,
-        );
+      if (this.articlelist.length < this.patrioticLisTotal) {
+        this.getPatrioticListFun({
+          pageSize: this.pageSize,
+          // eslint-disable-next-line no-plusplus
+          pageNumber: this.pageNumber++ + 1,
+          isPull: true,
+        });
       } else {
         // this.finished = true;
       }

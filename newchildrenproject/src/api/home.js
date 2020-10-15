@@ -627,7 +627,11 @@ export const getAwardDetail = function (Id) {
 };
 
 // 红色爱国教育列表
-export const getPatrioticList = function (pageNumber, pageSize) {
+export const getPatrioticList = function (param) {
+  const {
+    pageNumber,
+    pageSize,
+  } = param;
   return axios.request({
     url:
       `${config.hostApi}/patriotic/list?pageNumber=${pageNumber}&pageSize=${pageSize}`,
