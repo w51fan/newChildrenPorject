@@ -611,7 +611,13 @@ export const deleteVisit = function (token, id) {
 };
 
 // 荣誉标兵列表接口
-export const getAwardList = function (cityId, type, pageNumber, pageSize) {
+export const getAwardList = function (param) {
+  const {
+    cityId,
+    type,
+    pageNumber,
+    pageSize,
+  } = param;
   return axios.request({
     url: `${config.hostApi}/award/list?cityId=${cityId}&type=${type}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
     method: 'get',

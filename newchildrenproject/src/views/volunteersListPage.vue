@@ -7,10 +7,10 @@
       :width="360"
     >
       <template #title>
-        <div class="navTitle">{{ areaName }}{{titleName}}</div>
+        <div class="navTitle">{{ areaName }}{{ titleName }}</div>
       </template>
     </van-nav-bar>
-    <div class="listTitle">
+    <!-- <div class="listTitle">
       <div class="flex space-between">
         <div class="item">排序</div>
         <div class="item">姓名</div>
@@ -39,9 +39,33 @@
           <div class="item">{{ volunteer.integral }}</div>
         </div>
       </template>
-    </van-cell>
+    </van-cell> -->
+    <div class="Content">
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+        >
+          <div
+            v-for="(article, index) in articlelist"
+            :key="index"
+            class="ContentItem"
+            @click="viewDetail(article)"
+          >
+            <img :src="article.NewsThumbnail" alt />
+            <div class="articleTitle">
+              <div>{{ article.Title }}</div>
+              <div class="gray">{{ getDate(article.CreateTime) }}</div>
+            </div>
+          </div>
+        </van-list>
+      </van-pull-refresh>
+    </div>
+
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -58,6 +82,7 @@ export default {
       areaName: '邵阳市',
       titleName: '优秀志愿者',
       showOverlay: false,
+      articlelist: [],
       volunteersList: [
         // {
         //   name: '含课件',
@@ -83,6 +108,9 @@ export default {
       ],
       pageNumber: 1,
       pageSize: 10,
+      refreshing: false,
+      finished: false,
+      loading: false,
     };
   },
   computed: {
@@ -98,6 +126,7 @@ export default {
   mounted() {
     this.showOverlay = true;
     this.titleName = this.$route.query.titleName;
+    console.log('this.cityId', this.cityId);
     getAwardList({
       cityId: this.cityId,
       type: this.$route.query.type,
@@ -106,7 +135,8 @@ export default {
     })
       .then((res) => {
         console.log('getAwardList', res);
-        this.volunteersList = res.data.aawardList;
+        // this.volunteersList = res.data.awardList;
+        this.articlelist = res.data.awardList;
         this.showOverlay = false;
       })
       .catch((err) => {
@@ -130,12 +160,46 @@ export default {
         name: 'volunteerDetailPage',
       });
     },
+    onLoad() {
+      if (this.refreshing) {
+        // this.articlelist = [];
+        this.refreshing = false;
+      }
+      if (this.articlelist.length < this.total) {
+        this.getArticleList(
+          this.cityId,
+          this.selected + 1,
+          this.pageNumber++ + 1,
+          this.pageSize,
+        );
+      } else {
+        // this.finished = true;
+      }
+      this.loading = false;
+    },
+    onRefresh() {
+      // 清空列表数据
+      this.finished = false;
+      console.log('22');
+      // 重新加载数据
+      // 将 loading 设置为 true，表示处于加载状态
+      this.loading = true;
+      this.onLoad();
+    },
+    getDate(date) {
+      const activityDate = new Date(date);
+      const year = activityDate.getFullYear();
+      const month = activityDate.getMonth() + 1;
+      const day = activityDate.getDate();
+      return `${year}年${month}月${day}日`;
+    },
   },
 };
 </script>
 
 <style lang="less">
 .volunteersListPage {
+  background: #e6e6e6;
   .navTitle {
     font-size: 18px;
     font-weight: 600;
@@ -158,6 +222,25 @@ export default {
       .item {
         flex: 4;
         padding: 10px 0;
+      }
+    }
+  }
+  .Content {
+    padding: 20px;
+    img {
+      width: 100%;
+    }
+    .ContentItem {
+      background: #fff;
+      margin-bottom: 20px;
+      // box-shadow: 0px 0px 10px 5px rgba(175, 175, 175, 0.5);
+      .articleTitle {
+        text-align: left;
+        padding: 5px 20px;
+        .gray {
+          font-size: 14px;
+          color: #a0a0a0;
+        }
       }
     }
   }
