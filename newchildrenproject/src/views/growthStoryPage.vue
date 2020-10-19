@@ -79,8 +79,8 @@
       <div v-for="(area, index) in areaItems" :key="index">
         <div class="flex space-between" style="padding: 20px">
           <div>{{ area.text }}</div>
-          <div v-if="area.ActivityCount > 0" @click="collapseDown(area, index)">
-            ({{ area.ActivityCount }}人)
+          <div v-if="area.VolunteerCount > 0" @click="collapseDown(area, index)">
+            ({{ area.VolunteerCount }}人)
             <van-icon name="arrow-down" v-if="showCurrentDown === index" />
             <van-icon name="arrow" v-else />
           </div>
@@ -97,10 +97,10 @@
                 --{{ child.text }}
               </div>
               <div
-                v-if="child.ActivityCount > 0"
+                v-if="child.VolunteerCount > 0"
                 @click="collapseSecondDown(child, turn)"
               >
-                ({{ child.ActivityCount }}人)
+                ({{ child.VolunteerCount }}人)
                 <van-icon
                   name="arrow-down"
                   v-if="showSecondCurrentDown === turn"
@@ -121,8 +121,8 @@
                   >
                     --{{ tree.text }}
                   </div>
-                  <div v-if="tree.ActivityCount > 0">
-                    ({{ tree.ActivityCount }}人)
+                  <div v-if="tree.VolunteerCount > 0">
+                    ({{ tree.VolunteerCount }}人)
                   </div>
                   <div v-else>(0人)</div>
                 </div>
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-// import { getArticleList } from '@/api/home';
+import { getTreeCount } from '@/api/home';
 // import bottomNav from './bottomNav';
 import bottomNavPage from './bottomNavPage.vue';
 
@@ -154,7 +154,6 @@ export default {
   },
   data() {
     return {
-      selected: '1',
       selectedNav: 'growthStoryPage',
       articlelist: [],
       showOverlay: false,
@@ -167,75 +166,14 @@ export default {
       pageNumber: 1,
       pageSize: 10,
       total: '',
-      // areaItems: [],
-      areaItems: [
-        {
-          ActivityCount: 289,
-          children: [
-            {
-              ActivityCount: 0,
-              text: '横木社区',
-            },
-            {
-              ActivityCount: 1,
-              children: [
-                {
-                  ActivityCount: 0,
-                  text: '东塔社区',
-                },
-                {
-                  ActivityCount: 0,
-                  text: '百寿亭社区',
-                },
-                {
-                  ActivityCount: 0,
-                  text: '建设路社区',
-                },
-                {
-                  ActivityCount: 0,
-                  text: '麻子洼社区',
-                },
-                {
-                  ActivityCount: 1,
-                  text: '三眼井社区   ',
-                },
-                {
-                  ActivityCount: 0,
-                  text: '砂子坡社区',
-                },
-              ],
-              text: '汽车站街道  ',
-            },
-          ],
-          text: '双清区',
-        },
-      ],
+      areaList: [],
+      areaItems: [],
+      childrenItems: [],
       showCurrentDown: '',
       showSecondCurrentDown: '',
       showChild: '',
       showSecondChild: '',
     };
-  },
-  watch: {
-    // eslint-disable-next-line no-unused-vars
-    selected(val) {
-      this.articlelist = [];
-      this.pageNumber = 1;
-      this.loading = false;
-      this.finished = false;
-      this.refreshing = false;
-      // getArticleList(this.cityId, val + 1, this.pageNumber, this.pageSize)
-      //   .then((res) => {
-      //     console.log('getArticleList1', res);
-      //     this.articlelist = res.data.articlelist;
-      //     this.total = res.data.total;
-      //     this.showOverlay = false;
-      //   })
-      //   .catch((err) => {
-      //     console.log('getTotalCount', err);
-      //     this.showOverlay = false;
-      //   });
-    },
   },
   computed: {
     cityId() {
@@ -254,17 +192,72 @@ export default {
       // this.cityId = window.localStorage.getItem("cityId");
     }
     console.log('this.cityId', this.cityId);
-    // getArticleList(this.cityId, 1, this.pageNumber, this.pageSize)
-    //   .then(res => {
-    //     console.log("getArticleList", res);
-    //     this.articlelist = res.data.articlelist;
-    //     this.total = res.data.total;
-    //     this.showOverlay = false;
-    //   })
-    //   .catch(err => {
-    //     console.log("getTotalCount", err);
-    //     this.showOverlay = false;
-    //   });
+    getTreeCount(this.cityId)
+      .then((res) => {
+        // console.log('getTreeCount', res);
+        this.areaList = res.data.areaList;
+        this.areaList.forEach((item) => {
+          const areaTemp = {
+            text: item.VolunteerCount > 0 ? `${item.Name}` : item.Name,
+            children: [],
+            VolunteerCount: item.VolunteerCount,
+          };
+          const childrenTemp = {
+            text: item.ChildrenCount > 0 ? `${item.Name}   ` : item.Name,
+            children: [],
+            ChildrenCount: item.ChildrenCount,
+          };
+          if (item.Area.length > 0) {
+            item.Area.forEach((areaItem) => {
+              const activityChildren = [];
+              const childrenChildren = [];
+              if (areaItem.Area.length > 0) {
+                areaItem.Area.forEach((threeItem) => {
+                  activityChildren.push({
+                    text:
+                          threeItem.VolunteerCount > 0
+                            ? `${threeItem.Name}   `
+                            : threeItem.Name,
+                    VolunteerCount: threeItem.VolunteerCount,
+                  });
+                  childrenChildren.push({
+                    text:
+                          threeItem.ChildrenCount > 0
+                            ? `${threeItem.Name}   `
+                            : threeItem.Name,
+                    ChildrenCount: threeItem.ChildrenCount,
+                  });
+                });
+              }
+              areaTemp.children.push({
+                text:
+                      areaItem.VolunteerCount > 0
+                        ? `${areaItem.Name}  `
+                        : areaItem.Name,
+                children: activityChildren,
+                VolunteerCount: areaItem.VolunteerCount,
+              });
+              childrenTemp.children.push({
+                text:
+                      areaItem.ChildrenCount > 0
+                        ? `${areaItem.Name}  `
+                        : areaItem.Name,
+                children: childrenChildren,
+                ChildrenCount: areaItem.ChildrenCount,
+              });
+            });
+          }
+          this.areaItems.push(areaTemp);
+          this.childrenItems.push(childrenTemp);
+          // console.log('this.areaItems', this.areaItems);
+          // console.log('this.childrenItems', this.childrenItems);
+        });
+        this.showOverlay = false;
+      })
+      .catch((err) => {
+        console.log('getTotalCount', err);
+        this.showOverlay = false;
+      });
     this.showOverlay = false;
   },
   methods: {
@@ -280,65 +273,13 @@ export default {
       const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
     },
-    // viewDetail(row) {
-    //   this.$router.push({
-    //     name: 'articleDetail',
-    //     query: {
-    //       id: row.Id,
-    //       currentPath: 'growthStoryPage',
-    //     },
-    //   });
-    // },
-    // eslint-disable-next-line no-unused-vars
-    getArticleList(cityId, type, pageNumber, pageSize) {
-      // getArticleList(cityId, type, pageNumber, pageSize)
-      //   .then((res) => {
-      //     console.log('getArticleList', res);
-      //     res.data.articlelist.forEach((item) => {
-      //       this.articlelist.push(item);
-      //     });
-      //     this.loading = false;
-      //     this.showOverlay = false;
-      //     if (!(this.articlelist.length < this.total)) this.finished = true;
-      //   })
-      //   .catch((err) => {
-      //     console.log('getArticleList', err);
-      //     this.showOverlay = false;
-      //   });
-    },
-    onLoad() {
-      if (this.refreshing) {
-        // this.articlelist = [];
-        this.refreshing = false;
-      }
-      if (this.articlelist.length < this.total) {
-        // this.getArticleList(
-        //   this.cityId,
-        //   this.selected + 1,
-        //   this.pageNumber++ + 1,
-        //   this.pageSize,
-        // );
-      } else {
-        // this.finished = true;
-      }
-      this.loading = false;
-    },
-    onRefresh() {
-      // 清空列表数据
-      this.finished = false;
-      console.log('22');
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      this.loading = true;
-      this.onLoad();
-    },
     collapseDown(data, index) {
       if (this.showCurrentDown === index) {
         this.showCurrentDown = '';
         this.showChild = '';
       } else {
         this.showCurrentDown = index;
-        his.showChild = index;
+        this.showChild = index;
       }
 
       console.log(data);
