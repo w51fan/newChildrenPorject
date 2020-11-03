@@ -1,6 +1,11 @@
 <template>
   <div class="governmentLedPage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">政府主导</div>
       </template>
@@ -15,92 +20,118 @@
     <div class="gap"></div>-->
     <div class="headBar">
       <img class="headerImg" src="../assets/img_bg_zhengfuzhudao@2x.png" alt />
-      <div class="headerText">{{cityName}}民政儿童关爱</div>
+      <div class="headerText">{{ cityName }}民政儿童关爱</div>
       <div class="headBarInteview">
         <div class="warp">
-          <div class="titleText">儿童关爱统计数据</div>
-          <div class="flex">
-            <div class="item">
-              <div>
-                <span class="guanaiertongColor">{{totalCount.ChildrenCount}}</span>
-                <span class="gray">名</span>
-              </div>
-              <div class="name">关爱儿童</div>
-            </div>
-            <div class="item">
-              <div>
-                <span class="guanaihuodongColor">{{totalCount.ActivityCount}}</span>
-                <span class="gray">场</span>
-              </div>
-              <div class="name">关爱活动</div>
-            </div>
-            <div class="item">
-              <div>
-                <span class="jiatinngjiaoyuColor">{{totalCount.CourseCount}}</span>
-                <span class="gray">小时</span>
-              </div>
-              <div class="name">家庭教育视频</div>
-            </div>
-          </div>
-          <div class="flex">
-            <div class="item">
-              <div>
-                <span class="ertongzhijiaColor">{{totalCount.ChildrenHomeCount}}</span>
-                <span class="gray">个</span>
-              </div>
-              <div class="name">儿童之家</div>
-            </div>
-            <div class="item">
-              <div>
-                <span class="ertongzhurenColor">{{totalCount.UserCount}}</span>
-                <span class="gray">个</span>
-              </div>
-              <div class="name">儿童主任</div>
-            </div>
-            <div class="item">
-              <div>
-                <span class="shegongzhanColor">{{totalCount.SocialStationCount}}</span>
-                <span class="gray">个</span>
-              </div>
-              <div class="name">社工站</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="jianjieTitle">政务简介</div>
-    <div class="tabList">
-      <div class="tab" v-for="(tab,index) in tabList" :key="index">
-        <div class="tabItem" @click="viewDeatil(tab)">
-          <img :src="tab.NewsThumbnail" alt class="tabItemImg" />
-          <div>
-            <div style="line-height: 40px;font-weight: 600;font-size: 14px;">{{tab.Title}}</div>
-            <div
+          <div class="titleText">政务简介</div>
+          <div class="tabList">
+            <div class="tab" v-for="(tab, index) in tabList" :key="index">
+              <div class="tabItem" @click="viewDeatil(tab)">
+                <img :src="tab.NewsThumbnail" alt class="tabItemImg" />
+                <div>
+                  <div
+                    style="line-height: 40px; font-weight: 600; font-size: 14px"
+                  >
+                    {{ tab.Title }}
+                  </div>
+                  <!-- <div
               style="line-height: 5px;font-size: 14px;color: #989898;font-size: 12px;"
-            >{{tab.Title}}</div>
+            >{{tab.Title}}</div> -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="jianjieTitle">儿童关爱统计数据</div>
+    <div class="flex">
+      <div class="item">
+        <div>
+          <span class="guanaiertongColor">{{ totalCount.ChildrenCount }}</span>
+          <span class="gray">名</span>
+        </div>
+        <div class="name">关爱儿童</div>
+      </div>
+      <div class="item">
+        <div>
+          <span class="guanaihuodongColor">{{ totalCount.ActivityCount }}</span>
+          <span class="gray">场</span>
+        </div>
+        <div class="name">关爱活动</div>
+      </div>
+      <div class="item">
+        <div>
+          <span class="jiatinngjiaoyuColor">{{ totalCount.CourseCount }}</span>
+          <span class="gray">小时</span>
+        </div>
+        <div class="name">家庭教育视频</div>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="item">
+        <div>
+          <span class="ertongzhijiaColor">{{
+            totalCount.ChildrenHomeCount
+          }}</span>
+          <span class="gray">个</span>
+        </div>
+        <div class="name">儿童之家</div>
+      </div>
+      <div class="item">
+        <div>
+          <span class="ertongzhurenColor">{{ totalCount.UserCount }}</span>
+          <span class="gray">个</span>
+        </div>
+        <div class="name">儿童主任</div>
+      </div>
+      <div class="item">
+        <div>
+          <span class="shegongzhanColor">{{
+            totalCount.SocialStationCount
+          }}</span>
+          <span class="gray">个</span>
+        </div>
+        <div class="name">社工站</div>
+      </div>
+    </div>
+
     <div class="gap"></div>
     <div class="flex space-between newsTitle">
-      <div style="padding: 10px 20px;">新闻资讯</div>
+      <div style="padding: 10px 20px">新闻资讯</div>
       <!-- <div style="padding: 10px 20px;color: #989898" @click="changeCity" v-if="!isAssistant">切换城市</div> -->
     </div>
     <div class="newsList">
       <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <div v-for="(news,index) in newsList" :key="index">
-          <div class="flex" style="padding:10px;" @click="viewDeatil(news)">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div v-for="(news, index) in newsList" :key="index">
+          <div class="flex" style="padding: 10px" @click="viewDeatil(news)">
             <img
               :src="news.NewsThumbnail"
-              style="width:100px;min-width:100px;max-width:100px;height:60px;"
+              style="
+                width: 100px;
+                min-width: 100px;
+                max-width: 100px;
+                height: 60px;
+              "
             />
-            <div style="text-align: left;padding: 0 10px;position: relative;">
-              <div>{{news.Title}}</div>
+            <div style="text-align: left; padding: 0 10px; position: relative">
+              <div>{{ news.Title }}</div>
               <div
-                style="position: absolute;color: #a0a0a0;font-size: 14px;padding: 5px 0;"
-              >{{news.CreateTime}}</div>
+                style="
+                  position: absolute;
+                  color: #a0a0a0;
+                  font-size: 14px;
+                  padding: 5px 0;
+                "
+              >
+                {{ news.CreateTime }}
+              </div>
             </div>
           </div>
         </div>
@@ -109,7 +140,7 @@
     </div>
     <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>

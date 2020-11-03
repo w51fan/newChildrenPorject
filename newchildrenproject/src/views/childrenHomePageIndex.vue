@@ -1,6 +1,11 @@
 <template>
   <div class="careIndexPage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">儿童之家</div>
       </template>
@@ -13,21 +18,27 @@
           <div class="flex">
             <div class="item">
               <div>
-                <span class="guanaiertongColor">{{totalCount.ChildrenCount}}</span>
+                <span class="guanaiertongColor">{{
+                  totalCount.ChildrenCount
+                }}</span>
                 <span class="gray">名</span>
               </div>
               <div class="name">关爱儿童</div>
             </div>
             <div class="item">
               <div>
-                <span class="guanaihuodongColor">{{totalCount.ActivityCount}}</span>
+                <span class="guanaihuodongColor">{{
+                  totalCount.ActivityCount
+                }}</span>
                 <span class="gray">场</span>
               </div>
               <div class="name">关爱活动</div>
             </div>
             <div class="item">
               <div>
-                <span class="jiatinngjiaoyuColor">{{totalCount.CourseCount}}</span>
+                <span class="jiatinngjiaoyuColor">{{
+                  totalCount.CourseCount
+                }}</span>
                 <span class="gray">小时</span>
               </div>
               <div class="name">家庭教育小视频</div>
@@ -36,21 +47,27 @@
           <div class="flex">
             <div class="item">
               <div>
-                <span class="ertongzhijiaColor">{{totalCount.ChildrenHomeCount}}</span>
+                <span class="ertongzhijiaColor">{{
+                  totalCount.ChildrenHomeCount
+                }}</span>
                 <span class="gray">个</span>
               </div>
               <div class="name">儿童之家</div>
             </div>
             <div class="item">
               <div>
-                <span class="ertongzhurenColor">{{totalCount.UserCount}}</span>
+                <span class="ertongzhurenColor">{{
+                  totalCount.UserCount
+                }}</span>
                 <span class="gray">个</span>
               </div>
               <div class="name">儿童主任</div>
             </div>
             <div class="item">
               <div>
-                <span class="shegongzhanColor">{{totalCount.SocialStationCount}}</span>
+                <span class="shegongzhanColor">{{
+                  totalCount.SocialStationCount
+                }}</span>
                 <span class="gray">个</span>
               </div>
               <div class="name">社工站</div>
@@ -66,12 +83,15 @@
     <van-tabs class="careIndexTabs" v-model="activeTab">
       <van-tab title="活动统计">
         <div class="gap gaptwo"></div>
-        <div v-for="(area,index) in areaItems" :key="index">
-          <div class="flex space-between" style="padding: 20px;">
-            <div>{{area.text}}</div>
-            <div v-if="area.ActivityCount>0" @click="collapseDown(area,index)">
-              ({{area.ActivityCount}}场)
-              <van-icon name="arrow-down" v-if="showCurrentDown===index" />
+        <div v-for="(area, index) in areaItems" :key="index">
+          <div class="flex space-between" style="padding: 20px">
+            <div>{{ area.text }}</div>
+            <div
+              v-if="area.ActivityCount > 0"
+              @click="collapseDown(area, index)"
+            >
+              ({{ area.ActivityCount }}场)
+              <van-icon name="arrow-down" v-if="showCurrentDown === index" />
               <van-icon name="arrow" v-else />
             </div>
             <div v-else>
@@ -80,13 +100,21 @@
             </div>
           </div>
           <div class="gap gapone"></div>
-          <div v-if="showChild===index">
-            <div v-for="(child,turn) in area.children" :key="turn">
-              <div class="flex space-between" style="padding: 5px 25px;">
-                <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{child.text}}</div>
-                <div v-if="child.ActivityCount>0" @click="collapseSecondDown(child,turn)">
-                  ({{child.ActivityCount}}场)
-                  <van-icon name="arrow-down" v-if="showSecondCurrentDown===turn" />
+          <div v-if="showChild === index">
+            <div v-for="(child, turn) in area.children" :key="turn">
+              <div class="flex space-between" style="padding: 5px 25px">
+                <div style="border-left: 1px solid #676767; padding-left: 5px">
+                  --{{ child.text }}
+                </div>
+                <div
+                  v-if="child.ActivityCount > 0"
+                  @click="collapseSecondDown(child, turn)"
+                >
+                  ({{ child.ActivityCount }}场)
+                  <van-icon
+                    name="arrow-down"
+                    v-if="showSecondCurrentDown === turn"
+                  />
                   <van-icon name="arrow" v-else />
                 </div>
                 <div v-else>
@@ -95,11 +123,17 @@
                 </div>
               </div>
               <div class="gap gapone"></div>
-              <div v-if="showSecondChild===turn">
-                <div v-for="(tree,temp) in child.children" :key="temp">
-                  <div class="flex space-between" style="padding: 5px 45px;">
-                    <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{tree.text}}</div>
-                    <div v-if="tree.ActivityCount>0">({{tree.ActivityCount}}场)</div>
+              <div v-if="showSecondChild === turn">
+                <div v-for="(tree, temp) in child.children" :key="temp">
+                  <div class="flex space-between" style="padding: 5px 45px" @click="goDetail(tree)">
+                    <div
+                      style="border-left: 1px solid #676767; padding-left: 5px"
+                    >
+                      --{{ tree.text }}
+                    </div>
+                    <div v-if="tree.ActivityCount > 0">
+                      ({{ tree.ActivityCount }}场)
+                    </div>
                     <div v-else>(0场)</div>
                   </div>
                 </div>
@@ -111,12 +145,15 @@
       </van-tab>
       <van-tab title="儿童统计">
         <div class="gap gaptwo"></div>
-        <div v-for="(area,index) in childrenItems" :key="index">
-          <div class="flex space-between" style="padding: 20px;">
-            <div>{{area.text}}</div>
-            <div v-if="area.ChildrenCount>0" @click="collapseDown(area,index)">
-              ({{area.ChildrenCount}}名)
-              <van-icon name="arrow-down" v-if="showCurrentDown===index" />
+        <div v-for="(area, index) in childrenItems" :key="index">
+          <div class="flex space-between" style="padding: 20px">
+            <div>{{ area.text }}</div>
+            <div
+              v-if="area.ChildrenCount > 0"
+              @click="collapseDown(area, index)"
+            >
+              ({{ area.ChildrenCount }}名)
+              <van-icon name="arrow-down" v-if="showCurrentDown === index" />
               <van-icon name="arrow" v-else />
             </div>
             <div v-else>
@@ -125,13 +162,21 @@
             </div>
           </div>
           <div class="gap gapone"></div>
-          <div v-if="showChild===index">
-            <div v-for="(child,turn) in area.children" :key="turn">
-              <div class="flex space-between" style="padding: 5px 25px;">
-                <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{child.text}}</div>
-                <div v-if="child.ChildrenCount>0" @click="collapseSecondDown(child,turn)">
-                  ({{child.ChildrenCount}}名)
-                  <van-icon name="arrow-down" v-if="showSecondCurrentDown===turn" />
+          <div v-if="showChild === index">
+            <div v-for="(child, turn) in area.children" :key="turn">
+              <div class="flex space-between" style="padding: 5px 25px">
+                <div style="border-left: 1px solid #676767; padding-left: 5px">
+                  --{{ child.text }}
+                </div>
+                <div
+                  v-if="child.ChildrenCount > 0"
+                  @click="collapseSecondDown(child, turn)"
+                >
+                  ({{ child.ChildrenCount }}名)
+                  <van-icon
+                    name="arrow-down"
+                    v-if="showSecondCurrentDown === turn"
+                  />
                   <van-icon name="arrow" v-else />
                 </div>
                 <div v-else>
@@ -140,11 +185,21 @@
                 </div>
               </div>
               <div class="gap gapone"></div>
-              <div v-if="showSecondChild===turn">
-                <div v-for="(tree,temp) in child.children" :key="temp">
-                  <div class="flex space-between" style="padding: 5px 45px;">
-                    <div style="border-left: 1px solid #676767;padding-left: 5px;">--{{tree.text}}</div>
-                    <div v-if="tree.ChildrenCount>0">({{tree.ChildrenCount}}名)</div>
+              <div v-if="showSecondChild === turn">
+                <div v-for="(tree, temp) in child.children" :key="temp">
+                  <div
+                    class="flex space-between"
+                    style="padding: 5px 45px"
+                    @click="goDetail(tree)"
+                  >
+                    <div
+                      style="border-left: 1px solid #676767; padding-left: 5px"
+                    >
+                      --{{ tree.text }}
+                    </div>
+                    <div v-if="tree.ChildrenCount > 0">
+                      ({{ tree.ChildrenCount }}名)
+                    </div>
                     <div v-else>(0名)</div>
                   </div>
                 </div>
@@ -167,14 +222,14 @@
           :value="childrenHome.ActivityCount"
           is-link
           @click="goDetail(childrenHome)"
-          v-for="(childrenHome,index) in topChildrenHomeList"
+          v-for="(childrenHome, index) in topChildrenHomeList"
           :key="index"
         >
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="flex space-between">
-              <div class="custom-title">{{childrenHome.Name}}</div>
-              <div>{{childrenHome.ChildrenDirector}}</div>
+              <div class="custom-title">{{ childrenHome.Name }}</div>
+              <div>{{ childrenHome.ChildrenDirector }}</div>
             </div>
           </template>
         </van-cell>
@@ -192,13 +247,13 @@
           :value="SocialStation.ActivityCount"
           is-link
           @click="goSocialStation(SocialStation)"
-          v-for="(SocialStation,index) in topSocialStationList"
+          v-for="(SocialStation, index) in topSocialStationList"
           :key="index"
         >
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="flex space-between">
-              <div class="custom-title">{{SocialStation.Name}}</div>
+              <div class="custom-title">{{ SocialStation.Name }}</div>
               <!-- <div>{{SocialStation.ChildrenDirector}}</div> -->
             </div>
           </template>
@@ -207,7 +262,7 @@
     </van-tabs>
     <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -303,6 +358,7 @@ export default {
                           threeItem.ActivityCount > 0
                             ? `${threeItem.Name}   `
                             : threeItem.Name,
+                        VillageId: threeItem.Id,
                         ActivityCount: threeItem.ActivityCount,
                       });
                       childrenChildren.push({
@@ -310,6 +366,7 @@ export default {
                           threeItem.ChildrenCount > 0
                             ? `${threeItem.Name}   `
                             : threeItem.Name,
+                        VillageId: threeItem.Id,
                         ChildrenCount: threeItem.ChildrenCount,
                       });
                     });

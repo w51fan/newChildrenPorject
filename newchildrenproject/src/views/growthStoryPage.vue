@@ -14,7 +14,7 @@
     <div class="navImgList flex wrap">
       <div class="item flex space-between fudaoyuanBgColor" @click="go(1)">
         <div class="warp">
-          <div class="text fudaoyuanColor">优秀儿童辅导员</div>
+          <div class="text fudaoyuanColor">优秀儿童督导员</div>
           <div class="quchakan fudaoyuanColorchakan">去查看></div>
         </div>
         <div class="flex">
@@ -45,7 +45,7 @@
       <div class="item flex space-between shaonianBgColor" @click="go(3)">
         <div class="warp">
           <div class="text shaonianColor" style="color: rgba(20, 18, 100, 1)">
-            最美少年
+            最美阳光小队员
           </div>
           <div class="quchakan shaonianColorchakan">去查看></div>
         </div>
@@ -73,9 +73,9 @@
       </div>
     </div>
     <div class="zhiyuanzheText">志愿者服务</div>
-    <div class="zhiyuanzherenshuText">志愿者人数统计</div>
+    <!-- <div class="zhiyuanzherenshuText">志愿者人数统计</div> -->
     <div class="gap gapone"></div>
-    <div>
+    <!-- <div>
       <div v-for="(area, index) in areaItems" :key="index">
         <div class="flex space-between" style="padding: 20px">
           <div>{{ area.text }}</div>
@@ -132,7 +132,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%">

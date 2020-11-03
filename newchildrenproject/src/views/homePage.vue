@@ -1,60 +1,123 @@
 <template>
   <div class="homePage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">全家学儿童关爱</div>
       </template>
     </van-nav-bar>
     <div class="swipe">
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="#E73A32">
-        <van-swipe-item v-for="(img,index) in imgList" :key="index">
+        <van-swipe-item v-for="(img, index) in imgList" :key="index">
           <img :src="img" class="swipeImg" />
         </van-swipe-item>
       </van-swipe>
     </div>
     <div class="navHeader">
-      <div v-for="(src,index) in navHeaderList" :key="index" @click="go(index)">
+      <div
+        v-for="(src, index) in navHeaderList"
+        :key="index"
+        @click="go(index)"
+      >
         <img :src="src.img" class="navHeaderImg" alt />
-        <div style="font-size:14px;font-weight:600;padding-bottom:10px;">{{src.name}}</div>
+        <div style="font-size: 14px; font-weight: 600; padding-bottom: 10px">
+          {{ src.name }}
+        </div>
       </div>
     </div>
-    <div style="width:100%;height:10px;background:#EBECEC;"></div>
-    <div class="flex space-between" style="text-align: left;padding:20px;font-size: 16px;font-weight: 600;">
+    <div style="width: 100%; height: 10px; background: #ebecec"></div>
+    <div
+      class="flex space-between"
+      style="text-align: left; padding: 20px; font-size: 16px; font-weight: 600"
+    >
       <div>儿童关爱数据统计</div>
       <div style="color: #989898" @click="changeCity">切换城市</div>
     </div>
     <div class="statisticsData">
       <div>
         <div
-          style="color:rgba(210, 30, 25, 1);font-size: 18px;font-weight: 600;"
-        >{{statisticsData.childrenHomeNum}}</div>
-        <div style="color: rgba(102, 102, 102, 1);">邵阳儿童之家（个）</div>
+          style="color: rgba(102, 102, 102, 1); font-size: 14px;line-height: 35px;"
+          class="flex"
+        >
+          邵阳儿童之家
+          <div
+            style="
+              color: rgba(210, 30, 25, 1);
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 35px;
+              padding-left: 5px;
+            "
+          >
+            {{ statisticsData.childrenHomeNum }}
+          </div>
+          （个）
+        </div>
       </div>
-      <div style="width: 1px;height: 25px;background: rgba(218, 218, 218, 0.8);margin-top: 10px;"></div>
+      <div
+        style="
+          width: 1px;
+          height: 25px;
+          background: rgba(218, 218, 218, 0.8);
+          margin-top: 10px;
+        "
+      ></div>
       <div>
         <div
-          style="color:rgba(107, 192, 60, 1);font-size: 18px;font-weight: 600;"
-        >{{statisticsData.activityNum}}</div>
-        <div style="color: rgba(102, 102, 102, 1);">开展关爱活动（次）</div>
+          style="color: rgba(102, 102, 102, 1); font-size: 14px;line-height: 35px;"
+          class="flex"
+        >
+          开展关爱活动
+          <div
+            style="
+              color: rgba(107, 192, 60, 1);
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 35px;
+              padding-left: 5px;
+            "
+          >
+            {{ statisticsData.activityNum }}
+          </div>
+          （次）
+        </div>
       </div>
     </div>
     <div
-      style="text-align: left;padding: 10px 20px 0;font-size: 14px;font-weight: 600;display:flex;justify-content: space-between;"
+      style="
+        text-align: left;
+        padding: 10px 20px 0;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+      "
     >
       <div>各地区开展关爱活动详情</div>
-      <div style="display: flex;">
+      <div style="display: flex">
         <div
-          style="width: 20px;height: 20px;background: rgba(252, 90, 33, 1);border-radius: 5px;margin-right: 5px;margin-top: 1px;"
+          style="
+            width: 20px;
+            height: 20px;
+            background: rgba(252, 90, 33, 1);
+            border-radius: 5px;
+            margin-right: 5px;
+            margin-top: 1px;
+          "
         ></div>
         <div>关爱活动</div>
       </div>
     </div>
     <div>
-      <div id="myChart" :style="{ height: '300px'}"></div>
+      <div id="myChart" :style="{ height: '300px' }"></div>
     </div>
     <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -355,10 +418,10 @@ export default {
 
 <style lang="less">
 .homePage {
-  .flex{
+  .flex {
     display: flex;
   }
-  .space-between{
+  .space-between {
     justify-content: space-between;
   }
   .navTitle {

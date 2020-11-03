@@ -173,4 +173,18 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.name === 'userCenterPage' || to.name === 'learningParkPage') {
+    // 如果未登录跳转到登录页
+    if (window.localStorage.getItem('childrenToken') === '') {
+      next({
+        name: 'loginPage',
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 export default router;

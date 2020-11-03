@@ -11,7 +11,7 @@
       </template>
     </van-nav-bar>
     <van-tabs class="learningParkPageTabs" v-model="selected">
-      <van-tab title="红色爱国教育">
+      <!-- <van-tab title="红色爱国教育">
         <div class="gap"></div>
         <div class="Content">
           <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
@@ -39,7 +39,6 @@
                     >
                       {{ article.Title }}
                     </div>
-                    <!-- <div style="color:#CCCCCC;font-size: 12px;">{{article.Description}}</div> -->
                     <div style="color: #cccccc; font-size: 12px">
                       {{ article.CreateTime }}
                     </div>
@@ -104,8 +103,8 @@
             </van-list>
           </van-pull-refresh>
         </div>
-      </van-tab>
-      <van-tab title="家庭尽责学习">
+      </van-tab> -->
+      <van-tab title="父母成长课堂">
         <div class="gap"></div>
         <div class="Content">
           <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
@@ -118,7 +117,7 @@
               <div class="familyResponsibilityHead">
                 <img src="../assets/jiatingjinze.png" alt />
                 <div class="text">
-                  <div>家庭教育系列课程</div>
+                  <div>父母成长课堂</div>
                 </div>
               </div>
               <div
