@@ -154,6 +154,8 @@ export default {
                 this.$store.commit('common/SET_UserTpye', res.data.user.Type);
                 this.$store.commit('common/getCityId', res.data.user.CityId);
                 this.$store.commit('common/SET_cityId', res.data.user.CityId);
+                this.$store.commit('common/getCityName', res.data.user.CityName);
+                this.$store.commit('common/SET_cityName', res.data.user.CityName);
                 this.$store.commit('common/getUser', res.data.user);
                 this.showOverlay = false;
                 if (

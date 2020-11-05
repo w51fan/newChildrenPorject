@@ -2,6 +2,7 @@
 const state = {
   currentPage: '',
   cityId: '',
+  cityName: '',
   areaId: '',
   townId: '',
   CourseId: '',
@@ -22,6 +23,7 @@ const state = {
 const getters = {
   currentPage: (state) => state.currentPage,
   cityId: (state) => state.currentTab,
+  cityName: (state) => state.cityName,
   areaId: (state) => state.stuViewLists,
   townId: (state) => state.mediaDevice,
   CourseId: (state) => state.CourseId,
@@ -45,6 +47,9 @@ const mutations = {
   },
   getCityId(state, value) {
     state.cityId = value;
+  },
+  getCityName(state, value) {
+    state.cityName = value;
   },
   getAreaId(state, value) {
     state.areaId = value;
@@ -84,6 +89,10 @@ const mutations = {
   SET_cityId(state, value) {
     state.cityId = value;
     window.localStorage.setItem('cityId', value);
+  },
+  SET_cityName(state, value) {
+    state.cityName = value;
+    window.localStorage.setItem('cityName', value);
   },
   SET_UserTpye(state, value) {
     state.UserTpye = value;

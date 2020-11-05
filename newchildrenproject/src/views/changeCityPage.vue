@@ -9,7 +9,7 @@
         class="cityItem"
         @click="selectedCity(city)"
       >
-        <van-button type="primary" color="#d21e19" style="width:100%;">{{city.Name}}</van-button>
+        <van-button type="primary" color="#ff6034" style="width:100%;">{{city.Name}}</van-button>
       </div>
     </div>
   </div>
@@ -35,8 +35,11 @@ export default {
   },
   methods: {
     selectedCity(city) {
+      console.log('city', city);
       this.$store.commit('common/getCityId', city.Id);
       this.$store.commit('common/SET_cityId', city.Id);
+      this.$store.commit('common/getCityName', city.Name);
+      this.$store.commit('common/SET_cityName', city.Name);
 
       this.$router.push({
         name: 'homePage',

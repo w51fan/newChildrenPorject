@@ -155,17 +155,16 @@ import {
   getGoveList,
   getTotalCount,
 } from '@/api/home';
-import bottomNavPage from './bottomNavPage.vue';
+// import bottomNavPage from './bottomNavPage.vue';
 
 export default {
   name: 'governmentLedPage',
   components: {
-    bottomNavPage,
+    // bottomNavPage,
   },
   data() {
     return {
       selectedNav: 'governmentLedPage',
-      cityName: '邵阳市',
       imgList: [],
       tabList: [],
       newsList: [],
@@ -187,6 +186,18 @@ export default {
         SocialStationCount: '',
       },
     };
+  },
+  computed: {
+    cityId() {
+      return this.$store.state.common.cityId
+        ? this.$store.state.common.cityId
+        : window.localStorage.getItem('cityId');
+    },
+    cityName() {
+      return this.$store.state.common.cityName
+        ? this.$store.state.common.cityName
+        : window.localStorage.getItem('cityName');
+    },
   },
   watch: {
     selectedNav(val) {
@@ -256,13 +267,6 @@ export default {
         console.log('err', err);
         this.showOverlay = false;
       });
-  },
-  computed: {
-    cityId() {
-      return this.$store.state.common.cityId
-        ? this.$store.state.common.cityId
-        : window.localStorage.getItem('cityId');
-    },
   },
   methods: {
     onClickLeft() {

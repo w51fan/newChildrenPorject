@@ -43,7 +43,7 @@
           style="color: rgba(102, 102, 102, 1); font-size: 14px;line-height: 35px;"
           class="flex"
         >
-          邵阳儿童之家
+         {{cityName}}儿童之家
           <div
             style="
               color: rgba(210, 30, 25, 1);
@@ -162,6 +162,7 @@ export default {
           name: '学习乐园',
         },
       ],
+      xAxisListIDs: [],
       xAxisList: [
         // "双清区",
         // "大祥区",
@@ -272,6 +273,11 @@ export default {
         ? this.$store.state.common.cityId
         : window.localStorage.getItem('cityId');
     },
+    cityName() {
+      return this.$store.state.common.cityName
+        ? this.$store.state.common.cityName
+        : window.localStorage.getItem('cityName');
+    },
   },
   mounted() {
     this.showOverlay = true;
@@ -337,6 +343,7 @@ export default {
               this.areaItems.push(areaTemp);
               this.childrenItems.push(childrenTemp);
               this.xAxisList.push(item.Name);
+              this.xAxisListIDs[item.Name] = item.Id;
               this.seriesList.push(item.ActivityCount);
               // eslint-disable-next-line operator-assignment
               this.statisticsData.activityNum = this.statisticsData.activityNum + item.ActivityCount;
@@ -363,6 +370,19 @@ export default {
             );
             myChart.setOption(this.echartOption);
             this.showOverlay = false;
+            this.$nextTick(() => {
+              myChart.getZr().on('click', (params) => {
+                console.log('params', params, this.xAxisListIDs);
+                const point = [params.offsetX, params.offsetY];
+                if (myChart.containPixel('grid', point)) {
+                  const xIndex = myChart.convertFromPixel({ seriesIndex: 0 }, point)[0];
+                  const op = myChart.getOption();
+                  const name = op.xAxis[0].data[xIndex];
+                  console.log('name', name, this.xAxisListIDs[name]);
+                  this.goDetail(this.xAxisListIDs[name]);
+                }
+              });
+            });
           })
           .catch((err2) => {
             console.log('getTreeCount', err2);
@@ -409,6 +429,15 @@ export default {
         name: 'changeCityPage',
         query: {
           needComeBack: true,
+        },
+      });
+    },
+    goDetail(childrenHomeId) {
+      this.$store.commit('common/getVillageId', childrenHomeId);
+      this.$router.push({
+        name: 'childrenHomePage',
+        query: {
+          currentPath: 'homePage',
         },
       });
     },

@@ -10,7 +10,7 @@
       <div class="headBarInteview">
         <div class="flex tipsTiitle">
           <img src="../assets/icon_ertongzhijia_red.png" class="img" alt />
-          <div class="name">金桥村儿童之家</div>
+          <div class="name">{{childrenHome.Name?childrenHome.Name:'儿童之家'}}</div>
         </div>
         <div
           class="position"
