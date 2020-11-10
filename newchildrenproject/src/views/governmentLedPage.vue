@@ -406,7 +406,7 @@ export default {
       this.newsDate = `${this.formatDate(start)} - ${this.formatDate(end)}`;
       this.getNewsListFun({
         cityId: this.cityId,
-        pageNumber: this.pageNumber,
+        pageNumber: 1,
         pageSize: this.pageSize,
         title: this.searchKey,
         beginDate: this.formatDate(start),
@@ -416,7 +416,7 @@ export default {
     searchFun() {
       this.getNewsListFun({
         cityId: this.cityId,
-        pageNumber: this.pageNumber,
+        pageNumber: 1,
         pageSize: this.pageSize,
         title: this.searchKey,
         beginDate: this.startDate,
