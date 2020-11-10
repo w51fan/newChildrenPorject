@@ -98,8 +98,27 @@
 
     <div class="gap"></div>
     <div class="flex space-between newsTitle">
-      <div style="padding: 10px 20px">新闻资讯</div>
-      <!-- <div style="padding: 10px 20px;color: #989898" @click="changeCity" v-if="!isAssistant">切换城市</div> -->
+      <div style="padding: 10px 20px; flex: 1; text-align: left">新闻资讯</div>
+      <van-field
+        style="flex: 1"
+        v-model="searchKey"
+        left-icon="search"
+        placeholder="关键词搜索"
+        @click-left-icon="searchFun"
+      />
+      <div
+        style="
+          padding: 10px 20px;
+          color: rgb(93 190 246);
+          flex: 1;
+          line-height: 24px;
+          text-align: left;
+        "
+        @click="showNewsDate = true"
+      >
+        {{ newsDate }}
+      </div>
+      <van-calendar v-model="showNewsDate" :min-date="minDate" type="range" @confirm="onConfirm" />
     </div>
     <div class="newsList">
       <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
@@ -185,6 +204,13 @@ export default {
         UserCount: '',
         SocialStationCount: '',
       },
+      newsDate: '选择日期',
+      showNewsDate: false,
+      showNewsDateBtn: true,
+      searchKey: '',
+      startDate: '',
+      endtDate: '',
+      minDate: new Date(2015, 0, 1),
     };
   },
   computed: {
@@ -241,7 +267,7 @@ export default {
             console.log('err', err);
             this.showOverlay = false;
           });
-        getNewsList(this.cityId, this.pageNumber, this.pageSize)
+        getNewsList(this.cityId, this.pageNumber, this.pageSize, '', '', '')
           .then((news) => {
             console.log(news);
             this.newsList = news.data.newsList;
@@ -290,10 +316,39 @@ export default {
         },
       });
     },
-    getNewsList(param) {
-      const { cityId, pageNumber, pageSize } = param;
+    getNewsListFun(param) {
+      const {
+        cityId, pageNumber, pageSize, title, beginDate, endDate,
+      } = param;
+      getNewsList(
+        cityId, pageNumber, pageSize, title, beginDate, endDate,
+      ).then((news) => {
+        console.log(news);
+        this.newsList = news.data.newsList;
+        this.total = news.data.total;
+        // this.showOverlay = false;
+        getTotalCount(this.cityId)
+          .then((res) => {
+            // console.log("getTotalCount", res);
+            this.totalCount = res.data.totalCount;
+            this.showOverlay = false;
+          })
+          .catch((err) => {
+            console.log('getTotalCount', err);
+            this.showOverlay = false;
+          });
+      })
+        .catch((err) => {
+          console.log('err', err);
+          this.showOverlay = false;
+        });
+    },
+    getNewsListFreshFun(param) {
+      const {
+        cityId, pageNumber, pageSize, title, beginDate, endDate,
+      } = param;
       this.showOverlay = true;
-      getNewsList(cityId, pageNumber, pageSize)
+      getNewsList(cityId, pageNumber, pageSize, title, beginDate, endDate)
         .then((res) => {
           // console.log(news);
           res.data.newsList.forEach((item) => {
@@ -316,10 +371,13 @@ export default {
       }
       // console.log('this.newsList.length',this.newsList.length)
       if (this.newsList.length < this.total) {
-        this.getNewsList({
+        this.getNewsListFreshFun({
           cityId: this.cityId,
           pageNumber: this.pageNumber++ + 1,
           pageSize: this.pageSize,
+          title: this.searchKey,
+          beginDate: this.startDate,
+          endDate: this.endtDate,
         });
       } else {
         // this.finished = true;
@@ -335,6 +393,35 @@ export default {
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
       this.onLoad();
+    },
+    formatDate(date) {
+      return `${date.getFullYear()}-${(date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth()}${1}`)}-${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
+    },
+    onConfirm(date) {
+      const [start, end] = date;
+      this.showNewsDate = false;
+      this.showNewsDateBtn = false;
+      this.startDate = this.formatDate(start);
+      this.endtDate = this.formatDate(end);
+      this.newsDate = `${this.formatDate(start)} - ${this.formatDate(end)}`;
+      this.getNewsListFun({
+        cityId: this.cityId,
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize,
+        title: this.searchKey,
+        beginDate: this.formatDate(start),
+        endDate: this.formatDate(end),
+      });
+    },
+    searchFun() {
+      this.getNewsListFun({
+        cityId: this.cityId,
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize,
+        title: this.searchKey,
+        beginDate: this.startDate,
+        endDate: this.endtDate,
+      });
     },
   },
 };

@@ -1,10 +1,10 @@
 <template>
   <div class="guidePage">
     <div class="headBar">
-      <img src="../assets/img_bg_yindaoye@2x.png" alt />
+      <img src="../assets/img_bg_yindaoye.png" alt />
       <div class="headBarCity">
-        <div>邵阳市</div>
-        <div>儿童关爱平台</div>
+        <div>全家学儿童关爱</div>
+        <div>智慧平台</div>
       </div>
       <div class="headBarInteview">
         <div
@@ -33,7 +33,11 @@
         </div>
       </div>
     </div>
-    <div style="color: #717c87; font-size: 14px">全学家儿童关爱平台</div>
+    <div class="headBarBottom">
+      <img src="../assets/img_logo_denglu@2x.png" style="width: 15%" />
+      <div>全学家儿童关爱平台</div>
+    </div>
+
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%">
         <van-loading type="spinner" />
@@ -52,7 +56,7 @@ export default {
       showOverlay: false,
       activeTab: '',
       introduceContent:
-        '儿童关爱行动平台是一套网络信息化管理系统，除了进行儿童信息采集外，通过建立县、乡、村三级监督考核系统、评估系统，还可以对儿童问题和动态及时关注、及时干预，及时解决，及时反馈。此系统包括管理端（PC）、展示端（用于展示民政系统对外数据和新闻发布）以及手机管理端（用户管理、上报儿童信息、发布儿童之家活动以及观看家庭教育视频）三个客户端。',
+        '儿童关爱行动平台是一套网络信息化管理系统，除了进行儿童信息采集外，通过建立市、县、乡、村四级监督考核系统、评估系统，还可以对儿童问题和动态及时关注、及时干预，及时解决，及时反馈。此系统包括管理端（PC）、展示端（用于展示民政系统对外数据和新闻发布）以及手机管理端（用户管理、上报儿童信息、发布儿童之家活动以及观看家庭教育视频）三个客户端。',
       // functionContent:"",
     };
   },
@@ -151,6 +155,14 @@ export default {
         margin-top: 10px;
       }
     }
+  }
+  .headBarBottom {
+    color: #717c87;
+    font-size: 14px;
+    // position: absolute;
+    width: 100vw;
+    text-align: center;
+    height: 88px;
   }
 
   .fix {

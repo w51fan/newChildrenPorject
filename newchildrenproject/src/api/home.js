@@ -17,9 +17,10 @@ export const getMenuList = function (cityId) {
   });
 };
 // 新闻列表
-export const getNewsList = function (cityId, pageNumber, pageSize) {
+export const getNewsList = function (cityId, pageNumber, pageSize, title, beginDate, endDate) {
   return axios.request({
-    url: `${config.hostApi}/news/list?cityId=${cityId}&type=${3}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    url:
+      `${config.hostApi}/news/list?cityId=${cityId}&type=${3}&pageNumber=${pageNumber}&pageSize=${pageSize}&title=${title}&beginDate=${beginDate}&endDate=${endDate}`,
     method: 'get',
   });
 };
