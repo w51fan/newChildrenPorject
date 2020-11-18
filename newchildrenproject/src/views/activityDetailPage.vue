@@ -73,7 +73,7 @@
     </div>
     <div>
       <div class="activityRecord">活动记录</div>
-      <div class="activityRecordInput" style="padding:20px;" v-if="showSubmitButton&&UserTpye===4">
+      <div class="activityRecordInput" style="padding:20px;" v-if="showSubmitButton&&UserType===4">
         <van-field
           v-model="recordContent"
           type="textarea"
@@ -115,7 +115,7 @@
     <div>
       <div class="activityEvaluate">活动评价</div>
       <!-- <div class="activityEvaluateContent" >暂无活动评价</div> -->
-      <div v-if="UserTpye===11&&activityCommentList.length===0">
+      <div v-if="UserType===11&&activityCommentList.length===0">
         <div v-for="(item,index) in activityEvaluateContent" :key="index">
           <div class="flex space-between activityEvaluateContentItem">
             <div>{{index+1}}、{{item.content}}</div>
@@ -274,8 +274,10 @@ export default {
     PreCurrentPath() {
       return this.$store.state.common.PreCurrentPath;
     },
-    UserTpye() {
-      return this.$store.state.common.UserTpye;
+    UserType() {
+      return this.$store.state.common.UserType
+        ? this.$store.state.common.UserType
+        : window.localStorage.getItem('UserTpye') - 0;
     },
   },
   mounted() {
@@ -287,7 +289,7 @@ export default {
       if (this.$route.query.showSubmitButton) this.showSubmitButton = true;
       getActivityDetail(this.$route.query.activityId)
         .then((res) => {
-          console.log('activity', res, this.UserTpye);
+          console.log('activity', res, this.UserType);
           this.activity = res.data.activity;
           this.userIdentity = this.activity.User.Type === 4 ? '儿童主任' : this.activity.User.Type === 7 ? '志愿者' : this.activity.User.Type === 3 ? '镇级管理员' : this.activity.User.Type === 2 ? '县级管理员' : this.activity.User.Type === 1 ? '市级管理员' : this.activity.User.Type === 6 ? '助理' : this.activity.User.Type === 11 ? '家长' : this.activity.User.Type === 12 ? '社区工作服务管理员' : this.activity.User.Type === 14 ? '校儿童主任' : this.activity.User.Type === 15 ? '校儿童督导员' : '村级讲师';
           if (res.data.activity.User.ProfilePhoto !== '') { this.ProfilePhoto = res.data.activity.User.ProfilePhoto; }

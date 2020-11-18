@@ -65,6 +65,18 @@
       type="textarea"
       placeholder="输入您的意见或建议…"
     />
+    <div class="activityImgTitle">活动图片（{{ imgFileList.length }}/6）</div>
+
+    <div style="text-align: left; padding: 0 20px">
+      <van-uploader
+        :after-read="afterRead"
+        :before-delete="beforeDelete"
+        v-model="imgFileList"
+        :max-count="6"
+        :max-size="2 * 1024 * 1024"
+        @oversize="onOversize"
+      />
+    </div>
     <div class="submitBtn" @click="sumbitFun">
       <div>提交</div>
     </div>
@@ -92,7 +104,7 @@
 </template>
 
 <script>
-import { addVisit, getVisitDetail } from '@/api/home';
+import { uploadImg, addVisit, getVisitDetail } from '@/api/home';
 
 export default {
   name: 'addRecordPage',
@@ -114,6 +126,7 @@ export default {
       childrenNameErrText: '',
       phoneErrText: '',
       addressErrText: '',
+      imgFileList: [],
     };
   },
   computed: {
@@ -124,6 +137,14 @@ export default {
     },
     PreCurrentPath() {
       return this.$store.state.common.PreCurrentPath;
+    },
+    urls: {
+      get() {
+        return this.$store.state.common.urls;
+      },
+      set(val) {
+        this.$store.commit('common/getUrls', val);
+      },
     },
   },
   watch: {
@@ -240,6 +261,7 @@ export default {
         phone: this.phone,
         objective: this.objective,
         record: this.recordMessage,
+        urls: this.urls,
       })
         .then((res) => {
           console.log('addVisit', res);
@@ -272,6 +294,37 @@ export default {
           this.showOverlay = false;
         });
     },
+    afterRead(file) {
+      this.showOverlay = true;
+      const formData = new window.FormData();
+      formData.append('file', file.file);
+      uploadImg(formData).then((res) => {
+        // this.urls =
+        //   this.urls === "" ? res.data.url : this.urls + "," + res.data.url;
+        this.urls.push(res.data.url);
+        this.activityImageList = this.imgFileList;
+        this.$notify({
+          type: 'success',
+          message: '上传成功',
+          duration: 1000,
+        });
+        this.showOverlay = false;
+      });
+    },
+    beforeDelete(file, event) {
+      // console.log('file',file,event)
+      // console.log(this.urls)
+      this.imgFileList.splice(event.index, 1);
+      this.urls.splice(event.index, 1);
+    },
+    onOversize(file) {
+      // console.log('onOversize',file);
+      this.$notify({
+        type: 'warning',
+        message: '图片大小不能超过2M',
+        duration: 1500,
+      });
+    },
   },
 };
 </script>
@@ -297,6 +350,12 @@ export default {
     text-align: left;
     padding: 10px 16px;
     color: #646566;
+  }
+  .activityImgTitle {
+    text-align: left;
+    padding: 20px;
+    font-size: 14px;
+    font-weight: 600;
   }
   .submitBtn {
     text-align: center;

@@ -1,21 +1,29 @@
 <template>
   <div class="unfinishedActivityPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div class="activityDetailTitle">{{activity.Name}}</div>
+    <div class="activityDetailTitle">{{ activity.Name }}</div>
     <!-- <div class="activityDetailTitle">ceshi</div> -->
     <div class="starlist flex">
       <ul class="cleanfloat flex">
-        <li v-for="(n,index) in 5" :key="index" :class="[index+1>starNum?'grayStar':'star']">★</li>
+        <li
+          v-for="(n, index) in 5"
+          :key="index"
+          :class="[index + 1 > starNum ? 'grayStar' : 'star']"
+        >
+          ★
+        </li>
       </ul>
-      <div class="status will" v-if="activity.Status===1">即将开始</div>
-      <div class="status ing" v-else-if="activity.Status===2">进行中</div>
+      <div class="status will" v-if="activity.Status === 1">即将开始</div>
+      <div class="status ing" v-else-if="activity.Status === 2">进行中</div>
       <div class="status finished" v-else>已结束</div>
     </div>
     <div class="activityType flex">
       <div>类型：</div>
-      <div
-        class="activityTypeContent"
-      >{{activityTypeIDArray[activity.Type]}} （{{getDate(activity.Date)}}创建）</div>
+      <div class="activityTypeContent">
+        {{ activityTypeIDArray[activity.Type] }} （{{
+          getDate(activity.Date)
+        }}创建）
+      </div>
       <!-- <div class="activityTypeContent">家庭教育 （2020年7月7日创建）</div> -->
     </div>
     <div class="gap gapten"></div>
@@ -24,20 +32,21 @@
       <div>
         <div class="activityOrganizersHead">
           <img class="head" :src="ProfilePhoto" alt />
-          <div style="padding-left: 10%;padding-bottom: 10px;">{{activity.User.Name}}</div>
-          <div
-            class="status will"
-            style="width: 80px;color: black;margin:0;"
-          >{{userIdentity}}</div>
+          <div style="padding-left: 10%; padding-bottom: 10px">
+            {{ activity.User.Name }}
+          </div>
+          <div class="status will" style="width: 80px; color: black; margin: 0">
+            {{ userIdentity }}
+          </div>
         </div>
       </div>
       <!-- <div class="activityImgTitle">活动图片（{{activityImageList.length}}/{{activityImageList.length}}）</div> -->
-      <div class="activityImgTitle">活动图片（{{imgFileList.length}}/6）</div>
+      <div class="activityImgTitle">活动图片（{{ imgFileList.length }}/6）</div>
       <!-- <div class="flex space-between" style="padding: 20px;">
         <div class="activityImgTitle">活动图片（0/6）</div>
         <div style="color:#9c9a9a">点击“+”上传</div>
       </div>-->
-      <div style="text-align: left;padding: 0 20px;">
+      <div style="text-align: left; padding: 0 20px">
         <van-uploader
           :after-read="afterRead"
           :before-delete="beforeDelete"
@@ -52,8 +61,10 @@
         </van-uploader>-->
       </div>
     </div>
-    <div class="activityImgTitle">签到图片（{{signImgFileList.length}}/1）</div>
-    <div style="text-align: left;padding: 0 20px;">
+    <div class="activityImgTitle">
+      签到图片（{{ signImgFileList.length }}/1）
+    </div>
+    <div style="text-align: left; padding: 0 20px">
       <van-uploader
         :after-read="afterSignRead"
         :before-delete="beforeSignDelete"
@@ -67,9 +78,20 @@
           <van-button icon="photo" type="primary">上传文件</van-button>
       </van-uploader>-->
     </div>
+    <div class="activityImgTitle">活动视频（{{ videoFileList.length }}/1）</div>
+    <div style="text-align: left; padding: 0 20px">
+      <van-uploader
+        :after-read="afterVideoRead"
+        :before-delete="beforeVideoDelete"
+        v-model="videoFileList"
+        :max-count="1"
+        accept="video/*"
+      />
+      <video :src="videoUrl" controls="controls" width="100" height="100px" v-if="videoUrl!==''"></video>
+    </div>
     <div>
       <div class="activityRecord">活动记录</div>
-      <div class="activityRecordInput" style="padding:20px;">
+      <div class="activityRecordInput" style="padding: 20px">
         <van-field
           v-model="recordContent"
           type="textarea"
@@ -79,33 +101,41 @@
           maxlength="500"
           show-word-limit
         />
-        <div style="text-align: right;padding: 10px 20px 0;">
+        <div style="text-align: right; padding: 10px 20px 0">
           <van-button
             type="default"
             :disabled="disabledBtn"
             size="small"
             @click="showSubmitConfirmfun"
-          >提交记录</van-button>
+            >提交记录</van-button
+          >
         </div>
       </div>
       <div class="bgColor">
-        <div v-if="activityRecordList.length>0">
-          <div v-for="(record,index) in activityRecordList" :key="index">
+        <div v-if="activityRecordList.length > 0">
+          <div v-for="(record, index) in activityRecordList" :key="index">
             <div class="activityRecordUser">
               <img
                 :src="ProfilePhoto"
-                style="width: 40px;height: 40px;border-radius: 50%;object-fit: contain;"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: contain;
+                "
               />
-              <div style="line-height: 46px;padding-left: 10px;">{{record.User.Name}}</div>
+              <div style="line-height: 46px; padding-left: 10px">
+                {{ record.User.Name }}
+              </div>
             </div>
             <div>
               <div class="activityRecordUserContent">
                 <img
-                  v-if="record.Content.indexOf('http')> -1"
+                  v-if="record.Content.indexOf('http') > -1"
                   :src="record.Content"
-                  style="width:100%"
+                  style="width: 100%"
                 />
-                <div v-else>{{record.Content}}</div>
+                <div v-else>{{ record.Content }}</div>
               </div>
             </div>
           </div>
@@ -124,12 +154,13 @@
     </div>
     <van-button
       type="warning"
-      style="width:100%;"
+      style="width: 100%"
       :disabled="disabledBtn"
       @click="submitRelease"
-    >完成并公布此活动</van-button>
+      >完成并公布此活动</van-button
+    >
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -139,7 +170,9 @@
       :showConfirmButton="true"
       @confirm="submitReleaseRecord"
     >
-      <div style="padding:20px;text-align: left;">您是否提交活动记录，提交后如果需要修改，您可以再次提交后替换您之前的活动记录。</div>
+      <div style="padding: 20px; text-align: left">
+        您是否提交活动记录，提交后如果需要修改，您可以再次提交后替换您之前的活动记录。
+      </div>
     </van-dialog>
   </div>
 </template>
@@ -169,6 +202,7 @@ export default {
       activity: '',
       // urls: [],
       signInImage: '',
+      videoUrl: '',
       activityTypeIDArray: {
         1: '家庭教育',
         2: '儿童团辅',
@@ -202,6 +236,14 @@ export default {
         this.$store.commit('common/getSignImgFileList', val);
       },
     },
+    videoFileList: {
+      get() {
+        return this.$store.state.common.videoFileList;
+      },
+      set(val) {
+        this.$store.commit('common/getVideoFileList', val);
+      },
+    },
     urls: {
       get() {
         return this.$store.state.common.urls;
@@ -210,8 +252,10 @@ export default {
         this.$store.commit('common/getUrls', val);
       },
     },
-    UserTpye() {
-      return this.$store.state.common.UserTpye;
+    UserType() {
+      return this.$store.state.common.UserType
+        ? this.$store.state.common.UserType
+        : window.localStorage.getItem('UserTpye') - 0;
     },
   },
   mounted() {
@@ -220,12 +264,41 @@ export default {
   methods: {
     init() {
       this.showOverlay = true;
-      if (this.UserTpye !== 4 && this.UserTpye !== 12) this.disabledBtn = true;
+      if (this.UserType !== 4 && this.UserType !== 12) this.disabledBtn = true;
       if (!this.$route.query.isAssistant) this.disabledBtn = true;
       getActivityDetail(this.$route.query.activityId).then((res) => {
         console.log('getActivityDetail', res);
         this.activity = res.data.activity;
-        this.userIdentity = this.activity.User.Type === 4 ? '儿童主任' : this.activity.User.Type === 7 ? '志愿者' : this.activity.User.Type === 3 ? '镇级管理员' : this.activity.User.Type === 2 ? '县级管理员' : this.activity.User.Type === 1 ? '市级管理员' : this.activity.User.Type === 6 ? '助理' : this.activity.User.Type === 11 ? '家长' : this.activity.User.Type === 12 ? '社区工作服务管理员' : this.activity.User.Type === 14 ? '校儿童主任' : this.activity.User.Type === 15 ? '校儿童督导员' : '村级讲师';
+        // eslint-disable-next-line no-nested-ternary
+        this.userIdentity = this.activity.User.Type === 4
+          ? '儿童主任'
+          : // eslint-disable-next-line no-nested-ternary
+          this.activity.User.Type === 7
+            ? '志愿者'
+            : // eslint-disable-next-line no-nested-ternary
+            this.activity.User.Type === 3
+              ? '镇级管理员'
+              : // eslint-disable-next-line no-nested-ternary
+              this.activity.User.Type === 2
+                ? '县级管理员'
+                : // eslint-disable-next-line no-nested-ternary
+                this.activity.User.Type === 1
+                  ? '市级管理员'
+                  : // eslint-disable-next-line no-nested-ternary
+                  this.activity.User.Type === 6
+                    ? '助理'
+                    : // eslint-disable-next-line no-nested-ternary
+                    this.activity.User.Type === 11
+                      ? '家长'
+                      : // eslint-disable-next-line no-nested-ternary
+                      this.activity.User.Type === 12
+                        ? '社区工作服务管理员'
+                        : // eslint-disable-next-line no-nested-ternary
+                        this.activity.User.Type === 14
+                          ? '校儿童主任'
+                          : this.activity.User.Type === 15
+                            ? '校儿童督导员'
+                            : '村级讲师';
         this.activityRecordList = res.data.activityRecordList;
         this.showOverlay = false;
         this.imgFileList = this.activityImageList;
@@ -371,6 +444,24 @@ export default {
       // console.log('file',file,this.signInImage)
       this.signImgFileList = [];
       this.signInImage = '';
+    },
+    afterVideoRead(file) {
+      this.showOverlay = true;
+      const formData = new window.FormData();
+      formData.append('file', file.file);
+      uploadImg(formData).then((res) => {
+        this.videoUrl = res.data.url;
+        this.$notify({
+          type: 'success',
+          message: '上传成功',
+          duration: 1000,
+        });
+        this.showOverlay = false;
+      });
+    },
+    beforeVideoDelete(file, event) {
+      this.videoFileList.splice(event.index, 1);
+      this.videoUrl = '';
     },
   },
 };

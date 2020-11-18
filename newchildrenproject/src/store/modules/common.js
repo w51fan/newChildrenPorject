@@ -8,7 +8,7 @@ const state = {
   CourseId: '',
   VillageId: '',
   Token: '',
-  UserTpye: '',
+  UserType: '',
   User: '',
   ChildrenHomeId: '',
   SocialStationId: '',
@@ -16,6 +16,7 @@ const state = {
   Select: '',
   activityImageList: [],
   signImgFileList: [],
+  videoFileList: [],
   activityId: '',
   urls: [],
 };
@@ -29,7 +30,7 @@ const getters = {
   CourseId: (state) => state.CourseId,
   VillageId: (state) => state.VillageId,
   Token: (state) => state.Token,
-  UserTpye: (state) => state.UserTpye,
+  UserType: (state) => state.UserType,
   User: (state) => state.User,
   ChildrenHomeId: (state) => state.ChildrenHomeId,
   SocialStationId: (state) => state.SocialStationId,
@@ -37,6 +38,7 @@ const getters = {
   Select: (state) => state.Select,
   activityImageList: (state) => state.activityImageList,
   signImgFileList: (state) => state.signImgFileList,
+  videoFileList: (state) => state.videoFileList,
 };
 
 const actions = {};
@@ -68,7 +70,7 @@ const mutations = {
     // window.localStorage.setItem('Token',value)
   },
   getUserTpye(state, value) {
-    state.UserTpye = value;
+    state.UserType = value;
   },
   getUser(state, value) {
     state.User = value;
@@ -95,8 +97,8 @@ const mutations = {
     window.localStorage.setItem('cityName', value);
   },
   SET_UserTpye(state, value) {
-    state.UserTpye = value;
-    window.localStorage.setItem('UserTpye', value);
+    state.UserType = value;
+    window.localStorage.setItem('UserType', value);
   },
   getSelect(state, value) {
     state.Select = value;
@@ -106,6 +108,9 @@ const mutations = {
   },
   getSignImgFileList(state, value) {
     state.signImgFileList = value;
+  },
+  getVideoFileList(state, value) {
+    state.videoFileList = value;
   },
   getActivityId(state, value) {
     state.activityId = value;

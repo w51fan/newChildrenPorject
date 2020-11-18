@@ -40,7 +40,7 @@
           required
           :error-message="activityTypeErrText"
         />
-        <div v-if="UserTpye===4">
+        <div v-if="UserType===4">
           <van-field
             readonly
             clickable
@@ -54,7 +54,7 @@
             :error-message="activityHomeErrText"
           />
         </div>
-        <div v-else-if="UserTpye===12">
+        <div v-else-if="UserType===12">
           <van-field
             readonly
             clickable
@@ -162,8 +162,10 @@ export default {
         ? this.$store.state.common.Token
         : window.localStorage.getItem('childrenToken');
     },
-    UserTpye() {
-      return this.$store.state.common.UserTpye;
+    UserType() {
+      return this.$store.state.common.UserType
+        ? this.$store.state.common.UserType
+        : window.localStorage.getItem('UserTpye') - 0;
     },
   },
   watch: {
@@ -198,7 +200,7 @@ export default {
   },
   mounted() {
     this.showOverlay = true;
-    if (this.UserTpye === 4) {
+    if (this.UserType === 4) {
       getChildrenHomeList(this.Token)
         .then((res) => {
           console.log('getChildrenHomeList', res);
@@ -293,7 +295,7 @@ export default {
       }
       this.activityTypeErrText = '';
 
-      if (this.activityHome === '' && this.UserTpye === 12) {
+      if (this.activityHome === '' && this.UserType === 12) {
         this.activityHomeErrText = '请选择';
         this.showOverlay = false;
         console.log('failed', 4);
@@ -310,7 +312,7 @@ export default {
         date: this.activityDate,
         activityType: this.$route.query.activityType,
         socialStationId: this.childrenHomeIDListArray[this.activityHome],
-        isChildrenHome: this.UserTpye === 4,
+        isChildrenHome: this.UserType === 4,
       })
         .then((res) => {
           console.log('addActivity', res);

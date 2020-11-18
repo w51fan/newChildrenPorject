@@ -53,14 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="headerBottomNav flex space-between">
-      <!-- <div class="flex item" @click="go(4)">
-        <div style="max-width: 70px; position: relative">
-          <div>我的记录</div>
-          <div class="tipsNum">{{userInfo.Points}}</div>
-        </div>
-      </div>
-      <div class="gapbar"></div> -->
+    <!-- <div class="headerBottomNav flex space-between">
       <div class="flex item" @click="go(5)">
         <div style="max-width: 70px; position: relative">
           <div>走访记录</div>
@@ -68,20 +61,13 @@
         </div>
       </div>
       <div class="gapbar"></div>
-      <!-- <div class="flex item" @click="go(6)">
-        <div style="max-width: 70px; position: relative">
-          <div>成长记录</div>
-          <div class="tipsNum">{{userInfo.Points}}</div>
-        </div>
-      </div>
-      <div class="gapbar"></div> -->
-      <div class="flex item" @click="go(7)">
+      <div class="flex item" @click="go(99)">
         <div style="max-width: 70px; position: relative">
           <div>学习记录</div>
           <div class="tipsNum">{{ userInfo.LearningCount }}</div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="flex addBtn" @click="addRecord">
       <div class="addBtnImg">
         <img :src="addImg" alt="" class="img" />

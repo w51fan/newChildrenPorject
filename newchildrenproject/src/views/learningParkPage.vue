@@ -10,7 +10,11 @@
         <div class="navTitle">学习乐园</div>
       </template>
     </van-nav-bar>
-    <van-tabs class="learningParkPageTabs" v-model="selected">
+    <van-tabs
+      class="learningParkPageTabs"
+      v-model="selected"
+      @click="changeFun"
+    >
       <!-- <van-tab title="红色爱国教育">
         <div class="gap"></div>
         <div class="Content">
@@ -108,29 +112,30 @@
         <div class="gap"></div>
         <div class="Content">
           <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
-            <van-list
-              v-model="loading"
-              :finished="finished"
-              finished-text="没有更多了"
-              @load="onLoad"
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <div class="familyResponsibilityHead">
+              <img src="../assets/jiatingjinze.png" alt />
+              <div class="text">
+                <div>父母成长课堂</div>
+              </div>
+            </div>
+            <div
+              style="
+                text-align: left;
+                padding: 20px;
+                font-weight: 600;
+                font-size: 20px;
+              "
             >
-              <div class="familyResponsibilityHead">
-                <img src="../assets/jiatingjinze.png" alt />
-                <div class="text">
-                  <div>父母成长课堂</div>
-                </div>
-              </div>
-              <div
-                style="
-                  text-align: left;
-                  padding: 20px;
-                  font-weight: 600;
-                  font-size: 20px;
-                "
-              >
-                课程列表
-              </div>
-              <div style="margin-bottom: 60px">
+              课程列表
+            </div>
+            <div style="margin-bottom: 60px">
+              <div v-if="courseList.length > 0">
                 <div
                   v-for="(course, index) in courseList"
                   :key="index"
@@ -177,7 +182,10 @@
                   </div>
                 </div>
               </div>
-            </van-list>
+
+              <div v-else>暂无课程</div>
+            </div>
+          </van-list>
           <!-- </van-pull-refresh> -->
         </div>
       </van-tab>
@@ -185,36 +193,37 @@
         <div class="gap"></div>
         <div class="Content">
           <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
-            <!-- <van-list
+          <!-- <van-list
               v-model="loading"
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad"
               >暂无数据</van-list
             > -->
-            <van-list
-              v-model="loading"
-              :finished="finished"
-              finished-text="没有更多了"
-              @load="onLoad"
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <div class="familyResponsibilityHead">
+              <img src="../assets/jiatingjinze.png" alt />
+              <div class="text">
+                <div>儿童主任系列课程</div>
+              </div>
+            </div>
+            <div
+              style="
+                text-align: left;
+                padding: 20px;
+                font-weight: 600;
+                font-size: 20px;
+              "
             >
-              <div class="familyResponsibilityHead">
-                <img src="../assets/jiatingjinze.png" alt />
-                <div class="text">
-                  <div>儿童主任系列课程</div>
-                </div>
-              </div>
-              <div
-                style="
-                  text-align: left;
-                  padding: 20px;
-                  font-weight: 600;
-                  font-size: 20px;
-                "
-              >
-                课程列表
-              </div>
-              <div style="margin-bottom: 60px">
+              课程列表
+            </div>
+            <div style="margin-bottom: 60px">
+              <div v-if="courseList.length > 0">
                 <div
                   v-for="(course, index) in courseList"
                   :key="index"
@@ -261,7 +270,9 @@
                   </div>
                 </div>
               </div>
-            </van-list>
+              <div v-else>暂无课程</div>
+            </div>
+          </van-list>
           <!-- </van-pull-refresh> -->
         </div>
       </van-tab>
@@ -281,7 +292,7 @@ export default {
   name: 'learningParkPage',
   data() {
     return {
-      selected: '1',
+      selected: '1', // 1为父母成长课堂，2为儿童主任课程
       autoplay: false,
       loading: false,
       finished: false,
@@ -335,9 +346,9 @@ export default {
         : window.localStorage.getItem('childrenToken');
     },
   },
-  // watch:{
-  //   selected
-  // },
+  watch: {
+    selected() {},
+  },
   mounted() {
     this.showOverlay = true;
     this.getPatrioticListFun({
@@ -345,7 +356,7 @@ export default {
       pageNumber: this.pageNumber,
       isPull: false,
     });
-    this.getCourseListFun();
+    this.getCourseListFun(1);
   },
   methods: {
     onClickLeft() {
@@ -381,7 +392,9 @@ export default {
             });
             this.loading = false;
             this.showOverlay = false;
-            if (!(this.articlelist.length < this.patrioticLisTotal)) this.finished = true;
+            if (!(this.articlelist.length < this.patrioticLisTotal)) {
+              this.finished = true;
+            }
           } else {
             this.articlelist = res.data.patrioticList;
             this.patrioticLisTotal = res.data.total;
@@ -393,8 +406,8 @@ export default {
           this.showOverlay = false;
         });
     },
-    getCourseListFun() {
-      getCourseList()
+    getCourseListFun(type) {
+      getCourseList(type)
         .then((res) => {
           console.log('getCourseList', res);
           this.courseList = res.data.courseList;
@@ -440,6 +453,10 @@ export default {
           Id: course.CourseId,
         },
       });
+    },
+    changeFun() {
+      console.log(this.selected);
+      this.getCourseListFun(this.selected + 1); // 1为父母成长课堂，2为儿童主任课程
     },
   },
 };

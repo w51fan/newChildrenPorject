@@ -172,9 +172,9 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.query.User && this.$route.query.UserTpye) {
-      this.$store.commit('common/getUserTpye', this.$route.query.UserTpye);
-      this.$store.commit('common/SET_UserTpye', this.$route.query.UserTpye);
+    if (this.$route.query.User && this.$route.query.UserType) {
+      this.$store.commit('common/getUserTpye', this.$route.query.UserType);
+      this.$store.commit('common/SET_UserTpye', this.$route.query.UserType);
       this.$store.commit('common/getUser', this.$route.query.User);
     }
     if (!this.Token) {

@@ -175,8 +175,10 @@ export default {
         ? this.$store.state.common.Token
         : window.localStorage.getItem('childrenToken');
     },
-    UserTpye() {
-      return this.$store.state.common.UserTpye;
+    UserType() {
+      return this.$store.state.common.UserType
+        ? this.$store.state.common.UserType
+        : window.localStorage.getItem('UserTpye') - 0;
     },
   },
   watch: {
@@ -190,9 +192,10 @@ export default {
     },
   },
   mounted() {
+    console.log('this.UserType', this.UserType);
     // 1未完成活动，3已完成活动
     // {cityId, areaId, townId, type, activityType}
-    if (this.UserTpye === 11) this.showAddBtn = false;
+    if (this.UserType === 11) this.showAddBtn = false;
     this.showOverlay = true;
     this.init(1);
   },
@@ -203,7 +206,7 @@ export default {
       });
     },
     init(type) {
-      if (this.UserTpye === 4 || this.UserTpye === 11) {
+      if (this.UserType === 4 || this.UserType === 11) {
         this.getActivityListByUserId({
           type,
           pageNumber: this.pageNumber,
@@ -298,7 +301,7 @@ export default {
     },
     goUnfinishedActivity(activity) {
       this.$router.push({
-        name: 'unfinishedActivity',
+        name: 'unfinishedActivityPage',
         query: {
           currentPath: 'offlineActivity',
           activityId: activity.Id,
@@ -329,7 +332,7 @@ export default {
       // }
       if (this.activityList.length < this.total) {
         if (this.activeTab === 1) {
-          if (this.UserTpye === 4 || this.UserTpye === 11) {
+          if (this.UserType === 4 || this.UserType === 11) {
             this.getActivityListByUserId({
               type: 3,
               pageNumber: this.pageNumber++ + 1,
@@ -344,7 +347,7 @@ export default {
               isPull: true,
             });
           }
-        } else if (this.UserTpye === 4 || this.UserTpye === 11) {
+        } else if (this.UserType === 4 || this.UserType === 11) {
           this.getActivityListByUserId({
             type: 1,
             pageNumber: this.pageNumber++ + 1,

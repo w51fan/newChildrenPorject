@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="gapbar"></div> -->
-      <div class="flex item" @click="go(7)">
+      <div class="flex item" @click="go(99)">
         <div style="max-width: 70px; position: relative">
           <div>学习记录</div>
           <div class="tipsNum">{{ userInfo.LearningCount }}</div>

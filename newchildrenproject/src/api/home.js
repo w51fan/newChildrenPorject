@@ -140,9 +140,9 @@ export const getChildrenhomeDetail = function (villageId) {
 };
 
 // 课程列表
-export const getCourseList = function () {
+export const getCourseList = function (type) {
   return axios.request({
-    url: `${config.hostApi}/course/courseList`,
+    url: `${config.hostApi}/course/courseList?type=${type}`,
     method: 'get',
   });
 };
