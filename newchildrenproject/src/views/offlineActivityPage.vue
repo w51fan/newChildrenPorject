@@ -101,8 +101,9 @@
                       <div class="flex">
                         <img
                           :src="activityImg.Url"
-                          v-for="(activityImg,
-                          turn) in activity.ActivityImage.slice(0, 3)"
+                          v-for="(
+                            activityImg, turn
+                          ) in activity.ActivityImage.slice(0, 3)"
                           :key="turn"
                           style="
                             width: 80px;
@@ -134,7 +135,6 @@
 
 <script>
 import {
-  getActivityList,
   getActivityListByUserId,
   getSocialStationActivityListByUserId,
 } from '@/api/home';
@@ -149,7 +149,7 @@ export default {
     return {
       showAddBtn: true,
       activeTab: 0,
-      selectedNav: 'offlineActivity',
+      selectedNav: 'offlineActivityPage',
       showOverlay: false,
       activityList: [],
       activityImg: [],
@@ -178,7 +178,7 @@ export default {
     UserType() {
       return this.$store.state.common.UserType
         ? this.$store.state.common.UserType
-        : window.localStorage.getItem('UserTpye') - 0;
+        : window.localStorage.getItem('UserType') - 0;
     },
   },
   watch: {
@@ -192,7 +192,6 @@ export default {
     },
   },
   mounted() {
-    console.log('this.UserType', this.UserType);
     // 1未完成活动，3已完成活动
     // {cityId, areaId, townId, type, activityType}
     if (this.UserType === 11) this.showAddBtn = false;
@@ -227,7 +226,7 @@ export default {
       this.$router.push({
         name: 'addActivityPage',
         query: {
-          currentPath: 'offlineActivity',
+          currentPath: 'offlineActivityPage',
           activityType: 1,
         },
       });
@@ -303,7 +302,7 @@ export default {
       this.$router.push({
         name: 'unfinishedActivityPage',
         query: {
-          currentPath: 'offlineActivity',
+          currentPath: 'offlineActivityPage',
           activityId: activity.Id,
         },
       });
@@ -312,7 +311,7 @@ export default {
       this.$router.push({
         name: 'activityDetailPage',
         query: {
-          currentPath: 'offlineActivity',
+          currentPath: 'offlineActivityPage',
           activityId: activity.Id,
           showSubmitButton: true,
         },
@@ -335,6 +334,7 @@ export default {
           if (this.UserType === 4 || this.UserType === 11) {
             this.getActivityListByUserId({
               type: 3,
+              // eslint-disable-next-line no-plusplus
               pageNumber: this.pageNumber++ + 1,
               pageSize: this.pageSize,
               isPull: true,
@@ -342,6 +342,7 @@ export default {
           } else {
             this.getSocialStationActivityListByUserId({
               type: 3,
+              // eslint-disable-next-line no-plusplus
               pageNumber: this.pageNumber++ + 1,
               pageSize: this.pageSize,
               isPull: true,
@@ -350,6 +351,7 @@ export default {
         } else if (this.UserType === 4 || this.UserType === 11) {
           this.getActivityListByUserId({
             type: 1,
+            // eslint-disable-next-line no-plusplus
             pageNumber: this.pageNumber++ + 1,
             pageSize: this.pageSize,
             isPull: true,
@@ -357,6 +359,7 @@ export default {
         } else {
           this.getSocialStationActivityListByUserId({
             type: 1,
+            // eslint-disable-next-line no-plusplus
             pageNumber: this.pageNumber++ + 1,
             pageSize: this.pageSize,
             isPull: true,

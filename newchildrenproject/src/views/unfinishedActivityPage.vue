@@ -86,8 +86,18 @@
         v-model="videoFileList"
         :max-count="1"
         accept="video/*"
+        :disabled="disabledBtn"
+        v-if="videoUrl == ''"
       />
-      <video :src="videoUrl" controls="controls" width="100" height="100px" v-if="videoUrl!==''"></video>
+      <div style="display: inline-grid;" v-else>
+        <video
+          :src="videoUrl"
+          controls="controls"
+          width="100"
+          height="100px"
+        ></video>
+        <van-button plain hairline type="info" @click="deleteVideo">删除视频</van-button>
+      </div>
     </div>
     <div>
       <div class="activityRecord">活动记录</div>
@@ -198,6 +208,7 @@ export default {
       showOverlay: false,
       showSubmitConfirm: false,
       recordContent: '',
+      // eslint-disable-next-line global-require
       ProfilePhoto: require('../assets/nohead.png'),
       activity: '',
       // urls: [],
@@ -255,7 +266,7 @@ export default {
     UserType() {
       return this.$store.state.common.UserType
         ? this.$store.state.common.UserType
-        : window.localStorage.getItem('UserTpye') - 0;
+        : window.localStorage.getItem('UserType') - 0;
     },
   },
   mounted() {
@@ -265,34 +276,42 @@ export default {
     init() {
       this.showOverlay = true;
       if (this.UserType !== 4 && this.UserType !== 12) this.disabledBtn = true;
-      if (!this.$route.query.isAssistant) this.disabledBtn = true;
+      // if (!this.$route.query.isAssistant) this.disabledBtn = true;
       getActivityDetail(this.$route.query.activityId).then((res) => {
         console.log('getActivityDetail', res);
         this.activity = res.data.activity;
         // eslint-disable-next-line no-nested-ternary
         this.userIdentity = this.activity.User.Type === 4
           ? '儿童主任'
+          // eslint-disable-next-line operator-linebreak
           : // eslint-disable-next-line no-nested-ternary
           this.activity.User.Type === 7
             ? '志愿者'
+            // eslint-disable-next-line operator-linebreak
             : // eslint-disable-next-line no-nested-ternary
             this.activity.User.Type === 3
               ? '镇级管理员'
+              // eslint-disable-next-line operator-linebreak
               : // eslint-disable-next-line no-nested-ternary
               this.activity.User.Type === 2
                 ? '县级管理员'
+                // eslint-disable-next-line operator-linebreak
                 : // eslint-disable-next-line no-nested-ternary
                 this.activity.User.Type === 1
                   ? '市级管理员'
+                  // eslint-disable-next-line operator-linebreak
                   : // eslint-disable-next-line no-nested-ternary
                   this.activity.User.Type === 6
                     ? '助理'
+                    // eslint-disable-next-line operator-linebreak
                     : // eslint-disable-next-line no-nested-ternary
                     this.activity.User.Type === 11
                       ? '家长'
+                      // eslint-disable-next-line operator-linebreak
                       : // eslint-disable-next-line no-nested-ternary
                       this.activity.User.Type === 12
                         ? '社区工作服务管理员'
+                        // eslint-disable-next-line operator-linebreak
                         : // eslint-disable-next-line no-nested-ternary
                         this.activity.User.Type === 14
                           ? '校儿童主任'
@@ -390,6 +409,10 @@ export default {
         this.$toast('签到图片未上传，请先上传签到图片。');
         return;
       }
+      if (this.videoUrl === '') {
+        this.$toast('视频未上传，请先上传视频。');
+        return;
+      }
       let urls = '';
       this.urls.forEach((element) => {
         urls = urls === '' ? element : `${urls},${element}`;
@@ -401,6 +424,7 @@ export default {
         this.recordContent,
         urls,
         this.signInImage,
+        this.videoUrl,
       )
         .then((res) => {
           console.log('release', res);
@@ -426,6 +450,7 @@ export default {
           this.showOverlay = false;
         });
     },
+    // eslint-disable-next-line no-unused-vars
     onOversize(file) {
       // console.log('onOversize',file);
       this.$notify({
@@ -440,6 +465,7 @@ export default {
       this.imgFileList.splice(event.index, 1);
       this.urls.splice(event.index, 1);
     },
+    // eslint-disable-next-line no-unused-vars
     beforeSignDelete(file, event) {
       // console.log('file',file,this.signInImage)
       this.signImgFileList = [];
@@ -462,6 +488,10 @@ export default {
     beforeVideoDelete(file, event) {
       this.videoFileList.splice(event.index, 1);
       this.videoUrl = '';
+    },
+    deleteVideo() {
+      this.videoUrl = '';
+      this.videoFileList = [];
     },
   },
 };

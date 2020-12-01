@@ -225,7 +225,6 @@ export default {
     },
     sumbitFun() {
       this.showOverlay = true;
-      const $this = this;
       if (this.activityDate === '') {
         this.activityDateErrText = '请选择';
         this.showOverlay = false;
@@ -318,7 +317,7 @@ export default {
       this.urls.splice(event.index, 1);
     },
     onOversize(file) {
-      // console.log('onOversize',file);
+      console.log('onOversize', file);
       this.$notify({
         type: 'warning',
         message: '图片大小不能超过2M',

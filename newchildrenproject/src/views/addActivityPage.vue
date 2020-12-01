@@ -165,7 +165,7 @@ export default {
     UserType() {
       return this.$store.state.common.UserType
         ? this.$store.state.common.UserType
-        : window.localStorage.getItem('UserTpye') - 0;
+        : window.localStorage.getItem('UserType') - 0;
     },
   },
   watch: {

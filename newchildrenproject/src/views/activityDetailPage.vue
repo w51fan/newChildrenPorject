@@ -1,18 +1,27 @@
+/* eslint-disable no-nested-ternary */
 <template>
   <div class="activityDetailPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div class="activityDetailTitle">{{activity.Name}}</div>
+    <div class="activityDetailTitle">{{ activity.Name }}</div>
     <div class="starlist flex">
       <ul class="cleanfloat flex">
-        <li v-for="(n,index) in 5" :key="index" :class="[index+1>starNum?'grayStar':'star']">★</li>
+        <li
+          v-for="(n, index) in 5"
+          :key="index"
+          :class="[index + 1 > starNum ? 'grayStar' : 'star']"
+        >
+          ★
+        </li>
       </ul>
-      <div class="status will" v-if="activity.Status===1">即将开始</div>
-      <div class="status ing" v-else-if="activity.Status===2">进行中</div>
+      <div class="status will" v-if="activity.Status === 1">即将开始</div>
+      <div class="status ing" v-else-if="activity.Status === 2">进行中</div>
       <div class="status finished" v-else>已结束</div>
     </div>
     <div class="activityType flex">
       <div>类型：</div>
-      <div class="activityTypeContent">{{ActivityType}} （{{getDate(activity.Date)}}创建）</div>
+      <div class="activityTypeContent">
+        {{ ActivityType }} （{{ getDate(activity.Date) }}创建）
+      </div>
     </div>
     <div class="gap gapten"></div>
     <div>
@@ -20,20 +29,23 @@
       <div>
         <div class="activityOrganizersHead">
           <img class="head" :src="ProfilePhoto" alt />
-          <div style="padding-left: 10%;padding-bottom: 10px;">{{activity.User.Name}}</div>
-          <div
-            class="status will"
-            style="width: 80px;color: black;margin:0;"
-          >{{userIdentity}}</div>
+          <div style="padding-left: 10%; padding-bottom: 10px">
+            {{ activity.User.Name }}
+          </div>
+          <div class="status will" style="width: 80px; color: black; margin: 0">
+            {{ userIdentity }}
+          </div>
         </div>
       </div>
-      <div class="activityImgTitle">活动图片（{{activityImageList.length}}/6）</div>
+      <div class="activityImgTitle">
+        活动图片（{{ activityImageList.length }}/6）
+      </div>
 
       <div class="activityImageList">
         <div class="flex wrap">
           <img
             :src="img.Url"
-            v-for="(img,index) in activityImageList"
+            v-for="(img, index) in activityImageList"
             :key="index"
             class="imgItem"
             @click="showPreview(index)"
@@ -46,15 +58,19 @@
           @change="onImgPreviewChange"
           :startPosition="startPosition"
         >
-          <template v-slot:turn>{{ turn }}/{{activityImageList.length}}</template>
+          <template v-slot:turn
+            >{{ turn }}/{{ activityImageList.length }}</template
+          >
         </van-image-preview>
       </div>
-      <div class="activityImgTitle">签到图片（{{signInImageList.length}}/1）</div>
+      <div class="activityImgTitle">
+        签到图片（{{ signInImageList.length }}/1）
+      </div>
       <div class="activityImageList">
         <div class="flex wrap">
           <img
             :src="img.Url"
-            v-for="(img,index) in signInImageList"
+            v-for="(img, index) in signInImageList"
             :key="index"
             class="imgItem"
             @click="showSignPreview(index)"
@@ -67,13 +83,35 @@
           @change="onImgPreviewChange"
           :startPosition="startSignPosition"
         >
-          <template v-slot:turn>{{ turn }}/{{signInImageList.length}}</template>
+          <template v-slot:turn
+            >{{ turn }}/{{ signInImageList.length }}</template
+          >
         </van-image-preview>
+      </div>
+      <div class="activityImgTitle">
+        活动视频（{{ activityVideoList.length }}/1）
+      </div>
+      <div class="activityImageList">
+        <div class="flex wrap">
+          <video
+            :src="video.Url"
+            v-for="(video, index) in activityVideoList"
+            :key="index"
+            class="imgItem"
+            controls="controls"
+            width="100"
+            height="100px"
+          />
+        </div>
       </div>
     </div>
     <div>
       <div class="activityRecord">活动记录</div>
-      <div class="activityRecordInput" style="padding:20px;" v-if="showSubmitButton&&UserType===4">
+      <div
+        class="activityRecordInput"
+        style="padding: 20px"
+        v-if="showSubmitButton && UserType === 4"
+      >
         <van-field
           v-model="recordContent"
           type="textarea"
@@ -83,25 +121,37 @@
           autosize
           show-word-limit
         />
-        <div style="text-align: right;padding: 20px 20px 0;">
-          <van-button type="default" size="small" @click="showSubmitConfirmfun">提交记录</van-button>
+        <div style="text-align: right; padding: 20px 20px 0">
+          <van-button type="default" size="small" @click="showSubmitConfirmfun"
+            >提交记录</van-button
+          >
         </div>
       </div>
-      <div style="background: rgba(128, 128, 128, 0.1);">
-        <div v-if="activityRecordList.length>0">
-          <div v-for="(record,index) in activityRecordList" :key="index">
+      <div style="background: rgba(128, 128, 128, 0.1)">
+        <div v-if="activityRecordList.length > 0">
+          <div v-for="(record, index) in activityRecordList" :key="index">
             <div class="activityRecordUser">
-              <img :src="ProfilePhoto" style="width: 40px;height: 40px;border-radius: 50%;object-fit: contain;" />
-              <div style="line-height: 46px;padding-left: 10px;">{{record.User.Name}}</div>
+              <img
+                :src="ProfilePhoto"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: contain;
+                "
+              />
+              <div style="line-height: 46px; padding-left: 10px">
+                {{ record.User.Name }}
+              </div>
             </div>
             <div>
               <div class="activityRecordUserContent">
                 <img
-                  v-if="record.Content.indexOf('http')> -1"
+                  v-if="record.Content.indexOf('http') > -1"
                   :src="record.Content"
-                  style="width:100%"
+                  style="width: 100%"
                 />
-                <div v-else>{{record.Content}}</div>
+                <div v-else>{{ record.Content }}</div>
               </div>
             </div>
           </div>
@@ -115,27 +165,29 @@
     <div>
       <div class="activityEvaluate">活动评价</div>
       <!-- <div class="activityEvaluateContent" >暂无活动评价</div> -->
-      <div v-if="UserType===11&&activityCommentList.length===0">
-        <div v-for="(item,index) in activityEvaluateContent" :key="index">
+      <div v-if="UserType === 11 && activityCommentList.length === 0">
+        <div v-for="(item, index) in activityEvaluateContent" :key="index">
           <div class="flex space-between activityEvaluateContentItem">
-            <div>{{index+1}}、{{item.content}}</div>
+            <div>{{ index + 1 }}、{{ item.content }}</div>
             <div>
               <van-button
-                :class="{'yes':item.yes===1}"
+                :class="{ yes: item.yes === 1 }"
                 type="default"
-                style="color: #8a8a8a;"
+                style="color: #8a8a8a"
                 @click="yesClick(item)"
-              >是</van-button>
+                >是</van-button
+              >
               <van-button
-                :class="{'no':item.yes===2}"
+                :class="{ no: item.yes === 2 }"
                 type="default"
-                style="color: #8a8a8a;"
+                style="color: #8a8a8a"
                 @click="noClick(item)"
-              >否</van-button>
+                >否</van-button
+              >
             </div>
           </div>
         </div>
-        <div class="activityRecordInput" style="padding:20px;">
+        <div class="activityRecordInput" style="padding: 20px">
           <van-field
             v-model="evaluateContent"
             type="textarea"
@@ -145,33 +197,49 @@
             maxlength="500"
             show-word-limit
           />
-          <div style="text-align: right;padding: 10px 20px 0;">
-            <van-button type="default" size="small" @click="addComment">提交评价</van-button>
+          <div style="text-align: right; padding: 10px 20px 0">
+            <van-button type="default" size="small" @click="addComment"
+              >提交评价</van-button
+            >
           </div>
         </div>
       </div>
-      <div style="background: rgba(128, 128, 128, 0.1);">
-        <div v-if="activityCommentList.length>0">
-          <div v-for="(record,index) in activityCommentList" :key="index">
+      <div style="background: rgba(128, 128, 128, 0.1)">
+        <div v-if="activityCommentList.length > 0">
+          <div v-for="(record, index) in activityCommentList" :key="index">
             <div class="activityRecordUser">
-              <img :src="ProfilePhoto" style="width: 40px;height: 40px;border-radius: 50%;object-fit: contain;" />
-              <div style="line-height: 46px;padding-left: 10px;">{{record.User.Name}}</div>
+              <img
+                :src="ProfilePhoto"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: contain;
+                "
+              />
+              <div style="line-height: 46px; padding-left: 10px">
+                {{ record.User.Name }}
+              </div>
             </div>
             <div>
               <div class="activityRecordUserContent">
                 <img
-                  v-if="record.Content.indexOf('http')> -1"
+                  v-if="record.Content.indexOf('http') > -1"
                   :src="record.Content"
-                  style="width:100%"
+                  style="width: 100%"
                 />
                 <div v-else>
-                  <div>{{record.Content}}</div>
+                  <div>{{ record.Content }}</div>
                   <ul class="cleanfloat flex">
                     <li
-                      v-for="(n,index) in 5"
+                      v-for="(n, index) in 5"
                       :key="index"
-                      :class="[index+1>record.Score / 10?'grayStar':'star']"
-                    >★</li>
+                      :class="[
+                        index + 1 > record.Score / 10 ? 'grayStar' : 'star',
+                      ]"
+                    >
+                      ★
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -183,7 +251,7 @@
       <div class="gap gaptwenty"></div>
     </div>
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -193,14 +261,16 @@
       :showConfirmButton="true"
       @confirm="submitRelease"
     >
-      <div style="padding:20px;text-align: left;">您是否提交活动记录，提交后如果需要修改，您可以再次提交后替换您之前的活动记录。</div>
+      <div style="padding: 20px; text-align: left">
+        您是否提交活动记录，提交后如果需要修改，您可以再次提交后替换您之前的活动记录。
+      </div>
     </van-dialog>
   </div>
 </template>
 
 <script>
 import {
-  getActivityDetail, release, addRecord, addComment,
+  getActivityDetail, addRecord, addComment,
 } from '@/api/home';
 
 export default {
@@ -211,6 +281,7 @@ export default {
       activityRecordList: [],
       activityImageList: [],
       signInImageList: [],
+      activityVideoList: [],
       activityCommentList: [],
       showImgPreview: false,
       showSignImgPreview: false,
@@ -277,7 +348,7 @@ export default {
     UserType() {
       return this.$store.state.common.UserType
         ? this.$store.state.common.UserType
-        : window.localStorage.getItem('UserTpye') - 0;
+        : window.localStorage.getItem('UserType') - 0;
     },
   },
   mounted() {
@@ -291,16 +362,50 @@ export default {
         .then((res) => {
           console.log('activity', res, this.UserType);
           this.activity = res.data.activity;
-          this.userIdentity = this.activity.User.Type === 4 ? '儿童主任' : this.activity.User.Type === 7 ? '志愿者' : this.activity.User.Type === 3 ? '镇级管理员' : this.activity.User.Type === 2 ? '县级管理员' : this.activity.User.Type === 1 ? '市级管理员' : this.activity.User.Type === 6 ? '助理' : this.activity.User.Type === 11 ? '家长' : this.activity.User.Type === 12 ? '社区工作服务管理员' : this.activity.User.Type === 14 ? '校儿童主任' : this.activity.User.Type === 15 ? '校儿童督导员' : '村级讲师';
-          if (res.data.activity.User.ProfilePhoto !== '') { this.ProfilePhoto = res.data.activity.User.ProfilePhoto; }
+          // eslint-disable-next-line no-nested-ternary
+          this.userIdentity = this.activity.User.Type === 4
+            ? '儿童主任'
+            // eslint-disable-next-line no-nested-ternary
+            : this.activity.User.Type === 7
+              ? '志愿者'
+              // eslint-disable-next-line no-nested-ternary
+              : this.activity.User.Type === 3
+                ? '镇级管理员'
+                // eslint-disable-next-line no-nested-ternary
+                : this.activity.User.Type === 2
+                  ? '县级管理员'
+                  // eslint-disable-next-line no-nested-ternary
+                  : this.activity.User.Type === 1
+                    ? '市级管理员'
+                    // eslint-disable-next-line no-nested-ternary
+                    : this.activity.User.Type === 6
+                      ? '助理'
+                      // eslint-disable-next-line no-nested-ternary
+                      : this.activity.User.Type === 11
+                        ? '家长'
+                        // eslint-disable-next-line no-nested-ternary
+                        : this.activity.User.Type === 12
+                          ? '社区工作服务管理员'
+                          // eslint-disable-next-line no-nested-ternary
+                          : this.activity.User.Type === 14
+                            ? '校儿童主任'
+                            : this.activity.User.Type === 15
+                              ? '校儿童督导员'
+                              : '村级讲师';
+          if (res.data.activity.User.ProfilePhoto !== '') {
+            this.ProfilePhoto = res.data.activity.User.ProfilePhoto;
+          }
 
           this.starNum = res.data.activity.Score / 10;
           this.activityRecordList = res.data.activityRecordList;
           this.activityImageList = res.data.activityImageList.slice(0, 6);
           this.signInImageList = res.data.signInImageList.slice(0, 1);
           this.activityCommentList = res.data.activityCommentList;
+          this.activityVideoList = res.data.activityVideoList.slice(0, 1);
+          // eslint-disable-next-line no-nested-ternary
           this.ActivityType = this.activity.ActivityType === 1
             ? '家庭教育'
+            // eslint-disable-next-line no-nested-ternary
             : this.activity.ActivityType === 2
               ? '儿童团辅'
               : this.activity.ActivityType === 3
@@ -313,7 +418,9 @@ export default {
             });
           }
 
-          if (this.signInImageList.length > 0) { this.signImagesArray.push(this.signInImageList[0].Url); }
+          if (this.signInImageList.length > 0) {
+            this.signImagesArray.push(this.signInImageList[0].Url);
+          }
           if (this.activityCommentList.length > 0) {
             // this.activityCommentList
             this.noComment = true;
@@ -427,13 +534,15 @@ export default {
           this.showOverlay = false;
         });
     },
-    yesClick(item) {
-      console.log(item);
-      item.yes = 1;
+    yesClick(target) {
+      console.log(target);
+      // eslint-disable-next-line no-param-reassign
+      target.yes = 1;
     },
-    noClick(item) {
-      console.log(item);
-      item.yes = 2;
+    noClick(target) {
+      console.log(target);
+      // eslint-disable-next-line no-param-reassign
+      target.yes = 2;
     },
   },
 };

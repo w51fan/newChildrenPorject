@@ -397,10 +397,11 @@ export const editChildren = function (data) {
 };
 
 // 发布活动
-export const release = function (token, id, content, urls, signInImage) {
-  if (urls && signInImage) {
+export const release = function (token, id, content, urls, signInImage, videos) {
+  if (urls && signInImage && videos) {
     return axios.request({
-      url: `${config.hostApi}/activity/release?token=${token}&id=${id}&content=${content}&urls=${urls}&signInImage=${signInImage}`,
+      url:
+        `${config.hostApi}/activity/release?token=${token}&id=${id}&content=${content}&urls=${urls}&signInImage=${signInImage}&videos=${videos}`,
       method: 'post',
     });
   }
