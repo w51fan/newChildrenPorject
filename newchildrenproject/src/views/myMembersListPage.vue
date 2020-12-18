@@ -26,14 +26,14 @@
             <van-icon class="settingIcon" name="setting-o" @click="go(7)" />
           </div>
           <div class="flex">
-            <div class="infoTtem" @click="go(8)">
+            <!-- <div class="infoTtem" @click="go(8)">
               <div>
                 {{ userInfo.ChildrenCount }}
                 <span style="font-size: 10px">个</span>
               </div>
               <div>我的成员</div>
             </div>
-            <div class="gapbar"></div>
+            <div class="gapbar"></div> -->
             <div class="infoTtem" @click="go(2)">
               <div>
                 {{ userInfo.ActivityCount }}
@@ -53,14 +53,14 @@
         </div>
       </div>
     </div>
-    <div class="headerBottomNav flex space-between">
-      <!-- <div class="flex item" @click="go(4)">
+    <!-- <div class="headerBottomNav flex space-between">
+      <div class="flex item" @click="go(4)">
         <div style="max-width: 70px; position: relative">
           <div>我的记录</div>
           <div class="tipsNum">{{userInfo.Points}}</div>
         </div>
       </div>
-      <div class="gapbar"></div> -->
+      <div class="gapbar"></div>
       <div class="flex item" @click="go(5)">
         <div style="max-width: 70px; position: relative">
           <div>走访记录</div>
@@ -68,20 +68,20 @@
         </div>
       </div>
       <div class="gapbar"></div>
-      <!-- <div class="flex item" @click="go(6)">
+      <div class="flex item" @click="go(6)">
         <div style="max-width: 70px; position: relative">
           <div>成长记录</div>
           <div class="tipsNum">{{userInfo.Points}}</div>
         </div>
       </div>
-      <div class="gapbar"></div> -->
+      <div class="gapbar"></div>
       <div class="flex item" @click="go(7)">
         <div style="max-width: 70px; position: relative">
           <div>学习记录</div>
           <div class="tipsNum">{{ userInfo.LearningCount }}</div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="flex addBtn" @click="addChild">
       <div class="addBtnImg">
         <img :src="addImg" alt="" class="img" />
@@ -242,6 +242,9 @@ export default {
           });
           break;
         case 2:
+          this.$router.push({
+            name: 'offlineActivityPage',
+          });
           break;
         case 3:
           this.$router.push({
@@ -279,9 +282,9 @@ export default {
       }
     },
     addChild() {
-      // this.$router.push({
-      //   name: 'addRecordPage',
-      // });
+      this.$router.push({
+        name: 'addChildrenPage',
+      });
     },
     viewDeatil() {},
     deleteChild(child) {

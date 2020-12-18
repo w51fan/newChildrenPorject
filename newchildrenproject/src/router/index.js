@@ -165,6 +165,13 @@ const routes = [
       '../views/activityDetailPage.vue'
     ),
   },
+  {
+    path: '/addChildrenPage',
+    name: 'addChildrenPage',
+    component: () => import(/* webpackChunkName: "about" */
+      '../views/addChildrenPage.vue'
+    ),
+  },
 ];
 
 const router = new VueRouter({
@@ -176,7 +183,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.name === 'userCenterPage' || to.name === 'learningParkPage') {
     // 如果未登录跳转到登录页
-    if (window.localStorage.getItem('childrenToken') === '') {
+    if (!window.localStorage.getItem('childrenToken') || window.localStorage.getItem('childrenToken') === '') {
       next({
         name: 'loginPage',
       });

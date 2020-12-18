@@ -199,6 +199,11 @@ export default {
         ? this.$store.state.common.Token
         : window.localStorage.getItem('childrenToken');
     },
+    UserType() {
+      return this.$store.state.common.UserType
+        ? this.$store.state.common.UserType
+        : window.localStorage.getItem('UserType') - 0;
+    },
     // User: {
     //   get() {
     //     return this.$store.state.common.User;
@@ -281,6 +286,14 @@ export default {
           });
           break;
         case 5:
+          if (this.UserType === 11) {
+            this.$notify({
+              type: 'warning',
+              message: '您没有权限操作此菜单，请联系管理员',
+              duration: 2000,
+            });
+            return;
+          }
           this.$router.push({
             name: 'myRecordsListPage',
           });
@@ -302,6 +315,11 @@ export default {
           });
           break;
         default:
+          this.$notify({
+            type: 'warning',
+            message: '此功能还没有上线',
+            duration: 2000,
+          });
           break;
       }
     },

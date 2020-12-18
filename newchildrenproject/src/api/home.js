@@ -539,9 +539,9 @@ export const addRecord = function (token, id, content) {
 };
 
 // 提交活动评价
-export const addComment = function (token, id, content, answer) {
+export const addComment = function (token, id, content, answer, score) { // 固定活动评价.1、非常好 2、很好 3、一般 4、很差 5、非常差,分别代表54321分。
   return axios.request({
-    url: `${config.hostApi}/activity/addComment?token=${token}&id=${id}&content=${content}&answer=${answer}`,
+    url: `${config.hostApi}/activity/addComment?token=${token}&id=${id}&content=${content}&answer=${answer}&score=${score}`,
     method: 'post',
   });
 };

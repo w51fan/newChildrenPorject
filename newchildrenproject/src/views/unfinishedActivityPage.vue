@@ -89,18 +89,19 @@
         :disabled="disabledBtn"
         v-if="videoUrl == ''"
       />
-      <div style="display: inline-grid;" v-else>
+      <div style="display: inline-grid" v-else>
         <video
           :src="videoUrl"
           controls="controls"
           width="100"
           height="100px"
         ></video>
-        <van-button plain hairline type="info" @click="deleteVideo">删除视频</van-button>
+        <van-button plain hairline type="info" @click="deleteVideo"
+          >删除视频</van-button
+        >
       </div>
     </div>
     <div>
-      <div class="activityRecord">活动记录</div>
       <div class="activityRecordInput" style="padding: 20px">
         <van-field
           v-model="recordContent"
@@ -156,12 +157,12 @@
         <div class="gap gaptwenty"></div>
       </div>
     </div>
-    <div>
+    <!-- <div>
       <div class="activityRecord">活动评价</div>
       <div class="noRecords bgColor">
         <div class="text">暂无活动评价</div>
       </div>
-    </div>
+    </div> -->
     <van-button
       type="warning"
       style="width: 100%"
@@ -283,36 +284,36 @@ export default {
         // eslint-disable-next-line no-nested-ternary
         this.userIdentity = this.activity.User.Type === 4
           ? '儿童主任'
-          // eslint-disable-next-line operator-linebreak
-          : // eslint-disable-next-line no-nested-ternary
+          : // eslint-disable-next-line operator-linebreak
+        // eslint-disable-next-line no-nested-ternary
           this.activity.User.Type === 7
             ? '志愿者'
-            // eslint-disable-next-line operator-linebreak
-            : // eslint-disable-next-line no-nested-ternary
+            : // eslint-disable-next-line operator-linebreak
+            // eslint-disable-next-line no-nested-ternary
             this.activity.User.Type === 3
               ? '镇级管理员'
-              // eslint-disable-next-line operator-linebreak
-              : // eslint-disable-next-line no-nested-ternary
+              : // eslint-disable-next-line operator-linebreak
+              // eslint-disable-next-line no-nested-ternary
               this.activity.User.Type === 2
                 ? '县级管理员'
-                // eslint-disable-next-line operator-linebreak
-                : // eslint-disable-next-line no-nested-ternary
+                : // eslint-disable-next-line operator-linebreak
+                // eslint-disable-next-line no-nested-ternary
                 this.activity.User.Type === 1
                   ? '市级管理员'
-                  // eslint-disable-next-line operator-linebreak
-                  : // eslint-disable-next-line no-nested-ternary
+                  : // eslint-disable-next-line operator-linebreak
+                  // eslint-disable-next-line no-nested-ternary
                   this.activity.User.Type === 6
                     ? '助理'
-                    // eslint-disable-next-line operator-linebreak
-                    : // eslint-disable-next-line no-nested-ternary
+                    : // eslint-disable-next-line operator-linebreak
+                    // eslint-disable-next-line no-nested-ternary
                     this.activity.User.Type === 11
                       ? '家长'
-                      // eslint-disable-next-line operator-linebreak
-                      : // eslint-disable-next-line no-nested-ternary
+                      : // eslint-disable-next-line operator-linebreak
+                      // eslint-disable-next-line no-nested-ternary
                       this.activity.User.Type === 12
                         ? '社区工作服务管理员'
-                        // eslint-disable-next-line operator-linebreak
-                        : // eslint-disable-next-line no-nested-ternary
+                        : // eslint-disable-next-line operator-linebreak
+                        // eslint-disable-next-line no-nested-ternary
                         this.activity.User.Type === 14
                           ? '校儿童主任'
                           : this.activity.User.Type === 15

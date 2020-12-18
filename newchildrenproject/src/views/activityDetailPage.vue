@@ -88,7 +88,7 @@
           >
         </van-image-preview>
       </div>
-      <div class="activityImgTitle">
+      <div class="activityImgTitle" v-if="activityVideoList.length > 0">
         活动视频（{{ activityVideoList.length }}/1）
       </div>
       <div class="activityImageList">
@@ -164,8 +164,7 @@
     </div>
     <div>
       <div class="activityEvaluate">活动评价</div>
-      <!-- <div class="activityEvaluateContent" >暂无活动评价</div> -->
-      <div v-if="UserType === 11 && activityCommentList.length === 0">
+      <div v-if="UserType == 11 && activityCommentList.length === 0">
         <div v-for="(item, index) in activityEvaluateContent" :key="index">
           <div class="flex space-between activityEvaluateContentItem">
             <div>{{ index + 1 }}、{{ item.content }}</div>
@@ -187,7 +186,17 @@
             </div>
           </div>
         </div>
-        <div class="activityRecordInput" style="padding: 20px">
+        <div class="activityEvaluate">活动体验</div>
+        <div v-for="(item, index) in activityEvaluateContent" :key="index">
+          <div class="flex space-between activityEvaluateContentItem">
+            <van-radio-group v-model="recordScore">
+              <van-radio :name="index + 1" style="padding-bottom: 10px">{{
+                item.radioContent
+              }}</van-radio>
+            </van-radio-group>
+          </div>
+        </div>
+        <!-- <div class="activityRecordInput" style="padding: 20px">
           <van-field
             v-model="evaluateContent"
             type="textarea"
@@ -202,7 +211,14 @@
               >提交评价</van-button
             >
           </div>
-        </div>
+        </div> -->
+          <van-button
+            type="warning"
+            style="width: 100%"
+            :disabled="disabledBtn"
+            @click="addComment"
+            >提交评价</van-button
+          >
       </div>
       <div style="background: rgba(128, 128, 128, 0.1)">
         <div v-if="activityCommentList.length > 0">
@@ -269,9 +285,7 @@
 </template>
 
 <script>
-import {
-  getActivityDetail, addRecord, addComment,
-} from '@/api/home';
+import { getActivityDetail, addRecord, addComment } from '@/api/home';
 
 export default {
   name: 'activityDetailPage',
@@ -304,35 +318,46 @@ export default {
       activityEvaluateContent: [
         {
           content: '活动内容是否充实？',
+          radioContent: '非常好',
           yes: 0,
+          score: 5,
           isYes: false,
           isNot: false,
         },
         {
           content: '组织人员是否热情？',
+          radioContent: '很好',
           yes: 0,
+          score: 4,
           isYes: false,
           isNot: false,
         },
         {
           content: '孩子是否学习到内容？',
+          radioContent: '一般',
           yes: 0,
+          score: 3,
           isYes: false,
           isNot: false,
         },
         {
           content: '儿童之家设施是否完善？',
+          radioContent: '差',
           yes: 0,
+          score: 2,
           isYes: false,
           isNot: false,
         },
         {
           content: '活动时间是否充足？',
+          radioContent: '非常差',
           yes: 0,
+          score: 1,
           isYes: false,
           isNot: false,
         },
       ],
+      recordScore: '',
       userIdentity: '',
     };
   },
@@ -365,29 +390,37 @@ export default {
           // eslint-disable-next-line no-nested-ternary
           this.userIdentity = this.activity.User.Type === 4
             ? '儿童主任'
-            // eslint-disable-next-line no-nested-ternary
-            : this.activity.User.Type === 7
+            // eslint-disable-next-line operator-linebreak
+            : // eslint-disable-next-line no-nested-ternary
+            this.activity.User.Type === 7
               ? '志愿者'
-              // eslint-disable-next-line no-nested-ternary
-              : this.activity.User.Type === 3
+              // eslint-disable-next-line operator-linebreak
+              : // eslint-disable-next-line no-nested-ternary
+              this.activity.User.Type === 3
                 ? '镇级管理员'
-                // eslint-disable-next-line no-nested-ternary
-                : this.activity.User.Type === 2
+                // eslint-disable-next-line operator-linebreak
+                : // eslint-disable-next-line no-nested-ternary
+                this.activity.User.Type === 2
                   ? '县级管理员'
-                  // eslint-disable-next-line no-nested-ternary
-                  : this.activity.User.Type === 1
+                  // eslint-disable-next-line operator-linebreak
+                  : // eslint-disable-next-line no-nested-ternary
+                  this.activity.User.Type === 1
                     ? '市级管理员'
-                    // eslint-disable-next-line no-nested-ternary
-                    : this.activity.User.Type === 6
+                    // eslint-disable-next-line operator-linebreak
+                    : // eslint-disable-next-line no-nested-ternary
+                    this.activity.User.Type === 6
                       ? '助理'
-                      // eslint-disable-next-line no-nested-ternary
-                      : this.activity.User.Type === 11
+                      // eslint-disable-next-line operator-linebreak
+                      : // eslint-disable-next-line no-nested-ternary
+                      this.activity.User.Type === 11
                         ? '家长'
-                        // eslint-disable-next-line no-nested-ternary
-                        : this.activity.User.Type === 12
+                        // eslint-disable-next-line operator-linebreak
+                        : // eslint-disable-next-line no-nested-ternary
+                        this.activity.User.Type === 12
                           ? '社区工作服务管理员'
-                          // eslint-disable-next-line no-nested-ternary
-                          : this.activity.User.Type === 14
+                          // eslint-disable-next-line operator-linebreak
+                          : // eslint-disable-next-line no-nested-ternary
+                          this.activity.User.Type === 14
                             ? '校儿童主任'
                             : this.activity.User.Type === 15
                               ? '校儿童督导员'
@@ -405,8 +438,9 @@ export default {
           // eslint-disable-next-line no-nested-ternary
           this.ActivityType = this.activity.ActivityType === 1
             ? '家庭教育'
-            // eslint-disable-next-line no-nested-ternary
-            : this.activity.ActivityType === 2
+            // eslint-disable-next-line operator-linebreak
+            : // eslint-disable-next-line no-nested-ternary
+            this.activity.ActivityType === 2
               ? '儿童团辅'
               : this.activity.ActivityType === 3
                 ? '家庭亲子'
@@ -502,7 +536,12 @@ export default {
           return true;
         })
       ) {
-        this.$toast('请回答全部答卷');
+        this.$toast('请回答全问题');
+        this.showOverlay = false;
+        return;
+      }
+      if (this.recordScore === '') {
+        this.$toast('请选择活动体验');
         this.showOverlay = false;
         return;
       }
@@ -511,6 +550,7 @@ export default {
         this.activity.Id,
         this.evaluateContent,
         this.evaluateAnswer,
+        this.recordScore,
       )
         .then((res) => {
           console.log('addComment', res);
