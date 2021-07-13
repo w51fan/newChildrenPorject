@@ -159,10 +159,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/unfinishedActivityPage.vue'),
   },
   {
+    path: '/addLowIncomePerson',
+    name: 'addLowIncomePerson',
+    component: () => import(/* webpackChunkName: "about" */ '../views/addLowIncomePerson.vue'),
+  },
+  {
     path: '/activityDetailPage',
     name: 'activityDetailPage',
     component: () => import(/* webpackChunkName: "about" */
       '../views/activityDetailPage.vue'
+    ),
+  },
+  {
+    path: '/socialWorkstationDetail',
+    name: 'socialWorkstationDetail',
+    component: () => import(/* webpackChunkName: "about" */
+      '../views/socialWorkstationDetail.vue'
     ),
   },
   {
