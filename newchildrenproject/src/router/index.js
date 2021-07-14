@@ -74,9 +74,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/learningParkPage.vue'),
   },
   {
-    path: '/articleDetail',
-    name: 'articleDetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/articleDetail.vue'),
+    path: '/articleDetailPage',
+    name: 'articleDetailPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/articleDetailPage.vue'),
   },
   {
     path: '/newsDetail',
@@ -184,6 +184,21 @@ const routes = [
       '../views/addChildrenPage.vue'
     ),
   },
+  {
+    path: '/articleListPage',
+    name: 'articleListPage',
+    component: () => import(/* webpackChunkName: "about" */
+      '../views/articleListPage.vue'
+    ),
+  },
+  {
+    path: '/studyRecordListPage',
+    name: 'studyRecordListPage',
+    component: () => import(/* webpackChunkName: "about" */
+      '../views/studyRecordListPage.vue'
+    ),
+  },
+
 ];
 
 const router = new VueRouter({

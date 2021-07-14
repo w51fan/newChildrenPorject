@@ -371,9 +371,11 @@ export default {
       }
       // console.log('this.newsList.length',this.newsList.length)
       if (this.newsList.length < this.total) {
+        // eslint-disable-next-line no-plusplus
+        const pageNumber = this.pageNumber++;
         this.getNewsListFreshFun({
           cityId: this.cityId,
-          pageNumber: this.pageNumber++ + 1,
+          pageNumber: pageNumber + 1,
           pageSize: this.pageSize,
           title: this.searchKey,
           beginDate: this.startDate,
@@ -395,7 +397,7 @@ export default {
       this.onLoad();
     },
     formatDate(date) {
-      return `${date.getFullYear()}-${(date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth()}${1}`)}-${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
+      return `${date.getFullYear()}-${(date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`)}-${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
     },
     onConfirm(date) {
       const [start, end] = date;

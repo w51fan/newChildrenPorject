@@ -75,6 +75,18 @@
     <div class="zhiyuanzheText">志愿者服务</div>
     <!-- <div class="zhiyuanzherenshuText">志愿者人数统计</div> -->
     <div class="gap gapone"></div>
+    <div class="jiazhangshuoTitle" @click="goFun(1)">
+      <div class="title">家长说</div>
+      <div class="logo">></div>
+    </div>
+    <div class="jiazhangshuoTitle" @click="goFun(2)">
+      <div class="title">志愿者说</div>
+      <div class="logo">></div>
+    </div>
+    <div class="jiazhangshuoTitle" @click="goFun(3)">
+      <div class="title">美丽心灵</div>
+      <div class="logo">></div>
+    </div>
     <!-- <div>
       <div v-for="(area, index) in areaItems" :key="index">
         <div class="flex space-between" style="padding: 20px">
@@ -143,7 +155,7 @@
 </template>
 
 <script>
-import { getTreeCount } from '@/api/home';
+import { getTreeCount, getArticleList } from '@/api/home';
 // import bottomNav from './bottomNav';
 import bottomNavPage from './bottomNavPage.vue';
 
@@ -215,33 +227,33 @@ export default {
                 areaItem.Area.forEach((threeItem) => {
                   activityChildren.push({
                     text:
-                          threeItem.VolunteerCount > 0
-                            ? `${threeItem.Name}   `
-                            : threeItem.Name,
+                      threeItem.VolunteerCount > 0
+                        ? `${threeItem.Name}   `
+                        : threeItem.Name,
                     VolunteerCount: threeItem.VolunteerCount,
                   });
                   childrenChildren.push({
                     text:
-                          threeItem.ChildrenCount > 0
-                            ? `${threeItem.Name}   `
-                            : threeItem.Name,
+                      threeItem.ChildrenCount > 0
+                        ? `${threeItem.Name}   `
+                        : threeItem.Name,
                     ChildrenCount: threeItem.ChildrenCount,
                   });
                 });
               }
               areaTemp.children.push({
                 text:
-                      areaItem.VolunteerCount > 0
-                        ? `${areaItem.Name}  `
-                        : areaItem.Name,
+                  areaItem.VolunteerCount > 0
+                    ? `${areaItem.Name}  `
+                    : areaItem.Name,
                 children: activityChildren,
                 VolunteerCount: areaItem.VolunteerCount,
               });
               childrenTemp.children.push({
                 text:
-                      areaItem.ChildrenCount > 0
-                        ? `${areaItem.Name}  `
-                        : areaItem.Name,
+                  areaItem.ChildrenCount > 0
+                    ? `${areaItem.Name}  `
+                    : areaItem.Name,
                 children: childrenChildren,
                 ChildrenCount: areaItem.ChildrenCount,
               });
@@ -337,6 +349,16 @@ export default {
         default:
           break;
       }
+    },
+    goFun(index) {
+      this.$router.push({
+        name: 'articleListPage',
+        query: {
+          type: index,
+          // eslint-disable-next-line no-nested-ternary
+          titleName: index === 1 ? '家长说' : index === 2 ? '志愿者说' : '美丽心灵',
+        },
+      });
     },
   },
 };
@@ -450,6 +472,21 @@ export default {
     font-weight: 600;
     font-size: 14px;
     padding-bottom: 10px;
+  }
+  .jiazhangshuoTitle {
+    display: flex;
+    justify-content: space-between;
+    .title {
+      text-align: left;
+      font-weight: 600;
+      padding: 10px 20px;
+    }
+    .logo {
+      // font-weight: 600;
+      font-size: 24px;
+      padding: 10px 20px;
+      line-height: 20px;
+    }
   }
 }
 </style>

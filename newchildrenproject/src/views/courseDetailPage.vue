@@ -1,17 +1,17 @@
 <template>
   <div class="courseDetailPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div style="position: relative;">
-      <img :src="course.Professor.ImagePhoto" style="height:250px;" />
+    <div style="position: relative">
+      <img :src="course.Professor.ImagePhoto" style="height: 250px" />
       <div class="courseTip">
-        <div>{{course.Professor.Name}} 教授</div>
-        <div>专题： 《{{course.CourseName}}》</div>
-        <div>课程： {{course.LessonNum}}课时</div>
+        <div>{{ course.Professor.Name }} 教授</div>
+        <div>专题： 《{{ course.CourseName }}》</div>
+        <div>课程： {{ course.LessonNum }}课时</div>
       </div>
     </div>
     <div class="description">
       <div class="title">专题简介</div>
-      <div class="text">{{course.Description}}</div>
+      <div class="text">{{ course.Description }}</div>
     </div>
     <div class="gap gapfive"></div>
     <van-tabs class="courseTabs" v-model="activeTab">
@@ -19,10 +19,14 @@
         <div class="timeContentTitle">课时列表</div>
         <div class="gap gapone"></div>
         <div class="lessonList">
-          <div v-for="(lesson,index) in lessonList" :key="index" @click="beginLesson(lesson)">
+          <div
+            v-for="(lesson, index) in lessonList"
+            :key="index"
+            @click="beginLesson(lesson)"
+          >
             <div class="flex lessonItem">
               <van-icon name="play-circle" />
-              <div class="lessonName">{{lesson.Name}}</div>
+              <div class="lessonName">{{ lesson.Name }}</div>
             </div>
             <div class="gap gapone"></div>
           </div>
@@ -32,8 +36,13 @@
           <div class="title">专家简介</div>
           <div class="gap gapone"></div>
           <img :src="course.Professor.HeadPortrait" />
-          <div class="name">{{course.Professor.Name}}</div>
-          <div class="Intro">{{course.Professor.Intro}}</div>
+          <div class="name">{{ course.Professor.Name }}</div>
+          <div class="Intro">{{ course.Professor.Intro }}</div>
+        </div>
+      </van-tab>
+      <van-tab title="答疑解惑">
+        <div class="answerContent">
+          <div v-html="contactusData"></div>
         </div>
       </van-tab>
       <!-- <van-tab title="答疑解惑">
@@ -81,7 +90,7 @@
 </template>
 
 <script>
-import { getCourseDetail, getLessonList } from '@/api/home';
+import { getCourseDetail, getLessonList, getContactus } from '@/api/home';
 
 export default {
   name: 'courseDetailPage',
@@ -90,6 +99,7 @@ export default {
       course: '',
       activeTab: '',
       lessonList: '',
+      contactusData: '',
     };
   },
   computed: {
@@ -104,6 +114,10 @@ export default {
       getLessonList(this.CourseId).then((lesson) => {
         console.log('244', lesson);
         this.lessonList = lesson.data.lessonList;
+        getContactus().then((contactus) => {
+          this.contactusData = contactus.data.content;
+          console.log('Contactus', contactus);
+        });
       });
     });
   },

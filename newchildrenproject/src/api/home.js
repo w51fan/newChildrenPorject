@@ -655,19 +655,50 @@ export const patrioticLikes = function (token, id) {
   });
 };
 
-// 获取成员列表
-export const getChildrenList = function (token) {
-  return axios.request({
-    url: `${config.hostApi}/manage/getChildrenList?token=${token}`,
-    method: 'get',
-  });
-};
-
 // token, content
 // 用户反馈
 export const feedback = function (data) {
   return axios.request({
     url: `${config.hostApi}/feedback/add`,
+    data: qs.stringify(data),
+    method: 'post',
+  });
+};
+
+// 获取解疑答惑
+export const getContactus = function () {
+  return axios.request({
+    url: `${config.hostApi}/contactus`,
+    method: 'get',
+  });
+};
+
+// 获取留言列表
+export const getGuestbook = function (param) {
+  const {
+    courseId,
+    pageNumber,
+    pageSize,
+  } = param;
+  return axios.request({
+    url: `${config.hostApi}/guestbook/list?courseId=${courseId}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    method: 'get',
+  });
+};
+
+// 添加留言
+export const getGuestbookAdd = function (data) {
+  return axios.request({
+    url: `${config.hostApi}/guestbook/add`,
+    data: qs.stringify(data),
+    method: 'post',
+  });
+};
+
+// 回复留言
+export const getGuestbookReply = function (data) {
+  return axios.request({
+    url: `${config.hostApi}/guestbook/reply`,
     data: qs.stringify(data),
     method: 'post',
   });

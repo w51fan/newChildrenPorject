@@ -1,5 +1,5 @@
 <template>
-  <div class="volunteerDetailPage">
+  <div class="articleDetailPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
     <div>{{ newsTitle }}</div>
     <div v-html="newsContent" class="newsContent"></div>
@@ -15,7 +15,7 @@
 import { getArticleDetail } from '@/api/home';
 
 export default {
-  name: 'volunteerDetailPage',
+  name: 'articleDetailPage',
   data() {
     return {
       newsTitle: '',
@@ -25,11 +25,11 @@ export default {
   },
   mounted() {
     const { Id } = this.$route.query;
-
     this.showOverlay = true;
     getArticleDetail(Id)
       .then((res) => {
-        console.log('getArticleDetail', res.data.article.Content);
+        this.showList = false;
+        console.log('getArticleDetail', res);
         this.newsTitle = res.data.article.Title;
         this.newsContent = res.data.article.Content;
         this.showOverlay = false;
@@ -42,7 +42,7 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: 'volunteersListPage',
+        name: 'articleListPage',
         query: {
           titleName: this.$route.query.titleName,
           type: this.$route.query.type,
@@ -54,48 +54,21 @@ export default {
 </script>
 
 <style lang="less">
-.volunteerDetailPage {
-  .navTitle {
-    font-size: 18px;
-    font-weight: 600;
+.articleDetailPage {
+  img {
+    width: 100%;
   }
-  .flex {
-    display: flex;
-  }
-  .space-between {
-    justify-content: space-between;
-  }
-  .volunteerDetailHeader {
-    background: #ff8077;
-    color: #ffffff;
-    .img {
-      width: 54px;
-      height: 54px;
-    }
-  }
-  .dataTitle {
-    background: rgba(232, 232, 232, 0.5);
+  .title {
+    font-size: 20px;
+    font-weight: bolder;
     text-align: left;
+    padding: 20px 20px 0px;
   }
-  .tableHeader {
-    padding: 20px 20px 10px;
-    .item {
-      // flex: 3;
-      text-align: center;
-    }
-  }
-  .dataInfo {
-    padding: 20px 20px 10px;
-    .tableContent {
-      .item {
-        flex: 3;
-      }
-    }
-  }
-  .myActivity {
-    .title {
-      text-align: left;
-    }
+  .time {
+    font-size: 12px;
+    color: #a0a0a0;
+    text-align: left;
+    padding: 5px 20px;
   }
 }
 </style>

@@ -77,7 +77,7 @@
 import { getAwardList } from '@/api/home';
 
 export default {
-  name: 'volunteersListPage',
+  name: 'articleListPage',
   data() {
     return {
       areaName: '邵阳市',
@@ -127,7 +127,7 @@ export default {
   mounted() {
     this.showOverlay = true;
     this.titleName = this.$route.query.titleName;
-    // console.log('this.cityId', this.cityId);
+    console.log('this.cityId', this.cityId);
     getAwardList({
       cityId: this.cityId,
       type: this.$route.query.type,
@@ -151,9 +151,14 @@ export default {
         name: 'growthStoryPage',
       });
     },
+    go() {
+      //   this.$router.push({
+      //     name: 'loginPage',
+      //   });
+    },
     viewDetail(volunteer) {
       this.$router.push({
-        name: 'volunteerDetailPage',
+        name: 'articleDetailPage',
         query: {
           Id: volunteer.Id,
           titleName: this.titleName,

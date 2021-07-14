@@ -1,7 +1,5 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-nested-ternary */
 <template>
-  <div class="userCenterPage">
+  <div class="myRecordsListPage">
     <van-nav-bar
       left-text="返回"
       left-arrow
@@ -9,7 +7,7 @@
       :width="360"
     >
       <template #title>
-        <div class="navTitle">用户中心</div>
+        <div class="navTitle">学习记录</div>
       </template>
     </van-nav-bar>
     <div class="headerInfo">
@@ -55,66 +53,35 @@
         </div>
       </div>
     </div>
-    <div class="headerBottomNav flex space-between">
-      <!-- <div class="flex item" @click="go(4)">
-        <div style="max-width: 70px; position: relative">
-          <div>我的记录</div>
-          <div class="tipsNum">{{userInfo.Points}}</div>
-        </div>
+    <div class="flex addBtn" @click="addRecord">
+      <div class="addBtnImg">
+        <img :src="addImg" alt="" class="img" />
       </div>
-      <div class="gapbar"></div> -->
-      <div class="flex item" @click="go(5)">
-        <div style="max-width: 70px; position: relative">
-          <div>走访记录</div>
-          <div class="tipsNum">{{ userInfo.VisitCount }}</div>
-        </div>
-      </div>
-      <div class="gapbar"></div>
-      <!-- <div class="flex item" @click="go(6)">
-        <div style="max-width: 70px; position: relative">
-          <div>成长记录</div>
-          <div class="tipsNum">{{userInfo.Points}}</div>
-        </div>
-      </div>
-      <div class="gapbar"></div> -->
-      <div class="flex item" @click="go(9)">
-        <div style="max-width: 70px; position: relative">
-          <div>学习记录</div>
-          <div class="tipsNum">{{ userInfo.LearningCount }}</div>
-        </div>
-      </div>
+      <div class="text">添加学习记录</div>
     </div>
-
-    <div class="iconNav flex space-between">
+    <div>
+      <div class="listTitle">
+        <div class="flex space-between">
+          <div class="item">儿童姓名</div>
+          <div class="item">走访时间</div>
+          <div class="item">编辑</div>
+        </div>
+      </div>
       <div
-        v-for="(src, index) in navHeaderList"
+        v-for="(record, index) in myRecordsList"
         :key="index"
-        @click="go(index)"
+        class="listContent flex"
       >
-        <img :src="src.img" style="width: 24px; height: 24px" alt />
-        <div class="text">{{ src.name }}</div>
-      </div>
-    </div>
-    <div class="tenBar"></div>
-    <div class="useInfo flex space-between">
-      <div class="flex">
-        <img :src="usrInfoIcon" class="useInfoImg" alt />
-        <div class="text">用户信息</div>
-      </div>
-      <van-icon name="arrow" />
-    </div>
-    <div class="tenBar"></div>
-    <div class="elseNav" v-for="(list, index) in settingList" :key="index">
-      <div class="flex space-between" @click="gofun(index)">
-        <div class="flex">
-          <img :src="list.img" class="elseNavImg" alt />
-          <div class="text">{{ list.name }}</div>
+        <div class="item">{{ record.Name }}</div>
+        <div class="item">{{ record.CreateTime | dateFilter }}</div>
+        <div class="flex item">
+          <div style="padding: 0 10px; flex: 1" @click="viewDeatil(record)">
+            详情
+          </div>
+          <div style="padding: 0 10px; flex: 1" @click="edit(record)">修改</div>
         </div>
-        <van-icon name="arrow" />
       </div>
     </div>
-    <div class="bottomText">全学家儿童关爱平台</div>
-    <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage>
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%">
         <van-loading type="spinner" />
@@ -124,61 +91,18 @@
 </template>
 
 <script>
-import { getUserInfo } from '@/api/home';
-import bottomNavPage from './bottomNavPage.vue';
+import { getVisitList, getUserInfo } from '@/api/home';
 
 export default {
-  name: 'userCenterPage',
-  components: {
-    bottomNavPage,
-  },
+  name: 'studyRecordListPage',
   data() {
     return {
-      selectedNav: 'userCenterPage',
+      myRecordsList: [],
+      showOverlay: false,
       // eslint-disable-next-line global-require
       headimg: require('../assets/nohead.png'),
-      navHeaderList: [
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_ertongzhijia.png'),
-          name: '儿童之家',
-        },
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_wodejifen_yonghuzhongxin@2x.png'),
-          name: '我的积分',
-        },
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_wodehuodong_yonghuzhongxin@2x.png'),
-          name: '我的活动',
-        },
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_yonghufankui_yonghuzhongxin@2x.png'),
-          name: '用户反馈',
-        },
-      ],
       // eslint-disable-next-line global-require
-      usrInfoIcon: require('../assets/icon_yonghuxinxi_yonghuzhongxin@2x.png'),
-      settingList: [
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_bangzhuzhongxin_yonghuzhongxin@2x.png'),
-          name: '帮助中心',
-        },
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_banbenshengji_yonghuzhongxin@2x.png'),
-          name: '版本升级',
-        },
-        {
-          // eslint-disable-next-line global-require
-          img: require('../assets/icon_tuichudenglu_yonghuzhongxin@2x.png'),
-          name: '退出登录',
-        },
-      ],
-      showOverlay: false,
+      addImg: require('../assets/icon_add active.png'),
       userIdentity: '',
       userName: '',
       userInfo: {
@@ -198,11 +122,6 @@ export default {
       return this.$store.state.common.Token
         ? this.$store.state.common.Token
         : window.localStorage.getItem('childrenToken');
-    },
-    UserType() {
-      return this.$store.state.common.UserType
-        ? this.$store.state.common.UserType
-        : window.localStorage.getItem('UserType') - 0;
     },
     // User: {
     //   get() {
@@ -242,17 +161,35 @@ export default {
                           : this.userInfo.Type === 15
                             ? '校儿童督导员'
                             : '村级讲师';
-        this.showOverlay = false;
+        getVisitList(this.Token)
+          .then((res) => {
+            console.log('getVisitList', res);
+            this.myRecordsList = res.data.visitList;
+            this.showOverlay = false;
+          })
+          .catch((err) => {
+            console.log('getVisitList', err);
+            this.showOverlay = false;
+          });
       })
       .catch((err) => {
         console.log('getUserInfo', err);
         this.showOverlay = false;
       });
   },
+  filters: {
+    dateFilter(value) {
+      const dateTime = new Date(value);
+      const year = dateTime.getFullYear();
+      const month = dateTime.getMonth() + 1;
+      const day = dateTime.getDate();
+      return `${year}-${month}-${day}`;
+    },
+  },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: 'homePage',
+        name: 'userCenterPage',
       });
     },
     go(index) {
@@ -271,9 +208,6 @@ export default {
           });
           break;
         case 2:
-          this.$router.push({
-            name: 'offlineActivityPage',
-          });
           break;
         case 3:
           this.$router.push({
@@ -286,17 +220,9 @@ export default {
           });
           break;
         case 5:
-          if (this.UserType === 11) {
-            this.$notify({
-              type: 'warning',
-              message: '您没有权限操作此菜单，请联系管理员',
-              duration: 2000,
-            });
-            return;
-          }
-          this.$router.push({
-            name: 'myRecordsListPage',
-          });
+          // this.$router.push({
+          //   name: 'myRecordsListPage',
+          // });
           break;
         case 6:
           this.$router.push({
@@ -304,7 +230,7 @@ export default {
           });
           break;
         case 7:
-          this.$store.commit('common/getPreCurrentPath', 'userCenterPage');
+          this.$store.commit('common/getPreCurrentPath', 'myRecordsListPage');
           this.$router.push({
             name: 'accountSettingPage',
           });
@@ -314,83 +240,46 @@ export default {
             name: 'myMembersListPage',
           });
           break;
-        case 9:
-          this.$router.push({
-            name: 'studyRecordListPage',
-          });
-          break;
         default:
-          this.$notify({
-            type: 'warning',
-            message: '此功能还没有上线',
-            duration: 2000,
-          });
           break;
       }
     },
-    gofun(index) {
-      switch (index) {
-        case 0:
-          this.$store.commit('common/getPreCurrentPath', 'userCenterPage');
-          this.$router.push({
-            // name: 'childrenHomePageIndex',
-            name: 'childrenHomeListPage',
-          });
-          break;
-        case 1:
-          this.$router.push({
-            name: 'myIntegralPage',
-          });
-          break;
-        case 2:
-          // Dialog.confirm({
-          //   title: '标题',
-          //   message: '弹窗内容',
-          // })
-          //   .then(() => {
-          //     // on confirm
-          //   })
-          //   .catch(() => {
-          //     // on cancel
-          //   });
-          this.$dialog
-            .confirm({
-              // title: '提示',
-              message: '确定退出登录？',
-            })
-            .then(() => {
-              // on confirm
-              console.log('queding');
-              window.localStorage.removeItem('childrenToken');
-              window.localStorage.removeItem('cityId');
-              this.$router.push({
-                name: 'guidePage',
-              });
-            })
-            .catch(() => {
-              // on cancel
-              console.log('guanbi ');
-            });
-          break;
-        default:
-          break;
-      }
+    addRecord() {
+      this.$router.push({
+        name: 'addRecordPage',
+      });
+    },
+    viewDeatil(record) {
+      this.$router.push({
+        name: 'recordDetailPage',
+        query: {
+          id: record.Id,
+        },
+      });
+    },
+    edit(record) {
+      this.$router.push({
+        name: 'addRecordPage',
+        query: {
+          id: record.Id,
+        },
+      });
     },
   },
 };
 </script>
 
 <style lang="less">
-.userCenterPage {
+.myRecordsListPage {
+  .navTitle {
+    font-size: 18px;
+    font-weight: 600;
+  }
   .flex {
     display: flex;
   }
   .space-between {
     justify-content: space-between;
-  }
-  .navTitle {
-    font-size: 18px;
-    font-weight: 600;
   }
   .headerInfo {
     padding: 20px 20px 0;
@@ -455,49 +344,43 @@ export default {
       }
     }
   }
-  .iconNav {
-    padding: 20px;
-    .iconNavImg {
-      width: 24px;
-      height: 24px;
+  .addBtn {
+    padding: 10px 0;
+    .addBtnImg {
+      flex: 1;
+      text-align: right;
+      .img {
+        width: 44px;
+        height: 44px;
+        padding-right: 10px;
+      }
     }
     .text {
-      font-size: 14px;
+      flex: 1;
+      color: #1989fa;
       font-weight: 600;
-      padding: 5px 0;
-    }
-  }
-  .tenBar {
-    height: 10px;
-    background: #efefef;
-  }
-  .useInfo {
-    padding: 20px;
-    .useInfoImg {
-      width: 18px;
-      height: 18px;
-    }
-    .text {
       font-size: 14px;
-      padding-left: 10px;
+      line-height: 44px;
+      text-align: left;
     }
   }
-  .elseNav {
-    padding: 10px 20px;
-    border-bottom: 1px solid #efefef;
-    .elseNavImg {
-      width: 18px;
-      height: 18px;
-    }
-    .text {
-      font-size: 14px;
-      padding-left: 10px;
-    }
-  }
-  .bottomText {
-    color: #717c87;
+  .listTitle {
+    background: rgba(232, 232, 232, 0.5);
+    color: rgba(155, 155, 155, 1);
     font-size: 14px;
-    margin-top: 50px;
+    padding: 10px 0;
+    .item {
+      flex: 3;
+    }
+  }
+  .listContent {
+    color: rgba(74, 74, 74, 1);
+    font-size: 14px;
+    .item {
+      flex: 3;
+      padding: 0 10px;
+      line-height: 39px;
+    }
   }
 }
 </style>
