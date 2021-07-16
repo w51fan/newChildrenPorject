@@ -172,9 +172,9 @@ export const getPointList = function (courseId, lessonId) {
 };
 
 // 课时详情
-export const getLessonDetail = function (courseId, lessonId) {
+export const getLessonDetail = function (courseId, lessonId, token) {
   return axios.request({
-    url: `${config.hostApi}/course/lessonDetail?courseId=${courseId}&lessonId=${lessonId}`,
+    url: `${config.hostApi}/course/lessonDetail?courseId=${courseId}&lessonId=${lessonId}&token=${token}`,
     method: 'get',
   });
 };
@@ -701,5 +701,14 @@ export const getGuestbookReply = function (data) {
     url: `${config.hostApi}/guestbook/reply`,
     data: qs.stringify(data),
     method: 'post',
+  });
+};
+
+// 获取学习记录列表
+export const getLearnRecordList = function (token) {
+  return axios.request({
+    url:
+      `${config.hostApi}/course/learnRecordList?token=${token}`,
+    method: 'get',
   });
 };

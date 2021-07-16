@@ -57,7 +57,10 @@
             </div>
           </div>
         </div>
-        <div v-if="currenDataIndex === index">
+        <div
+          v-if="currenDataIndex === index && !showSubmitInput"
+          style="padding: 20px"
+        >
           <van-field
             v-model="replyContent"
             type="textarea"
@@ -75,7 +78,11 @@
         </div>
       </div>
     </div>
-    <div class="activityRecordInput" style="padding: 20px">
+    <div
+      class="activityRecordInput"
+      style="padding: 20px"
+      v-if="showSubmitInput"
+    >
       <van-field
         v-model="evaluateContent"
         type="textarea"
@@ -113,6 +120,7 @@ export default {
       guestbook: '',
       currenDataIndex: '',
       replyContent: '',
+      showSubmitInput: true,
     };
   },
   computed: {
@@ -130,6 +138,7 @@ export default {
       getLessonDetail(
         this.$route.query.CourseId,
         this.$route.query.LessonId,
+        this.Token,
       ).then((res) => {
         console.log('res', res);
         this.lesson = res.data.lesson;
@@ -152,7 +161,7 @@ export default {
     },
     onClickLeft() {
       this.$router.push({
-        name: 'courseDetailPage',
+        name: this.$route.query.currentPath,
       });
     },
     addComment() {
@@ -185,6 +194,7 @@ export default {
         });
         console.log('getGuestbookAdd', res);
         this.currenDataIndex = '';
+        this.showSubmitInput = true;
         this.replyContent = '';
         this.initFun();
       });
@@ -195,8 +205,10 @@ export default {
       if (this.currenDataIndex !== '') {
         this.currenDataIndex = '';
         this.replyContent = '';
+        this.showSubmitInput = true;
       } else {
         this.currenDataIndex = index;
+        this.showSubmitInput = false;
       }
     },
   },

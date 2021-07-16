@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     beginLesson(lesson) {
-      console.log('lesson', lesson);
+      // console.log('lesson', lesson);
       this.$router.push({
         name: 'lessonPage',
         query: {
@@ -131,6 +131,7 @@ export default {
           LessonId: lesson.LessonId,
           mp3Url: lesson.Url,
           Name: lesson.Name,
+          currentPath: 'courseDetailPage',
         },
       });
     },

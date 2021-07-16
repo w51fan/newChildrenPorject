@@ -23,10 +23,10 @@
               <div class="name">{{ userName }}</div>
               <div class="roleName">{{ userIdentity }}</div>
             </div>
-            <van-icon class="settingIcon" name="setting-o" @click="go(7)" />
+            <!-- <van-icon class="settingIcon" name="setting-o" @click="go(7)" /> -->
           </div>
           <div class="flex">
-            <div class="infoTtem" @click="go(8)">
+            <!-- <div class="infoTtem" @click="go(8)">
               <div>
                 {{ userInfo.ChildrenCount }}
                 <span style="font-size: 10px">个</span>
@@ -48,38 +48,39 @@
                 <span style="font-size: 10px">分</span>
               </div>
               <div>我的积分</div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
-    <div class="flex addBtn" @click="addRecord">
+    <!-- <div class="flex addBtn" @click="addRecord">
       <div class="addBtnImg">
         <img :src="addImg" alt="" class="img" />
       </div>
       <div class="text">添加学习记录</div>
-    </div>
+    </div> -->
     <div>
       <div class="listTitle">
         <div class="flex space-between">
-          <div class="item">儿童姓名</div>
-          <div class="item">走访时间</div>
-          <div class="item">编辑</div>
+          <div class="item">课程名称</div>
+          <div class="item">学习时间</div>
+          <!-- <div class="item">编辑</div> -->
         </div>
       </div>
       <div
         v-for="(record, index) in myRecordsList"
         :key="index"
         class="listContent flex"
+        @click="goLessonPage(record)"
       >
-        <div class="item">{{ record.Name }}</div>
+        <div class="item">{{ record.Lesson.Name }}</div>
         <div class="item">{{ record.CreateTime | dateFilter }}</div>
-        <div class="flex item">
+        <!-- <div class="flex item">
           <div style="padding: 0 10px; flex: 1" @click="viewDeatil(record)">
             详情
           </div>
           <div style="padding: 0 10px; flex: 1" @click="edit(record)">修改</div>
-        </div>
+        </div> -->
       </div>
     </div>
     <van-overlay :show="showOverlay" @click="show = false">
@@ -91,7 +92,7 @@
 </template>
 
 <script>
-import { getVisitList, getUserInfo } from '@/api/home';
+import { getLearnRecordList, getUserInfo } from '@/api/home';
 
 export default {
   name: 'studyRecordListPage',
@@ -161,10 +162,10 @@ export default {
                           : this.userInfo.Type === 15
                             ? '校儿童督导员'
                             : '村级讲师';
-        getVisitList(this.Token)
+        getLearnRecordList(this.Token)
           .then((res) => {
-            console.log('getVisitList', res);
-            this.myRecordsList = res.data.visitList;
+            console.log('getLearnRecordList', res);
+            this.myRecordsList = res.data.list;
             this.showOverlay = false;
           })
           .catch((err) => {
@@ -265,6 +266,19 @@ export default {
         },
       });
     },
+    goLessonPage(lesson) {
+      console.log('goLessonPage', lesson);
+      this.$router.push({
+        name: 'lessonPage',
+        query: {
+          CourseId: lesson.Lesson.CourseId,
+          LessonId: lesson.Lesson.LessonId,
+          mp3Url: lesson.Lesson.Url,
+          Name: lesson.Lesson.Name,
+          currentPath: 'studyRecordListPage',
+        },
+      });
+    },
   },
 };
 </script>
@@ -282,7 +296,7 @@ export default {
     justify-content: space-between;
   }
   .headerInfo {
-    padding: 20px 20px 0;
+    padding: 20px;
     background-image: linear-gradient(#ffb7b3, #f24b42, #ef4843);
     .usercenterHeaderImg {
       width: 74px;
