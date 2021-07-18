@@ -189,7 +189,7 @@
           <!-- </van-pull-refresh> -->
         </div>
       </van-tab>
-      <van-tab title="儿童主任课程">
+      <van-tab title="儿童主任课堂">
         <div class="gap"></div>
         <div class="Content">
           <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->

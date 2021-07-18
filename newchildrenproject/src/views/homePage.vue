@@ -7,7 +7,7 @@
       :width="360"
     >
       <template #title>
-        <div class="navTitle">全家学儿童关爱</div>
+        <div class="navTitle">全学家儿童关爱智慧管理平台</div>
       </template>
     </van-nav-bar>
     <div class="swipe">

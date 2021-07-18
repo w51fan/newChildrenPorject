@@ -105,6 +105,7 @@
         left-icon="search"
         placeholder="关键词搜索"
         @click-left-icon="searchFun"
+        @input="searchFun"
       />
       <div
         style="

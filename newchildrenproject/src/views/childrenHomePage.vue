@@ -25,7 +25,7 @@
           <template #title>
             <div class="flex space-between tableContent">
               <div class="custom-title">{{childrenHome.ChildrenCount}}人</div>
-              <div>{{activityList.length}}次</div>
+              <div>{{activityTotal}}次</div>
               <div>
                 <ul class="cleanfloat flex">
                   <li

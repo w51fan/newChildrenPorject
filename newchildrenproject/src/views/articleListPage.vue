@@ -7,7 +7,8 @@
       :width="360"
     >
       <template #title>
-        <div class="navTitle">{{ areaName }}{{ titleName }}</div>
+        <!-- <div class="navTitle">{{ areaName }}{{ titleName }}</div> -->
+        <div class="navTitle">{{ titleName }}</div>
       </template>
     </van-nav-bar>
     <!-- <div class="listTitle">
@@ -74,7 +75,7 @@
 </template>
 
 <script>
-import { getAwardList } from '@/api/home';
+import { getArticleList } from '@/api/home';
 
 export default {
   name: 'articleListPage',
@@ -128,20 +129,20 @@ export default {
     this.showOverlay = true;
     this.titleName = this.$route.query.titleName;
     console.log('this.cityId', this.cityId);
-    getAwardList({
+    getArticleList({
       cityId: this.cityId,
       type: this.$route.query.type,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
     })
       .then((res) => {
-        console.log('getAwardList', res);
+        console.log('getArticleList', res);
         // this.volunteersList = res.data.awardList;
         this.articlelist = res.data.awardList;
         this.showOverlay = false;
       })
       .catch((err) => {
-        console.log('getAwardList', err);
+        console.log('getArticleList', err);
         this.showOverlay = false;
       });
   },
