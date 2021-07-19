@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getArticleDetail } from '@/api/home';
+import { getAwardDetail } from '@/api/home';
 
 export default {
   name: 'volunteerDetailPage',
@@ -27,11 +27,11 @@ export default {
     const { Id } = this.$route.query;
 
     this.showOverlay = true;
-    getArticleDetail(Id)
+    getAwardDetail(Id)
       .then((res) => {
-        console.log('getArticleDetail', res.data.article.Content);
-        this.newsTitle = res.data.article.Title;
-        this.newsContent = res.data.article.Content;
+        console.log('getAwardDetail', res.data.award);
+        this.newsTitle = res.data.award.Title;
+        this.newsContent = res.data.award.Content;
         this.showOverlay = false;
       })
       .catch((err) => {
