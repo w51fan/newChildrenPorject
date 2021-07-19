@@ -112,6 +112,7 @@ export default {
       refreshing: false,
       finished: false,
       loading: false,
+      total: '',
     };
   },
   computed: {
@@ -138,6 +139,7 @@ export default {
         console.log('getAwardList', res);
         // this.volunteersList = res.data.awardList;
         this.articlelist = res.data.awardList;
+        this.total = res.data.total;
         this.showOverlay = false;
       })
       .catch((err) => {
@@ -169,7 +171,7 @@ export default {
       if (this.articlelist.length < this.total) {
         // eslint-disable-next-line no-plusplus
         const pageNumber = this.pageNumber++;
-        this.getArticleList(
+        this.getAwardListFun(
           this.cityId,
           this.selected + 1,
           pageNumber + 1,
@@ -195,6 +197,31 @@ export default {
       const month = activityDate.getMonth() + 1;
       const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
+    },
+    getAwardListFun(param) {
+      const {
+        cityId, type, pageNumber, pageSize,
+      } = param;
+      this.showOverlay = true;
+      getAwardList({
+        cityId,
+        type,
+        pageNumber,
+        pageSize,
+      })
+        .then((res) => {
+          // console.log(news);
+          res.data.awardList.forEach((item) => {
+            this.articlelist.push(item);
+          });
+          this.loading = false;
+          this.showOverlay = false;
+          if (!(this.articlelist.length < this.total)) this.finished = true;
+        })
+        .catch((err) => {
+          console.log('err', err);
+          this.showOverlay = false;
+        });
     },
   },
 };

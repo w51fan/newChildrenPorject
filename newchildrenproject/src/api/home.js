@@ -208,7 +208,10 @@ export const getChildrenHomeDetail = function (villageId) {
 type: 1.家长说；2.志愿者说；3.美丽心灵
 activityType:1.线下活动；2线上活动
 */
-export const getArticleList = function (cityId, type, pageNumber, pageSize) {
+export const getArticleList = function (param) {
+  const {
+    cityId, type, pageNumber, pageSize,
+  } = param;
   return axios.request({
     url: `${config.hostApi}/article/list?cityId=${cityId}&type=${type}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
     method: 'get',

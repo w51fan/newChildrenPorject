@@ -113,6 +113,7 @@ export default {
       refreshing: false,
       finished: false,
       loading: false,
+      total: '',
     };
   },
   computed: {
@@ -138,7 +139,8 @@ export default {
       .then((res) => {
         console.log('getArticleList', res);
         // this.volunteersList = res.data.awardList;
-        this.articlelist = res.data.awardList;
+        this.articlelist = res.data.articlelist;
+        this.total = res.data.total;
         this.showOverlay = false;
       })
       .catch((err) => {
@@ -175,12 +177,12 @@ export default {
       if (this.articlelist.length < this.total) {
         // eslint-disable-next-line no-plusplus
         const pageNumber = this.pageNumber++;
-        this.getArticleList(
-          this.cityId,
-          this.selected + 1,
-          pageNumber + 1,
-          this.pageSize,
-        );
+        this.getArticleListFun({
+          cityId: this.cityId,
+          type: this.$route.query.type,
+          pageNumber: pageNumber + 1,
+          pageSize: this.pageSize,
+        });
       } else {
         // this.finished = true;
       }
@@ -201,6 +203,31 @@ export default {
       const month = activityDate.getMonth() + 1;
       const day = activityDate.getDate();
       return `${year}年${month}月${day}日`;
+    },
+    getArticleListFun(param) {
+      const {
+        cityId, type, pageNumber, pageSize,
+      } = param;
+      this.showOverlay = true;
+      getArticleList({
+        cityId,
+        type,
+        pageNumber,
+        pageSize,
+      })
+        .then((res) => {
+          // console.log(news);
+          res.data.articlelist.forEach((item) => {
+            this.articlelist.push(item);
+          });
+          this.loading = false;
+          this.showOverlay = false;
+          if (!(this.articlelist.length < this.total)) this.finished = true;
+        })
+        .catch((err) => {
+          console.log('err', err);
+          this.showOverlay = false;
+        });
     },
   },
 };
