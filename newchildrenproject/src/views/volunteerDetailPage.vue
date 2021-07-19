@@ -1,7 +1,7 @@
 <template>
   <div class="volunteerDetailPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div>{{ newsTitle }}</div>
+    <div class="dataTitle">{{ newsTitle }}</div>
     <div v-html="newsContent" class="newsContent"></div>
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%">
@@ -74,8 +74,12 @@ export default {
     }
   }
   .dataTitle {
-    background: rgba(232, 232, 232, 0.5);
-    text-align: left;
+    // background: rgba(232, 232, 232, 0.5);
+    // text-align: left;
+        font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+    padding: 20px;
   }
   .tableHeader {
     padding: 20px 20px 10px;
@@ -96,6 +100,9 @@ export default {
     .title {
       text-align: left;
     }
+  }
+  img {
+    width: 75%;
   }
 }
 </style>

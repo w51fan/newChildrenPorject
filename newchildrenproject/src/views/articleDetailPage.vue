@@ -1,7 +1,7 @@
 <template>
   <div class="articleDetailPage">
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div>{{ newsTitle }}</div>
+    <div  class="title">{{ newsTitle }}</div>
     <div v-html="newsContent" class="newsContent"></div>
     <van-overlay :show="showOverlay" @click="show = false">
       <div style="margin-top: 50%">
@@ -56,13 +56,13 @@ export default {
 <style lang="less">
 .articleDetailPage {
   img {
-    width: 100%;
+    width: 75%;
   }
   .title {
     font-size: 20px;
     font-weight: bolder;
-    text-align: left;
-    padding: 20px 20px 0px;
+    text-align: center;
+    padding: 20px;
   }
   .time {
     font-size: 12px;
