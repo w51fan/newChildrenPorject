@@ -196,9 +196,9 @@ export const getChildrenHomeList = function (token) {
 };
 
 // 儿童之家详情
-export const getChildrenHomeDetail = function (villageId) {
+export const getChildrenHomeDetail = function (villageId, pageNumber, pageSize) {
   return axios.request({
-    url: `${config.hostApi}/childrenhome/detail?villageId=${villageId}`,
+    url: `${config.hostApi}/childrenhome/detail?villageId=${villageId}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
     method: 'get',
   });
 };

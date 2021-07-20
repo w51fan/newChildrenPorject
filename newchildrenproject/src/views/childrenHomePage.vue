@@ -1,6 +1,11 @@
 <template>
   <div class="childrenHomePage">
-    <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" :width="360">
+    <van-nav-bar
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+      :width="360"
+    >
       <template #title>
         <div class="navTitle">儿童之家</div>
       </template>
@@ -10,29 +15,39 @@
       <div class="headBarInteview">
         <div class="flex tipsTiitle">
           <img src="../assets/icon_ertongzhijia_red.png" class="img" alt />
-          <div class="name">{{childrenHome.Name?childrenHome.Name:'儿童之家'}}</div>
+          <div class="name">
+            {{ childrenHome.Name ? childrenHome.Name : "儿童之家" }}
+          </div>
         </div>
-        <div
-          class="position"
-        >位置：{{childrenHome.ProvinceName.Name}} >{{childrenHome.CityeName.Name}} >{{childrenHome.AreaName.Name}} >{{childrenHome.TownName.Name}} >{{childrenHome.VillageName.Name}}</div>
+        <div class="position">
+          位置：{{ childrenHome.ProvinceName.Name }} >{{
+            childrenHome.CityeName.Name
+          }}
+          >{{ childrenHome.AreaName.Name }} >{{
+            childrenHome.TownName.Name
+          }}
+          >{{ childrenHome.VillageName.Name }}
+        </div>
         <div class="flex space-between tableHeader">
           <div class="item">人数</div>
           <div class="item">活动次数</div>
-          <div class="item" style="margin-right: 15px;">评分</div>
+          <div class="item" style="margin-right: 15px">评分</div>
         </div>
         <van-cell class="childrenInfo">
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="flex space-between tableContent">
-              <div class="custom-title">{{childrenHome.ChildrenCount}}人</div>
-              <div>{{activityTotal}}次</div>
+              <div class="custom-title">{{ childrenHome.ChildrenCount }}人</div>
+              <div>{{ activityTotal }}次</div>
               <div>
                 <ul class="cleanfloat flex">
                   <li
-                    v-for="(n,index) in 5"
+                    v-for="(n, index) in 5"
                     :key="index"
-                    :class="[index+1>starNum?'grayStar':'star']"
-                  >★</li>
+                    :class="[index + 1 > starNum ? 'grayStar' : 'star']"
+                  >
+                    ★
+                  </li>
                 </ul>
               </div>
             </div>
@@ -43,24 +58,30 @@
     <div class="myChildrenHome">
       <div>儿童之家成员</div>
       <div class="flex space-between tableHeader">
-        <div class="item" style="text-align: left;">儿童姓名</div>
+        <div class="item" style="text-align: left">儿童姓名</div>
         <div class="item">监护人</div>
-        <div class="item" style="text-align: right;">编辑</div>
+        <div class="item" style="text-align: right">编辑</div>
       </div>
       <van-cell class="childrenInfo">
         <!-- 使用 title 插槽来自定义标题 -->
         <template #title>
-          <div class="flex space-between tableContent" v-for="(child,index) in childrenList" :key="index">
-            <div class="flex item" style="flex:3;">
+          <div
+            class="flex space-between tableContent"
+            v-for="(child, index) in childrenList"
+            :key="index"
+          >
+            <div class="flex item" style="flex: 3">
               <img
                 :src="child.Photo"
-                style="width: 24px; height: 24px;margin-right: 10px;"
+                style="width: 24px; height: 24px; margin-right: 10px"
                 alt
               />
-              <div>{{child.Name}}</div>
+              <div>{{ child.Name }}</div>
             </div>
-            <div class="item" style="flex:3;text-align: center;">{{child.ParentUser.Name}}</div>
-            <div class="item" style="flex:3;text-align: right;">
+            <div class="item" style="flex: 3; text-align: center">
+              {{ child.ParentUser.Name }}
+            </div>
+            <div class="item" style="flex: 3; text-align: right">
               <van-icon name="ellipsis" />
             </div>
           </div>
@@ -70,36 +91,56 @@
     <div class="gap gapfive"></div>
     <div class="myChildrenHome">
       <div>儿童之家活动</div>
-      <div v-if="activityTotal>0">
-        <div v-for="(item,index) in activityList" :key="index">
-          <div class="flex space-between" style="padding: 10px 0;">
-            <div>
-              <van-icon name="underway" v-if="item.Status===1" class="willColor" />
-              <van-icon name="checked" v-else-if="item.Status===2" class="ingColor" />
-              <van-icon name="checked" v-else class="gryColor" />
-              {{getDate(item.Date)}}
+      <div v-if="activityTotal > 0">
+        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <div v-for="(item, index) in activityList" :key="index">
+              <div class="flex space-between" style="padding: 10px 0">
+                <div>
+                  <van-icon
+                    name="underway"
+                    v-if="item.Status === 1"
+                    class="willColor"
+                  />
+                  <van-icon
+                    name="checked"
+                    v-else-if="item.Status === 2"
+                    class="ingColor"
+                  />
+                  <van-icon name="checked" v-else class="gryColor" />
+                  {{ getDate(item.Date) }}
+                </div>
+                <div class="status will" v-if="item.Status === 1">即将开始</div>
+                <div class="status ing" v-else-if="item.Status === 2">
+                  进行中
+                </div>
+                <div class="status finished" v-else>已结束</div>
+              </div>
+              <div class="abbreviation">{{ item.Name }}</div>
+              <div class="flex" @click="viewDetail(item)">
+                <img
+                  :src="activityImg.Url"
+                  v-for="(activityImg, turn) in item.ActivityImage.slice(0, 3)"
+                  :key="turn"
+                  style="width: 80px; height: 100px; padding: 15px 20px"
+                />
+                <div v-if="item.ActivityImage.length > 0">...</div>
+              </div>
             </div>
-            <div class="status will" v-if="item.Status===1">即将开始</div>
-            <div class="status ing" v-else-if="item.Status===2">进行中</div>
-            <div class="status finished" v-else>已结束</div>
-          </div>
-          <div class="abbreviation">{{item.Name}}</div>
-          <div class="flex" @click="viewDetail(item)">
-            <img
-              :src="activityImg.Url"
-              v-for="(activityImg,turn) in item.ActivityImage.slice(0,3)"
-              :key="turn"
-              style="width: 80px;height: 100px;padding: 15px 20px;"
-            />
-            <div v-if="item.ActivityImage.length>0">...</div>
-          </div>
-        </div>
+          </van-list>
+        </van-pull-refresh>
       </div>
+      <div v-else>暂无活动</div>
     </div>
 
     <!-- <bottomNavPage :selectedNav.sync="selectedNav"></bottomNavPage> -->
     <van-overlay :show="showOverlay" @click="show = false">
-      <div style="margin-top: 50%;">
+      <div style="margin-top: 50%">
         <van-loading type="spinner" />
       </div>
     </van-overlay>
@@ -124,7 +165,7 @@ export default {
       starNum: 3,
       childrenList: [],
       childrenHomeList: [],
-      activityList: '',
+      activityList: [],
       activityTotal: '',
       selectedNav: 'childrenHomePage',
       showOverlay: false,
@@ -150,6 +191,12 @@ export default {
         parents: '小姐姐',
         childrenImg: require('../assets/img_ertong01@2x.png'),
       },
+      pageNumber: 1,
+      pageSize: 10,
+      refreshing: false,
+      finished: false,
+      loading: false,
+      total: '',
     };
   },
   computed: {
@@ -186,34 +233,7 @@ export default {
     this.User = this.$store.state.common.User;
     this.token = this.$store.state.common.token;
     this.showOverlay = true;
-    // getChildrenHomeList(this.Token)
-    //   .then((result) => {
-    //     console.log('getChildrenHomeList', result);
-    //     this.childrenHomeList = result.data.childrenHomeList;
-    //     this.$refs.assistantBottomNav.init();
-    //     if (this.childrenHomeList.length > 0) {
-    //       this.$store.commit(
-    //         'common/getCityId',
-    //         this.childrenHomeList[0].CityId,
-    //       );
-    //       this.$store.commit(
-    //         'common/SET_cityId',
-    //         this.childrenHomeList[0].CityId,
-    //       );
-    //       // this.$store.commit("common/getTownId", this.childrenHomeList[0].TownId);
-    //       // this.$store.commit("common/getVillageId", this.childrenHomeList[0].VillageId);
-    //     } else {
-    //       this.$store.commit('common/getCityId', 2018);
-    //       this.$store.commit('common/getCityId', 2018);
-    //       this.$store.commit('common/SET_cityId', 2018);
-    //     }
-    //     this.showOverlay = false;
-    //   })
-    //   .catch((err) => {
-    //     console.log('err', err);
-    //     this.showOverlay = false;
-    //   });
-    getChildrenHomeDetail(this.VillageId)
+    getChildrenHomeDetail(this.VillageId, 1, 10)
       .then((res) => {
         console.log('getChildrenHomeDetail', res);
         this.childrenHome = res.data.childrenHome;
@@ -239,7 +259,11 @@ export default {
       // });
       this.$router.push({
         // eslint-disable-next-line no-nested-ternary
-        name: this.$route.query.currentPath ? this.$route.query.currentPath : this.PreCurrentPath ? this.PreCurrentPath : 'childrenHomePageIndex',
+        name: this.$route.query.currentPath
+          ? this.$route.query.currentPath
+          : this.PreCurrentPath
+            ? this.PreCurrentPath
+            : 'childrenHomePageIndex',
       });
     },
     goChildrenHomeDetail(childrenHome) {
@@ -275,6 +299,54 @@ export default {
           showSubmitButton: true,
         },
       });
+    },
+    getChildrenHomeDetailFun(pageNumber, pageSize) {
+      getChildrenHomeDetail(this.VillageId, pageNumber, pageSize)
+        .then((res) => {
+          console.log('getChildrenHomeDetailFun', res);
+
+          res.data.activitylist.forEach((item) => {
+            this.activityList.push(item);
+          });
+          this.loading = false;
+          this.showOverlay = false;
+          if (!(this.activityList.length < this.activityTotal)) { this.finished = true; }
+
+          this.showOverlay = false;
+        })
+        .catch((err) => {
+          console.log('err', err);
+          this.showOverlay = false;
+        });
+    },
+    onLoad() {
+      console.log('onLoad', this.activityTotal, this.activityList.length);
+      if (this.refreshing) {
+        // this.articlelist = [];
+        this.refreshing = false;
+      }
+      if (this.activityList.length < this.activityTotal) {
+        // eslint-disable-next-line no-plusplus
+        const pageNumber = this.pageNumber++;
+        this.getChildrenHomeDetailFun(
+          // this.cityId,
+          // this.VillageId,
+          pageNumber + 1,
+          this.pageSize,
+        );
+      } else {
+        // this.finished = true;
+      }
+      this.loading = false;
+    },
+    onRefresh() {
+      // 清空列表数据
+      this.finished = false;
+      console.log('22');
+      // 重新加载数据
+      // 将 loading 设置为 true，表示处于加载状态
+      this.loading = true;
+      this.onLoad();
     },
   },
 };
@@ -388,7 +460,7 @@ export default {
     .willColor {
       color: rgba(255, 141, 32, 1);
     }
-    .gryColor{
+    .gryColor {
       color: rgba(142, 138, 138, 1);
     }
   }
